@@ -1,5 +1,13 @@
 # sdd-jc-methodology
 
+```text
+     _  ____
+    | |/ ___|
+ _  | | |
+| |_| | |___
+ \___/ \____|
+```
+
 Portable Claude configuration for the SDD JC methodology.
 
 ## Repository Structure
