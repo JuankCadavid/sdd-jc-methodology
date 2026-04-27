@@ -1,0 +1,10 @@
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
+require("plugins.opencode")
+require("plugins.rip")
+require("plugins.oil")
+require("plugins.screenkey")
+require("plugins.vim-tmux-navigation")
+require("plugins.multi-line")
+require("plugins.lualine")
+require("plugins.markview")

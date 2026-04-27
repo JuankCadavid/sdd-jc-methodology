@@ -30,6 +30,16 @@ Portable Claude configuration for the SDD JC methodology.
 
 Copy the repository `.claude/commands` and `.claude/skills` folders into your Claude configuration location.
 
+## Dotfiles
+
+The repository also includes editor and terminal configuration snapshots under `dotfiles/`:
+
+- `dotfiles/.config/nvim/`
+- `dotfiles/.tmux/`
+- `dotfiles/.tmux.conf`
+
+These are stored as portable references or backup material for the environment used with this methodology.
+
 ## Workflow
 
 Recommended command order:
