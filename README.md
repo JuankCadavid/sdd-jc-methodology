@@ -2,6 +2,12 @@
 
 Portable Claude configuration for the SDD JC methodology.
 
+## Repository Structure
+
+- `.claude/commands/` — custom SDD command prompts
+- `.claude/skills/` — required and preferred skills used by the methodology
+- `dotfiles/` — environment snapshots for Neovim and tmux
+
 ## Contents
 
 - `.claude/commands/`
@@ -30,6 +36,18 @@ Portable Claude configuration for the SDD JC methodology.
 
 Copy the repository `.claude/commands` and `.claude/skills` folders into your Claude configuration location.
 
+Typical global install target:
+
+- `~/.claude/commands/`
+- `~/.claude/skills/`
+
+Example:
+
+```bash
+cp -R .claude/commands/* ~/.claude/commands/
+cp -R .claude/skills/* ~/.claude/skills/
+```
+
 ## Dotfiles
 
 The repository also includes editor and terminal configuration snapshots under `dotfiles/`:
@@ -40,6 +58,22 @@ The repository also includes editor and terminal configuration snapshots under `
 
 These are stored as portable references or backup material for the environment used with this methodology.
 
+### Restore Neovim
+
+```bash
+mkdir -p ~/.config
+cp -R dotfiles/.config/nvim ~/.config/
+```
+
+### Restore tmux
+
+```bash
+cp dotfiles/.tmux.conf ~/.tmux.conf
+cp -R dotfiles/.tmux ~/.tmux
+```
+
+If you prefer a lighter restore, keep `~/.tmux.conf` and reinstall plugins separately instead of copying the full plugin snapshot.
+
 ## Workflow
 
 Recommended command order:
@@ -49,6 +83,8 @@ Recommended command order:
 3. `/sdd-execute <spec-path>`
 4. `/sdd-test <spec-path>`
 5. `/sdd-validate <spec-path>`
+
+Use `/sdd-constitution` first in a new repository or when the documentation baseline is incomplete. Use `/sdd-specify` only after the constitutional docs and `docs/specs/general-setup/` templates exist.
 
 ## Spec Paths
 
@@ -87,3 +123,4 @@ Fallback rule:
 - Commands were sourced from the current global Claude command setup.
 - Skills were copied with their bundled references and helper assets.
 - This repository stores the current methodology baseline so it can be reused or versioned independently.
+- Dotfiles are snapshots of the working environment and may include plugin source copies for portability.
