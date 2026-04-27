@@ -1,18 +1,21 @@
 # Execute SDD Tasks
 
-Execute the implementation tasks from a previously generated SDD module. Reads `tasks.md`, picks the next unfinished task respecting dependencies, implements it, updates the task status, and logs progress to `execution.md`.
+Execute the implementation tasks from a previously generated SDD spec path. Read `tasks.md`, pick the next unfinished task respecting dependencies, implement it, update task status, and log progress to `execution.md`.
 
 ## Usage
 
 ```
-/sdd-execute <module-name>
+/sdd-execute <spec-path>
 ```
 
-**Example:** `/sdd-execute dashboard` reads from `docs/specs/dashboard/tasks.md` and creates/appends to `docs/specs/dashboard/execution.md`.
+**Examples:**
+
+- `/sdd-execute loan`
+- `/sdd-execute enhancements/renewals`
 
 ## Arguments
 
-- `$ARGUMENTS` — The module name matching a directory under `docs/specs/` that already contains `requirements.md`, `design.md`, and `tasks.md`.
+- `$ARGUMENTS` — Relative path under `docs/specs/` that already contains `requirements.md`, `design.md`, and `tasks.md`.
 
 ---
 
@@ -20,78 +23,60 @@ Execute the implementation tasks from a previously generated SDD module. Reads `
 
 ### Step 0: Load Context
 
-1. Read the SDD documents for the module:
-   - `docs/specs/$ARGUMENTS/requirements.md` — functional requirements
-   - `docs/specs/$ARGUMENTS/design.md` — architecture and data model
-   - `docs/specs/$ARGUMENTS/tasks.md` — task list with statuses and dependencies
-2. Read the execution log if it exists:
-   - `docs/specs/$ARGUMENTS/execution.md` — prior execution history
-3. Read the project's CLAUDE.md files for conventions:
-   - Root `CLAUDE.md`
-   - `apps/backend/CLAUDE.md`
-   - `apps/frontend/CLAUDE.md`
-   - `apps/shared/CLAUDE.md` (if exists)
-4. Identify the current state: which tasks are `[x]` (complete), `[~]` (in progress), `[ ]` (not started)
+1. Read the SDD documents for the spec path:
+   - `docs/specs/$ARGUMENTS/requirements.md`
+   - `docs/specs/$ARGUMENTS/design.md`
+   - `docs/specs/$ARGUMENTS/tasks.md`
+2. Read `docs/specs/$ARGUMENTS/execution.md` if it exists.
+3. Read the project constitutional docs:
+   - `docs/prd.md`
+   - `docs/system-design/design.md`
+   - `docs/detailed-design/detailed-design.md`
+   - `docs/specs/general-setup/`
+4. Read root and package-level `CLAUDE.md` files if they exist.
+5. Identify current task state: `[x]`, `[~]`, `[ ]`.
 
 ### Step 1: Select Next Task
 
-1. Find the next executable task — the first task (by document order) where:
-   - Status is `[ ]` (not started) or `[~]` (in progress)
-   - All dependency tasks are `[x]` (complete)
-2. If a task is `[~]` (in progress), resume it — read execution.md for context on what was already done
-3. If no tasks are eligible (all done or blocked), report completion status and stop
-4. Display to the user: **"Executing TASK-{ID}: {title}"** with a brief summary of scope
+1. Find the next executable task by document order where:
+   - status is `[ ]` or `[~]`
+   - all dependencies are `[x]`
+2. If a task is `[~]`, resume it using `execution.md` context.
+3. If no tasks are eligible, report completion or blocking state and stop.
 
 ### Step 2: Execute Task
 
-For each task, follow this sequence:
-
 #### 2.1 — Read Scope & Design
-- Re-read the specific design sections referenced in the task's **Design Ref**
-- Read any existing files that will be modified (listed in the task scope)
-- Understand the full context before writing any code
+
+- Re-read the specific design sections referenced by the task.
+- Read the existing files that will be touched.
+- Confirm the implementation still matches the constitutional docs and module spec.
 
 #### 2.2 — Invoke Relevant Skills
-- Load the skills listed in the task's **Skills** field
-- Use `nestjs-expert` for NestJS module/service/controller patterns
-- Use `shadcn-ui` + `tailwind-design-system` + `frontend-design` for UI components
-- Use `vercel-react-best-practices` for React hooks and state management
-- Use `api-design-principles` for endpoint design and DTOs
-- Use `error-handling-patterns` for exception handling
-- Use `systematic-debugging` for test failures or unexpected behavior
+
+- Load only the skills listed in the task.
+- If the task is UI-heavy, prefer `ui-ux-pro-max` when available.
+- Otherwise use the documented fallback skills from the task or design.
 
 #### 2.3 — Implement
-- Write the code following the design specification exactly
-- Follow existing codebase patterns and conventions (from CLAUDE.md files)
-- Create new files or modify existing files as specified in the task scope
-- Keep changes minimal and focused on the task scope — do not add features beyond what the task requires
+
+- Keep changes minimal and within task scope.
+- Follow the design specification exactly unless the spec is clearly incomplete or contradictory.
+- If the design is ambiguous, ask the user for clarification before making up a direction.
 
 #### 2.4 — Verify
-- Run the verification command specified in the task's **Tests** field
-- Common verifications:
-  - `turbo build` — type checking across all packages
-  - `turbo lint` — linting
-  - Unit tests if specified
-  - Manual endpoint testing via curl if API task
-- If verification fails, debug and fix before marking complete
+
+- Run the verification command listed in the task.
+- Fix failures before marking the task complete.
 
 ### Step 3: Update Status
 
-1. **Update `tasks.md`**: Change the task's status from `[ ]` to `[x]`
-2. **Append to `execution.md`**: Log the execution details (see format below)
+1. Update `tasks.md` from `[ ]` to `[x]` when complete.
+2. Append implementation notes to `execution.md`.
 
 ### Step 4: Continue or Pause
 
-After completing a task, ask the user:
-
-**"TASK-{ID} complete. Next up: TASK-{NEXT_ID}: {title}. Continue?"**
-
-Options:
-- **Continue** — proceed to the next task
-- **Pause** — stop execution, user will resume later with `/sdd-execute {module}`
-- **Skip next** — skip the next task and pick the one after it
-
-If the user says "Continue", go back to Step 1 and execute the next task.
+After completing a task, ask whether to continue, pause, or skip the next task.
 
 ---
 
@@ -99,80 +84,26 @@ If the user says "Continue", go back to Step 1 and execute the next task.
 
 The execution log is created on first run and appended to on subsequent runs.
 
-```markdown
-# Execution Log — {Module Name}
+Minimum sections:
 
-## Document Control
+1. Document Control
+2. Task Execution History
+3. Summary when all tasks are complete
 
-| Field | Value |
-|-------|-------|
-| Module | {Module Name} |
-| SDD Reference | docs/specs/{module}/tasks.md |
-| Started | {date of first execution} |
-| Last Updated | {date of last execution} |
+Each task entry should record:
 
----
-
-## Task Execution History
-
-### TASK-{ID}: {Title}
-- **Status:** Completed
-- **Date:** {ISO date}
-- **Duration:** {approximate}
-- **Files Changed:**
-  - `path/to/file.ts` — {brief description of change}
-  - `path/to/new-file.ts` — Created: {brief description}
-- **Decisions Made:**
-  - {Any implementation decisions that deviated from or clarified the design}
-- **Issues Encountered:**
-  - {Any problems hit and how they were resolved}
-- **Verification:** {Result of running tests/build}
-
----
-
-### TASK-{NEXT_ID}: {Title}
-...
-```
+- status
+- date
+- files changed
+- decisions made
+- issues encountered
+- verification result
 
 ---
 
 ## Error Handling
 
-- **Build failure after task:** Debug using `systematic-debugging` skill. Fix the issue, re-verify, then mark complete.
-- **Migration failure:** Do NOT mark task as complete. Log the error in execution.md, report to user, and pause.
-- **Blocked task:** If a task's dependencies aren't met, skip it and find the next eligible task. Report the blocked task to the user.
-- **Ambiguous design:** If the design.md doesn't specify enough detail for implementation, ask the user for clarification using `AskUserQuestion` before proceeding.
-
----
-
-## Resumption
-
-When `/sdd-execute {module}` is run and `execution.md` already exists:
-
-1. Read execution.md to understand what's been done
-2. Read tasks.md to find current statuses
-3. Pick up from the next incomplete task
-4. Do NOT re-execute completed tasks
-
----
-
-## Completion
-
-When all tasks are `[x]`:
-
-1. Add a **Summary** section to execution.md:
-   ```markdown
-   ## Summary
-
-   | Metric | Value |
-   |--------|-------|
-   | Total Tasks | {N} |
-   | Completed | {N} |
-   | Skipped | {N} |
-   | Started | {date} |
-   | Completed | {date} |
-   | Files Created | {count} |
-   | Files Modified | {count} |
-   ```
-
-2. Report to the user: **"All {N} tasks complete for {module}. Execution log saved to docs/specs/{module}/execution.md."**
+- If required SDD files are missing, stop and report what is missing.
+- If the design is ambiguous, ask the user before proceeding.
+- If verification fails, debug and fix before marking complete.
+- If a task is blocked, report the blocker and move to the next eligible task if appropriate.
