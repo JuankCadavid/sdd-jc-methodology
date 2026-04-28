@@ -1,6 +1,6 @@
 # sdd-jc-methodology
 
-![JC Fox Mark](assets/jc-fox-mark.svg)
+![JC Methodology Badge](assets/jc-methodology-badge.png)
 
 Portable Claude configuration for the SDD JC methodology.
 
