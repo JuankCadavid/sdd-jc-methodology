@@ -1,12 +1,6 @@
 # sdd-jc-methodology
 
-```text
-     _  ____
-    | |/ ___|
- _  | | |
-| |_| | |___
- \___/ \____|
-```
+![JC Fox Mark](assets/jc-fox-mark.svg)
 
 Portable Claude configuration for the SDD JC methodology.
 
