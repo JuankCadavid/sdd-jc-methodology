@@ -1,6 +1,6 @@
 # sdd-jc-methodology
 
-![JC Methodology Badge](assets/jc-methodology-badge.png)
+<img src="assets/jc-methodology-badge.png" alt="JC Methodology Badge" width="420">
 
 Portable Claude configuration for the SDD JC methodology.
 
@@ -8,6 +8,8 @@ Portable Claude configuration for the SDD JC methodology.
 
 - `.claude/commands/` — custom SDD command prompts
 - `.claude/skills/` — required and preferred skills used by the methodology
+- `scripts/` — helper scripts referenced by commands (e.g. `gsc_verify.py`)
+- `.mcp.json.example` — reference MCP server configuration (e.g. `gsc`)
 - `dotfiles/` — environment snapshots for Neovim and tmux
 
 ## Contents
@@ -18,6 +20,7 @@ Portable Claude configuration for the SDD JC methodology.
   - `sdd-execute.md`
   - `sdd-validate.md`
   - `sdd-test.md`
+  - `sdd-seo.md`
 - `.claude/skills/`
   - `api-design-principles`
   - `aws-serverless`
@@ -88,6 +91,22 @@ Recommended command order:
 
 Use `/sdd-constitution` first in a new repository or when the documentation baseline is incomplete. Use `/sdd-specify` only after the constitutional docs and `docs/specs/general-setup/` templates exist.
 
+### Auxiliary commands
+
+- `/sdd-seo <site-domain>` — SEO setup & audit via Google Search Console. Verifies a domain through DNS TXT using a service account, adds the property to GSC, then audits index coverage, sitemaps, structured data, search analytics, server-side render, and internal linking. Produces `seo-setup-report.md` and `seo-audit-report.md` under `docs/specs/seo/<domain>/`, including a copy-paste implementation prompt for fixing every High-severity finding.
+
+  Dependencies bundled with this repo:
+
+  - `scripts/gsc_verify.py` — Site Verification API helper (token + verify), because the `gsc` MCP only wraps Search Console, not Site Verification.
+  - `.mcp.json.example` — reference MCP server entry for `@mikusnuz/gsc-mcp`.
+
+  Setup once per environment:
+
+  1. Enable **Site Verification API** and **Search Console API** in your Google Cloud project.
+  2. Create a service account, download its JSON key, store outside the repo.
+  3. Install Python deps: `pip install google-auth google-api-python-client`.
+  4. Copy the `gsc` block from `.mcp.json.example` into your global `~/.claude.json` (or a project `.mcp.json`) and set `GSC_SERVICE_ACCOUNT_KEY_PATH` to the absolute path of the key.
+
 ## Spec Paths
 
 Commands accept a relative path under `docs/specs/`, not only a flat module name.
@@ -113,6 +132,7 @@ Fallback rule:
 - `/sdd-execute` implements tasks from an approved spec path.
 - `/sdd-test` validates requirement-to-test traceability.
 - `/sdd-validate` audits implementation conformance against the spec and constitutional baseline.
+- `/sdd-seo` operates outside the main spec lifecycle: it provisions Google Search Console ownership for a domain and produces a standalone SEO audit under `docs/specs/seo/<domain>/`. Run it any time after deployment; rerun after major content or schema changes.
 
 ## Host Assumptions
 
