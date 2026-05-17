@@ -1,6 +1,8 @@
 # Test SDD Implementation
 
-Run automated tests against a spec path's implementation. Produce `test-report.md` with results, coverage, traceability, and failures.
+Run automated and, when needed, manual tests against a spec path's implementation. Produce `test-report.md` with results, requirement coverage, scenario traceability, and failures.
+
+Testing should prove the behavior promised in `requirements.md`, not only increase test count.
 
 ## Usage
 
@@ -16,6 +18,16 @@ Run automated tests against a spec path's implementation. Produce `test-report.m
 ## Arguments
 
 - `$ARGUMENTS` — Relative path under `docs/specs/` that contains `requirements.md`, `design.md`, and `tasks.md`.
+
+## Output
+
+Create or update `docs/specs/$ARGUMENTS/test-report.md` with:
+
+- commands run and their results
+- requirement-to-test matrix
+- scenario coverage status
+- failures and remediation steps
+- accepted gaps with reasons when full automation is not practical
 
 ---
 
@@ -33,12 +45,14 @@ Run automated tests against a spec path's implementation. Produce `test-report.m
    - `docs/detailed-design/detailed-design.md`
    - root and package-level `CLAUDE.md` files
 3. Identify backend, frontend, and end-to-end scope from the design and tasks.
+4. Extract key requirements and Given/When/Then scenarios from `requirements.md`.
 
 ### Phase 1: Unit Tests
 
 - Create or improve backend unit tests where needed.
 - Create or improve frontend unit tests where needed.
-- Map tests back to requirements.
+- Map tests back to requirements and scenarios.
+- Prefer focused tests that prove one behavior clearly over broad tests with unclear intent.
 
 Use skills as needed:
 
@@ -51,16 +65,23 @@ Use skills as needed:
 
 - Create or improve API integration tests where relevant.
 - Validate auth, request/response shape, and major flows.
+- Cover cross-module behavior that cannot be proven by unit tests alone.
 
 ### Phase 3: End-to-End Tests
 
 - Create or improve E2E tests for user-visible workflows.
 - If the work is UI-heavy, prefer `ui-ux-pro-max` when available.
 - Otherwise use `frontend-design` and the system design doc as the UX reference.
+- Use E2E tests for critical user journeys, not every small component state.
 
 ### Phase 4: Coverage & Traceability
 
 Create a requirement-to-test matrix so every key requirement has test evidence or an explicit gap.
+
+Recommended matrix columns:
+
+| Requirement | Scenario | Test Type | Test File or Command | Result | Gap or Notes |
+|---|---|---|---|---|---|
 
 ### Phase 5: Generate Test Report
 
@@ -76,10 +97,11 @@ The report must include:
 6. E2E Tests
 7. Coverage & Traceability
 8. Remediation
+9. Accepted Gaps, if any
 
 ### Phase 6: Report to User
 
-Present overall test status, test counts, coverage gaps, and top failures. If failures exist, ask whether to fix failures, add missing tests, fix all, or keep only the report.
+Present overall test status, test counts, requirement coverage, scenario gaps, and top failures. If failures exist, ask whether to fix failures, add missing tests, fix all, or keep only the report.
 
 ---
 
@@ -94,3 +116,13 @@ When a spec includes meaningful UI/UX behavior, verify more than raw functionali
 - visual consistency with `docs/system-design/design.md`
 
 If `ui-ux-pro-max` is unavailable, use `frontend-design` plus the system design document as the fallback reference.
+
+---
+
+## Testing Rules
+
+- Do not mark a requirement covered just because related code exists.
+- Do not hide missing coverage; record it as an explicit gap with remediation.
+- Prefer repository-specific test commands over hardcoded framework assumptions.
+- If a test is flaky, record the flake and avoid treating it as passing evidence until stabilized.
+- If no automated test is practical, document the manual verification steps and why automation was deferred.

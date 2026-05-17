@@ -1,0 +1,43 @@
+{
+  "name": "sdd-jc-methodology",
+  "version": "0.2.0",
+  "description": "Portable SDD JC methodology commands and skills for AI-assisted development.",
+  "homepage": "https://github.com/JuankCadavid/sdd-jc-methodology#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuankCadavid/sdd-jc-methodology.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JuankCadavid/sdd-jc-methodology/issues"
+  },
+  "bin": {
+    "sdd-jc": "./bin/sdd-jc.js"
+  },
+  "files": [
+    ".claude/commands",
+    ".claude/skills",
+    ".mcp.json.example",
+    "assets",
+    "bin",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "scripts"
+  ],
+  "scripts": {
+    "pack:dry-run": "npm pack --dry-run",
+    "verify:cli": "node bin/sdd-jc.js list"
+  },
+  "keywords": [
+    "sdd",
+    "spec-driven-development",
+    "claude",
+    "opencode",
+    "ai-coding",
+    "methodology"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}

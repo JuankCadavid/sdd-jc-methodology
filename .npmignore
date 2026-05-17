@@ -1,0 +1,6 @@
+dotfiles/
+.git/
+.gitignore
+.mcp.json
+node_modules/
+*.tgz

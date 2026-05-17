@@ -1,6 +1,8 @@
 # Execute SDD Tasks
 
-Execute the implementation tasks from a previously generated SDD spec path. Read `tasks.md`, pick the next unfinished task respecting dependencies, implement it, update task status, and log progress to `execution.md`.
+Execute implementation tasks from an approved SDD spec path. Read `tasks.md`, choose the next eligible task, implement only that task's scope, verify it, update task status, and record progress in `execution.md`.
+
+Execution should be incremental. Do not turn one approved task into a broader refactor unless the spec explicitly requires it or the user approves the scope change.
 
 ## Usage
 
@@ -16,6 +18,17 @@ Execute the implementation tasks from a previously generated SDD spec path. Read
 ## Arguments
 
 - `$ARGUMENTS` — Relative path under `docs/specs/` that already contains `requirements.md`, `design.md`, and `tasks.md`.
+
+## Output
+
+Each successful task execution should produce:
+
+- focused code or documentation changes within task scope
+- updated task status in `tasks.md`
+- an appended entry in `execution.md`
+- verification evidence from the command or check listed in the task
+
+Use `[~]` for a started but incomplete task, `[x]` for a completed task, and `[ ]` for pending work.
 
 ---
 
@@ -43,14 +56,17 @@ Execute the implementation tasks from a previously generated SDD spec path. Read
    - all dependencies are `[x]`
 2. If a task is `[~]`, resume it using `execution.md` context.
 3. If no tasks are eligible, report completion or blocking state and stop.
+4. If multiple tasks are eligible, prefer the first task by document order unless there is a clear dependency or risk reason to choose another.
 
 ### Step 2: Execute Task
 
 #### 2.1 — Read Scope & Design
 
 - Re-read the specific design sections referenced by the task.
+- Re-read the requirements and scenarios covered by the task.
 - Read the existing files that will be touched.
 - Confirm the implementation still matches the constitutional docs and module spec.
+- Identify the smallest safe change that satisfies the task.
 
 #### 2.2 — Invoke Relevant Skills
 
@@ -63,20 +79,24 @@ Execute the implementation tasks from a previously generated SDD spec path. Read
 - Keep changes minimal and within task scope.
 - Follow the design specification exactly unless the spec is clearly incomplete or contradictory.
 - If the design is ambiguous, ask the user for clarification before making up a direction.
+- If implementation discovery invalidates the spec, stop and propose the smallest required spec update before continuing.
+- Do not mark unrelated cleanup or opportunistic refactors as part of the task unless they are necessary for correctness.
 
 #### 2.4 — Verify
 
 - Run the verification command listed in the task.
 - Fix failures before marking the task complete.
+- If the listed command is unavailable, identify the closest repository-specific build, lint, test, or manual check and record the substitution in `execution.md`.
 
 ### Step 3: Update Status
 
 1. Update `tasks.md` from `[ ]` to `[x]` when complete.
-2. Append implementation notes to `execution.md`.
+2. Use `[~]` when the task is partially complete or blocked.
+3. Append implementation notes to `execution.md`.
 
 ### Step 4: Continue or Pause
 
-After completing a task, ask whether to continue, pause, or skip the next task.
+After completing a task, summarize the task result, verification outcome, and next eligible task. Ask whether to continue, pause, or skip the next task.
 
 ---
 
@@ -94,7 +114,9 @@ Each task entry should record:
 
 - status
 - date
+- task ID and title
 - files changed
+- requirements covered
 - decisions made
 - issues encountered
 - verification result
@@ -107,3 +129,4 @@ Each task entry should record:
 - If the design is ambiguous, ask the user before proceeding.
 - If verification fails, debug and fix before marking complete.
 - If a task is blocked, report the blocker and move to the next eligible task if appropriate.
+- If implementation requires changing the approved requirements or design, pause and ask for approval before expanding scope.
