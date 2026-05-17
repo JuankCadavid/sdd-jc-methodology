@@ -4,6 +4,8 @@ Use this checklist before publishing `sdd-jc-methodology`.
 
 ## Preflight
 
+- [ ] Confirm all intended repo changes are committed before running the release script.
+- [ ] Confirm `CHANGELOG.md` has meaningful notes under `Unreleased`.
 - [ ] Confirm `package.json` version matches the release version.
 - [ ] Confirm `CHANGELOG.md` has a dated section for the release.
 - [ ] Confirm `releases/vX.Y.Z.md` exists.
@@ -12,6 +14,16 @@ Use this checklist before publishing `sdd-jc-methodology`.
 - [ ] Confirm no secrets, service account keys, or local config files are included.
 
 ## Verify Locally
+
+Prepare a version bump from committed changes:
+
+```bash
+npm run release:patch
+```
+
+Use `release:minor` for new commands or workflow additions and `release:major` for breaking changes.
+
+Then verify:
 
 ```bash
 node bin/sdd-jc.js list
@@ -36,7 +48,13 @@ Remove the generated tarball after testing unless it is being attached to a rele
 For public npm publishing:
 
 ```bash
-npm publish --access public
+npm publish --access public --registry=https://registry.npmjs.org/
+```
+
+If npm requires two-factor authentication, pass the current one-time password:
+
+```bash
+npm publish --access public --registry=https://registry.npmjs.org/ --otp=<code>
 ```
 
 For private registry publishing, configure the registry first and publish using the registry's required access mode.

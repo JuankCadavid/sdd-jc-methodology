@@ -8,6 +8,7 @@ const PACKAGE_ROOT = path.resolve(__dirname, "..");
 const SOURCE_CLAUDE = path.join(PACKAGE_ROOT, ".claude");
 const SOURCE_COMMANDS = path.join(SOURCE_CLAUDE, "commands");
 const SOURCE_SKILLS = path.join(SOURCE_CLAUDE, "skills");
+const RESOURCE_SCRIPTS = ["gsc_verify.py"];
 const SOURCE_SCRIPTS = path.join(PACKAGE_ROOT, "scripts");
 const SOURCE_MCP_EXAMPLE = path.join(PACKAGE_ROOT, ".mcp.json.example");
 
@@ -215,6 +216,23 @@ function copyDirectoryContents(sourceDir, targetDir, args) {
   return { installed, skipped };
 }
 
+function copyResourceScripts(targetDir, args) {
+  let installed = 0;
+  let skipped = 0;
+
+  for (const scriptName of RESOURCE_SCRIPTS) {
+    const result = copySingleFile(
+      path.join(SOURCE_SCRIPTS, scriptName),
+      path.join(targetDir, scriptName),
+      args
+    );
+    installed += result.installed;
+    skipped += result.skipped;
+  }
+
+  return { installed, skipped };
+}
+
 function installTool(tool, args) {
   const targetRoot = tool === "claude" ? args.claudeTarget : args.opencodeTarget;
   const targetCommands = path.join(targetRoot, "commands");
@@ -238,11 +256,7 @@ function installTool(tool, args) {
   }
 
   if (shouldInclude("resources", args)) {
-    const scriptsResult = copyDirectoryContents(
-      SOURCE_SCRIPTS,
-      path.join(targetResources, "scripts"),
-      args
-    );
+    const scriptsResult = copyResourceScripts(path.join(targetResources, "scripts"), args);
     installed += scriptsResult.installed;
     skipped += scriptsResult.skipped;
 
@@ -281,8 +295,6 @@ function runInstall(args) {
 function runList() {
   const commands = listCommands();
   const skills = listSkills();
-  const scripts = listEntries(SOURCE_SCRIPTS, (entry) => entry.isFile());
-
   console.log("Commands:");
   commands.forEach((name) => console.log(`  ${name.replace(/\.md$/, "")}`));
 
@@ -290,7 +302,7 @@ function runList() {
   skills.forEach((name) => console.log(`  ${name}`));
 
   console.log("\nResources:");
-  scripts.forEach((name) => console.log(`  scripts/${name}`));
+  RESOURCE_SCRIPTS.forEach((name) => console.log(`  scripts/${name}`));
   console.log("  .mcp.json.example");
 }
 

@@ -9,6 +9,8 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 ### Changed
 
 - Expanded README installation instructions with step-by-step flows for Claude, OpenCode, both-tool installation, verification, updates, local checkout usage, and troubleshooting.
+- Added controlled release helper scripts for patch, minor, and major version preparation.
+- Documented release discipline in README, release checklist, `AGENTS.md`, and `CLAUDE.md`.
 
 ## [0.2.0] - 2026-05-17
 

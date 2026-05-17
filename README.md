@@ -216,6 +216,50 @@ pnpm dlx sdd-jc-methodology update --tool both --force
 
 Use `--force` when you want packaged files to replace older installed files. Without `--force`, existing files are skipped.
 
+### Releasing Package Updates
+
+Repository changes do not update the published npm package automatically. Every published package update must have a new version.
+
+Use semantic versioning:
+
+| Bump | Use For | Example |
+|---|---|---|
+| Patch | Documentation fixes, small command clarifications, installer fixes | `0.2.0` to `0.2.1` |
+| Minor | New commands, new install targets, meaningful workflow additions | `0.2.0` to `0.3.0` |
+| Major | Breaking command behavior or package install changes | `0.2.0` to `1.0.0` |
+
+Controlled release flow:
+
+1. Make repo changes.
+2. Add notes under `CHANGELOG.md` > `Unreleased`.
+3. Commit the changes.
+4. Prepare the next version:
+
+```bash
+npm run release:patch
+```
+
+Or use `release:minor` / `release:major` when appropriate.
+
+The release script updates `package.json`, moves the `Unreleased` changelog notes into a dated version section, and creates `releases/vX.Y.Z.md`.
+
+Then verify and publish:
+
+```bash
+npm run verify:cli
+npm run pack:dry-run
+git add package.json CHANGELOG.md releases/vX.Y.Z.md
+git commit -m "chore(release): vX.Y.Z"
+git tag vX.Y.Z
+npm publish --access public --registry=https://registry.npmjs.org/
+```
+
+After publish, smoke test:
+
+```bash
+pnpm dlx sdd-jc-methodology@X.Y.Z install --tool both --dry-run
+```
+
 ### CLI Commands
 
 | Command | Purpose |

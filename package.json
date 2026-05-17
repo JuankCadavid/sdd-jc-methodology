@@ -22,10 +22,13 @@
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
-    "scripts"
+    "scripts/gsc_verify.py"
   ],
   "scripts": {
     "pack:dry-run": "npm pack --dry-run",
+    "release:major": "node scripts/release.js major",
+    "release:minor": "node scripts/release.js minor",
+    "release:patch": "node scripts/release.js patch",
     "verify:cli": "node bin/sdd-jc.js list"
   },
   "keywords": [
