@@ -8,6 +8,7 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ### Changed
 
+- Added `angular-developer` skill for Angular projects and documented when to use it.
 - Expanded README installation instructions with step-by-step flows for Claude, OpenCode, both-tool installation, verification, updates, local checkout usage, and troubleshooting.
 - Added controlled release helper scripts for patch, minor, and major version preparation.
 - Added official GSAP skills for core animations, timelines, ScrollTrigger, React, Vue/Svelte frameworks, plugins, performance, and utilities.
