@@ -6,6 +6,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [0.3.2] - 2026-05-18
+
 ### Changed
 
 - Added the `JCSPECS` ASCII banner to the README and CLI output.
@@ -20,6 +26,7 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 - Added CodeGraph guidance for existing-project constitution analysis.
 - Updated `/sdd-constitution` to distinguish new vs existing projects and maintain both `CLAUDE.md` and `AGENTS.md`.
 - Initialized CodeGraph configuration for this methodology repository.
+
 ## [0.3.0] - 2026-05-18
 
 ### Changed
