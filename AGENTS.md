@@ -18,6 +18,20 @@ This repository packages the SDD JC methodology for Claude Code and OpenCode.
 - Do not commit generated `.tgz` files or `node_modules/`.
 - Do not commit service account keys, npm tokens, `.npmrc`, or local MCP config containing secrets.
 
+## Skill Usage
+
+When working on tasks in this repository or when using the installed SDD JC methodology, load and apply the relevant available skills before implementation.
+
+Use the packaged skills in `.claude/skills/` as the source of truth. Examples:
+
+- Use `systematic-debugging` for bugs, test failures, and unexpected behavior.
+- Use `frontend-design`, `ui-ux-pro-max`, `tailwind-design-system`, or `shadcn-ui` for UI work.
+- Use `gsap-*` skills for animation work.
+- Use `react-doctor` and `vercel-react-best-practices` for React/Next.js changes.
+- Use domain skills such as `nestjs-expert`, `aws-serverless`, `api-design-principles`, or `product-manager-toolkit` when the task matches.
+
+If a task document lists required or recommended skills, follow that list first.
+
 ## Release Rules
 
 Repository changes do not automatically update the npm package. A package update requires a version bump and publish.

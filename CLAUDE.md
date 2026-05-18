@@ -15,6 +15,20 @@ This repository packages the SDD JC methodology for reuse in Claude Code and Ope
 - The installer lives in `bin/sdd-jc.js`.
 - Helper scripts live in `scripts/`.
 
+## Skill Usage
+
+When working on tasks in this repository or when using the installed SDD JC methodology, load and apply the relevant available skills before implementation.
+
+Use the packaged skills in `.claude/skills/` as the source of truth. Examples:
+
+- Use `systematic-debugging` for bugs, test failures, and unexpected behavior.
+- Use `frontend-design`, `ui-ux-pro-max`, `tailwind-design-system`, or `shadcn-ui` for UI work.
+- Use `gsap-*` skills for animation work.
+- Use `react-doctor` and `vercel-react-best-practices` for React/Next.js changes.
+- Use domain skills such as `nestjs-expert`, `aws-serverless`, `api-design-principles`, or `product-manager-toolkit` when the task matches.
+
+If a task document lists required or recommended skills, follow that list first.
+
 ## Release Discipline
 
 Every user-facing methodology or installer change should be reflected in `CHANGELOG.md` under `Unreleased`.

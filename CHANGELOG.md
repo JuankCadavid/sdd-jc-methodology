@@ -12,6 +12,7 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 - Added controlled release helper scripts for patch, minor, and major version preparation.
 - Added official GSAP skills for core animations, timelines, ScrollTrigger, React, Vue/Svelte frameworks, plugins, performance, and utilities.
 - Documented release discipline in README, release checklist, `AGENTS.md`, and `CLAUDE.md`.
+- Documented required use of relevant packaged skills in `AGENTS.md` and `CLAUDE.md`.
 
 ## [0.2.0] - 2026-05-17
 
