@@ -15,6 +15,8 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 ### Changed
 
 - Added explicit release governance policy for controlled repository and npm package updates.
+- Added `npm run release:status` automation to detect drift across local release notes, npm versions, tags, and GitHub Releases.
+- Added a `Release Status` GitHub Actions workflow for automated release drift checks.
 ## [0.3.0] - 2026-05-18
 
 ### Changed

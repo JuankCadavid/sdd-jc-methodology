@@ -224,6 +224,8 @@ Release policy:
 
 - Commit repository changes separately from release version changes.
 - Add `CHANGELOG.md` notes before preparing a release.
+- Use `npm run release:status` to detect drift between local release files, npm, tags, and GitHub Releases.
+- The `Release Status` GitHub Actions workflow runs the same drift check on pushes, pull requests, and manual dispatches.
 - Publish only from a clean working tree after verification passes.
 - Confirm npm authentication before publishing.
 - Do not claim npm is updated until publish and smoke tests succeed.
@@ -257,6 +259,7 @@ Then verify and publish:
 ```bash
 npm run verify:cli
 npm run pack:dry-run
+npm run release:status
 git diff --check
 git add package.json CHANGELOG.md releases/vX.Y.Z.md
 git commit -m "chore(release): vX.Y.Z"
@@ -271,6 +274,7 @@ After publish, smoke test:
 pnpm dlx sdd-jc-methodology@X.Y.Z list
 pnpm dlx sdd-jc-methodology@X.Y.Z install --tool both --dry-run
 npm view sdd-jc-methodology version --registry=https://registry.npmjs.org/
+npm run release:status
 ```
 
 ### CLI Commands

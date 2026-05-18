@@ -45,6 +45,8 @@ Release governance:
 - Publish only after verification passes and npm authentication is confirmed for a package maintainer.
 - Do not claim npm is updated until `npm publish` succeeds and a post-publish smoke test confirms the published version.
 - If publish fails, keep the release commit, document the blocker, and do not create a replacement version unless the failed version was actually published.
+- Use `npm run release:status` before and after publishing to detect drift between npm, tags, GitHub Releases, and local release files.
+- Keep the `Release Status` GitHub Actions workflow aligned with `npm run release:status`.
 
 Use this flow:
 
@@ -57,6 +59,7 @@ Use this flow:
 4. Run verification:
    - `npm run verify:cli`
    - `npm run pack:dry-run`
+   - `npm run release:status`
    - `git diff --check`
 5. Commit the release version update.
 6. Confirm npm auth with `npm whoami --registry=https://registry.npmjs.org/`.

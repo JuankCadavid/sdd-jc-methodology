@@ -42,6 +42,7 @@ Use:
 npm run release:patch
 npm run verify:cli
 npm run pack:dry-run
+npm run release:status
 git diff --check
 npm whoami --registry=https://registry.npmjs.org/
 ```

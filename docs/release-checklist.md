@@ -20,6 +20,8 @@ Use this checklist before publishing `sdd-jc-methodology`.
 
 - Repository updates and npm updates are controlled separately.
 - Package-affecting repository changes require changelog notes before release preparation.
+- `npm run release:status` checks local release files, npm versions, remote tags, and GitHub Releases for drift.
+- The `Release Status` GitHub Actions workflow runs the same drift check on pushes, pull requests, and manual dispatches.
 - npm updates require a version bump, release notes, verification, release commit, publish, and smoke test.
 - Never publish from uncommitted changes.
 - Never claim npm is updated until publish and post-publish smoke test both succeed.
@@ -41,6 +43,7 @@ Then verify:
 npm run verify:cli
 node bin/sdd-jc.js install --tool both --dry-run
 npm run pack:dry-run
+npm run release:status
 git diff --check
 ```
 
@@ -78,6 +81,7 @@ For private registry publishing, configure the registry first and publish using 
 pnpm dlx sdd-jc-methodology@<version> list
 pnpm dlx sdd-jc-methodology@<version> install --tool both --dry-run
 npm view sdd-jc-methodology version --registry=https://registry.npmjs.org/
+npm run release:status
 ```
 
 ## GitHub Release
