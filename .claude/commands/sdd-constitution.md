@@ -10,12 +10,21 @@ Establish or strengthen the project-wide SDD foundation. This command creates th
 
 ## Behavior
 
-### Step 0: Foundation Setup
+### Step 0: Determine Project Mode and Foundation Setup
+
+First classify the repository mode:
+
+- **New project**: little or no application code, no stable project documentation, or the user is starting a product baseline from scratch.
+- **Existing project**: application code, package manifests, infrastructure, tests, routes, components, or prior docs already exist.
+
+For both modes:
 
 1. Ensure `docs/` exists.
 2. Ensure `docs/specs/` exists.
 3. Ensure `docs/specs/general-setup/` exists.
-4. Default behavior is to enhance existing project docs in place instead of creating parallel copies.
+4. Ensure root `CLAUDE.md` exists or is enhanced.
+5. Ensure root `AGENTS.md` exists or is enhanced.
+6. Default behavior is to enhance existing project docs in place instead of creating parallel copies.
 
 The constitutional baseline must cover these files:
 
@@ -26,6 +35,11 @@ The constitutional baseline must cover these files:
 - `docs/specs/general-setup/design.md`
 - `docs/specs/general-setup/task.md`
 - `CLAUDE.md`
+- `AGENTS.md`
+
+For new projects, draft the baseline from user intent, product assumptions, chosen stack, and explicit open questions.
+
+For existing projects, do not draft the baseline until repository reality has been inspected and summarized.
 
 ---
 
@@ -34,12 +48,13 @@ The constitutional baseline must cover these files:
 Before writing anything, read the repository context carefully:
 
 1. Root `CLAUDE.md` if it exists
-2. Package-level `CLAUDE.md` files if they exist
-3. Existing `docs/prd.md`
-4. Existing `docs/system-design/design.md`
-5. Existing `docs/detailed-design/detailed-design.md`
-6. Existing `docs/specs/` folders to extract terminology, taxonomy, and prior feature history
-7. Any architecture, infrastructure, setup, or product docs already present under `docs/`
+2. Root `AGENTS.md` if it exists
+3. Package-level `CLAUDE.md` and `AGENTS.md` files if they exist
+4. Existing `docs/prd.md`
+5. Existing `docs/system-design/design.md`
+6. Existing `docs/detailed-design/detailed-design.md`
+7. Existing `docs/specs/` folders to extract terminology, taxonomy, and prior feature history
+8. Any architecture, infrastructure, setup, or product docs already present under `docs/`
 
 Also inspect the codebase to understand:
 
@@ -51,6 +66,18 @@ Also inspect the codebase to understand:
 - Existing spec taxonomy under `docs/specs/` such as domain, enhancement, bugfix, or epic folders
 
 Do not write generic placeholder documentation when the repository already contains enough context to infer a strong baseline.
+
+#### Existing Project CodeGraph Check
+
+For existing projects, prefer CodeGraph for repository analysis when available:
+
+1. If `.codegraph/` exists, use CodeGraph for symbol lookup, architecture context, callers/callees, and impact analysis before broad file scanning.
+2. If `.codegraph/` does not exist and the `codegraph` CLI is available, ask the user whether to run `codegraph init -i` before continuing.
+3. If CodeGraph is unavailable or the user declines initialization, continue with normal `Glob`, `Grep`, and file reads.
+4. Never block the constitution on CodeGraph. Treat it as an optional context accelerator.
+5. Do not commit generated CodeGraph databases. Only durable configuration such as `.codegraph/config.json` may be committed when useful.
+
+When CodeGraph is used, summarize the evidence it revealed in the constitution output: dominant languages/frameworks, important modules, entry points, routes/API surfaces, test layout, and high-impact dependencies.
 
 ---
 
@@ -200,9 +227,9 @@ They must reflect:
 
 ---
 
-### Step 7: Update the Root CLAUDE Guide
+### Step 7: Update Root Agent Guides
 
-Update root `CLAUDE.md` so it references:
+Update root `CLAUDE.md` and `AGENTS.md` so they reference:
 
 - `docs/prd.md`
 - `docs/system-design/design.md`
@@ -215,8 +242,10 @@ The update should explain briefly:
 - When Claude should consult each one
 - That these documents form the constitutional baseline for future SDD work
 - How module specs should be organized under `docs/specs/`
+- Which skills should be used for common work in the project
+- Whether CodeGraph is initialized and how agents should use it for existing-project analysis
 
-Preserve the repository's existing `CLAUDE.md` conventions and extend them.
+Preserve the repository's existing `CLAUDE.md` and `AGENTS.md` conventions and extend them.
 
 ---
 
@@ -225,6 +254,8 @@ Preserve the repository's existing `CLAUDE.md` conventions and extend them.
 After drafting or enhancing the documents, present a concise summary covering:
 
 - What was created vs enhanced
+- Whether the project was treated as new or existing
+- Whether CodeGraph was used, initialized, declined, or unavailable
 - The chosen spec taxonomy under `docs/specs/`
 - The main problem statement and personas captured in the PRD
 - The main UX/system decisions captured in system design

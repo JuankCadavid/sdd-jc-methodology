@@ -394,13 +394,22 @@ Use this flow for normal feature work:
 
 Run `/sdd-constitution` first in a new repository, after a major product pivot, or when the baseline docs are missing. For an established repository with a good baseline, start at `/sdd-propose <change-name>` or `/sdd-specify <spec-path>`.
 
+`/sdd-constitution` handles two project modes:
+
+- **New project:** creates the baseline from user intent, chosen stack, assumptions, and open questions.
+- **Existing project:** inspects real code, docs, architecture, tests, package manifests, routes, and conventions before drafting or updating baseline docs.
+
+For both modes, `/sdd-constitution` creates or enhances root `CLAUDE.md` and root `AGENTS.md` so Claude Code and OpenCode receive the same project guidance.
+
+For existing projects, CodeGraph is an optional acceleration path. If `.codegraph/` exists, agents should use it for semantic code exploration, symbol lookup, callers/callees, and impact checks. If `.codegraph/` is missing and the `codegraph` CLI is available, the agent should ask whether to run `codegraph init -i`. If CodeGraph is unavailable or declined, the methodology continues with normal `Glob`, `Grep`, and file reads.
+
 Use `/sdd-propose` when the change needs review before full specification. For very small, obvious work, you may start directly with `/sdd-specify <spec-path>`.
 
 ## Command Map
 
 | Command | Use When | Main Output |
 |---|---|---|
-| `/sdd-constitution` | Starting a repo or repairing weak project context | `docs/prd.md`, system design, detailed design, general spec templates, `CLAUDE.md` guidance |
+| `/sdd-constitution` | Starting a repo or repairing weak project context | `docs/prd.md`, system design, detailed design, general spec templates, `CLAUDE.md`, `AGENTS.md` guidance |
 | `/sdd-propose <change-name-or-spec-path>` | Aligning on intent before full specification | `proposal.md` under `docs/specs/<spec-path>/` |
 | `/sdd-specify <spec-path>` | Planning one bounded change before code | `requirements.md`, `design.md`, `tasks.md` under `docs/specs/<spec-path>/` |
 | `/sdd-execute <spec-path>` | Implementing approved tasks | Code changes, updated `tasks.md`, `execution.md` |

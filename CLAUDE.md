@@ -30,6 +30,15 @@ Use the packaged skills in `.claude/skills/` as the source of truth. Examples:
 
 If a task document lists required or recommended skills, follow that list first.
 
+## CodeGraph
+
+This repository has CodeGraph initialized under `.codegraph/` for faster semantic code exploration.
+
+- Use CodeGraph for existing-project analysis, symbol lookup, call flow, and impact checks when `.codegraph/` exists.
+- Do not commit generated CodeGraph database files; `.codegraph/.gitignore` excludes local database artifacts.
+- Keep `.codegraph/config.json` focused on repository source and methodology scripts, not large snapshots or generated outputs.
+- If CodeGraph is unavailable in another project, continue with normal `Glob`, `Grep`, and file reads.
+
 ## Release Discipline
 
 Every user-facing methodology or installer change should be reflected in `CHANGELOG.md` under `Unreleased`.
