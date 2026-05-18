@@ -34,15 +34,21 @@ If a task document lists required or recommended skills, follow that list first.
 
 Every user-facing methodology or installer change should be reflected in `CHANGELOG.md` under `Unreleased`.
 
-Do not claim the npm package is updated until a release version has been prepared and published. Use:
+Repository changes and npm package updates are controlled separately. Do not publish from uncommitted changes. Do not claim the npm package is updated until `npm publish` succeeds and a post-publish smoke test confirms the published version.
+
+Use:
 
 ```bash
 npm run release:patch
 npm run verify:cli
 npm run pack:dry-run
+git diff --check
+npm whoami --registry=https://registry.npmjs.org/
 ```
 
 Choose `release:minor` for new commands or install targets and `release:major` for breaking changes.
+
+If publish fails, keep the release commit, document the blocker, and do not create a replacement version unless the failed version was actually published.
 
 ## Safety
 

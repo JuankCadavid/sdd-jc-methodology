@@ -220,6 +220,15 @@ Use `--force` when you want packaged files to replace older installed files. Wit
 
 Repository changes do not update the published npm package automatically. Every published package update must have a new version.
 
+Release policy:
+
+- Commit repository changes separately from release version changes.
+- Add `CHANGELOG.md` notes before preparing a release.
+- Publish only from a clean working tree after verification passes.
+- Confirm npm authentication before publishing.
+- Do not claim npm is updated until publish and smoke tests succeed.
+- If publish fails, fix the blocker and retry the same unpublished version.
+
 Use semantic versioning:
 
 | Bump | Use For | Example |
@@ -248,16 +257,20 @@ Then verify and publish:
 ```bash
 npm run verify:cli
 npm run pack:dry-run
+git diff --check
 git add package.json CHANGELOG.md releases/vX.Y.Z.md
 git commit -m "chore(release): vX.Y.Z"
 git tag vX.Y.Z
+npm whoami --registry=https://registry.npmjs.org/
 npm publish --access public --registry=https://registry.npmjs.org/
 ```
 
 After publish, smoke test:
 
 ```bash
+pnpm dlx sdd-jc-methodology@X.Y.Z list
 pnpm dlx sdd-jc-methodology@X.Y.Z install --tool both --dry-run
+npm view sdd-jc-methodology version --registry=https://registry.npmjs.org/
 ```
 
 ### CLI Commands

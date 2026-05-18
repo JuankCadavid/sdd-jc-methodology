@@ -37,6 +37,15 @@ If a task document lists required or recommended skills, follow that list first.
 
 Repository changes do not automatically update the npm package. A package update requires a version bump and publish.
 
+Release governance:
+
+- Do not publish directly from uncommitted changes.
+- Every package-affecting repo change must have `CHANGELOG.md` notes before release preparation.
+- Every npm update must use `scripts/release.js` through `npm run release:patch`, `npm run release:minor`, or `npm run release:major`.
+- Publish only after verification passes and npm authentication is confirmed for a package maintainer.
+- Do not claim npm is updated until `npm publish` succeeds and a post-publish smoke test confirms the published version.
+- If publish fails, keep the release commit, document the blocker, and do not create a replacement version unless the failed version was actually published.
+
 Use this flow:
 
 1. Add change notes under `CHANGELOG.md` > `Unreleased`.
@@ -48,8 +57,11 @@ Use this flow:
 4. Run verification:
    - `npm run verify:cli`
    - `npm run pack:dry-run`
+   - `git diff --check`
 5. Commit the release version update.
-6. Publish explicitly with `npm publish --access public --registry=https://registry.npmjs.org/`.
+6. Confirm npm auth with `npm whoami --registry=https://registry.npmjs.org/`.
+7. Publish explicitly with `npm publish --access public --registry=https://registry.npmjs.org/`.
+8. Smoke test the published version with `pnpm dlx sdd-jc-methodology@<version> list`.
 
 Use patch for small docs/fixes, minor for new commands or install targets, and major for breaking changes.
 
