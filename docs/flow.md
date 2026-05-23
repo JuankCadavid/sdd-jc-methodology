@@ -45,13 +45,17 @@ AI:  Implements the next approved task only
      ✓ records verification evidence
 
 You: /sdd-test changes/add-remember-me
-AI:  Creates test-report.md with requirement-to-test traceability
+AI:  Creates test-report.md with requirement-to-test traceability (supports automated parsing via `scripts/parse_tests.js`)
 
 You: /sdd-validate changes/add-remember-me
 AI:  Creates validation-report.md with PASS/WARN/FAIL/BLOCKED findings
 
 You: /sdd-archive changes/add-remember-me
-AI:  Moves completed work into docs/specs/archive/
+AI:  Moves completed work into docs/specs/archive/ and refreshes CodeGraph
+
+Independent Auditing:
+You: /sdd-audit
+AI:  Scans codebase and detects drift against baselines, generating docs/specs/drift-report.md
 ```
 
 ## Project Modes
@@ -80,6 +84,7 @@ For existing projects, CodeGraph is preferred when `.codegraph/` exists. If Code
 | `docs/specs/<spec-path>/execution.md` | `/sdd-execute` | Task execution history and evidence |
 | `docs/specs/<spec-path>/test-report.md` | `/sdd-test` | Requirement-to-test matrix and coverage gaps |
 | `docs/specs/<spec-path>/validation-report.md` | `/sdd-validate` | Final conformance audit |
+| `docs/specs/drift-report.md` | `/sdd-audit` | Conformance auditing of documentation vs. codebase reality |
 | `docs/specs/archive/.../archive-summary.md` | `/sdd-archive` | Historical closure record |
 
 ## Review Gates
@@ -141,3 +146,37 @@ For a small, obvious change in a repository with a strong baseline, you may star
 For unclear, risky, cross-functional, or stakeholder-sensitive work, start at `/sdd-propose <change-name-or-spec-path>`.
 
 For a new repository, stale documentation, or a major product pivot, start at `/sdd-constitution`.
+
+---
+
+## Advanced Engineering Capabilities
+
+To support robust, long-term development cycles, JCSPECS includes the following specialized workflows:
+
+### 1. Spec-to-Code Traceability (Git & Comments)
+To establish high-traceability between spec files and source code:
+* **Commit Messages:** Every commit made during `/sdd-execute` must be prefixed with `[SPEC:<spec-path>]` (e.g. `git commit -m "[SPEC:changes/add-remember-me] implement secure cookie storage"`).
+* **Comment Tracing:** For complex algorithms, API entry points, or core models, developers/agents should place a reference comment: `// @sdd-spec <spec-path>`.
+
+### 2. Specification Drift Auditing (`/sdd-audit`)
+Run `/sdd-audit` independently to verify that the active codebase reflects active documentation. The command produces `docs/specs/drift-report.md` detailing:
+* **Stale Specifications:** Documented endpoints/modules missing from code.
+* **Undocumented Code:** Active code additions completely missing from PRD, system-design, or detailed-design docs.
+* **Styling/Architecture Violations:** Active code violating styling tokens or engineering guidelines.
+
+### 3. The Pivot Protocol
+If discovery during `/sdd-execute` invalidates requirements or design rules:
+1. Mark the current task in `tasks.md` as `[~]` (blocked).
+2. Append a `## Pivot Record: <Task ID>` under `execution.md` explaining the conflict, technical constraints, and proposed options.
+3. Update `requirements.md`, `design.md`, and/or `tasks.md` in the spec folder.
+4. Obtain user sign-off on the pivot before resuming execution.
+
+### 4. CodeGraph Refresh Trigger
+When compiling the `archive-summary.md` and moving folders to the archive via `/sdd-archive`:
+* The agent detects if `.codegraph/` configuration folders are present.
+* The agent reminds or executes the re-indexing command (e.g., `codegraph index`) to guarantee semantic search utilities remain highly functional for subsequent sessions.
+
+### 5. Automated Test Reporting (`scripts/parse_tests.js`)
+Rather than manually compiling assertion results during `/sdd-test`:
+1. Execute tests outputting to JSON (e.g. `jest --json --outputFile=jest-results.json` or `vitest --reporter=json`).
+2. Run `node <path-to-sdd-jc>/scripts/parse_tests.js jest-results.json` to generate the JCSPECS matrix table automatically for inclusion inside `test-report.md`.

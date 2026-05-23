@@ -11,7 +11,7 @@
 
 # JCSPECS
 
-### Supercharge Claude Code and OpenCode with constitution-first spec intelligence
+### Supercharge Claude Code, OpenCode, and Google Antigravity with constitution-first spec intelligence
 
 **Durable product context · traceable requirements · governed releases · 100% local methodology files**
 
@@ -30,12 +30,13 @@
 <p>
   <img alt="Claude Code supported" src="https://img.shields.io/badge/Claude%20Code-supported-7c3aed?style=for-the-badge">
   <img alt="OpenCode supported" src="https://img.shields.io/badge/OpenCode-supported-7c3aed?style=for-the-badge">
+  <img alt="Google Antigravity supported" src="https://img.shields.io/badge/Google%20Antigravity-supported-7c3aed?style=for-the-badge">
   <img alt="CodeGraph aware" src="https://img.shields.io/badge/CodeGraph-aware-7c3aed?style=for-the-badge">
 </p>
 
 </div>
 
-Portable Claude Code and OpenCode configuration for the SDD JC methodology.
+Portable Claude Code, OpenCode, and Google Antigravity configuration for the SDD JC methodology.
 
 SDD JC is a constitution-first, spec-driven methodology for AI-assisted development. It keeps product intent, UX direction, technical design, implementation tasks, tests, and validation evidence in repository documentation so humans and agents can work from the same durable context.
 
@@ -102,13 +103,13 @@ SDD JC is a constitution-first, spec-driven methodology for AI-assisted developm
 
 ## Install
 
-Install the methodology with the bundled CLI. The installer can target Claude, OpenCode, or both.
+Install the methodology with the bundled CLI. The installer can target Claude, OpenCode, Google Antigravity, or multiple tools.
 
 ### Prerequisites
 
 - Node.js 18 or newer
 - `pnpm`, `npm`, or another Node package runner
-- Claude Code and/or OpenCode installed, depending on where you want to use the methodology
+- Claude Code, OpenCode, and/or Google Antigravity installed, depending on where you want to use the methodology
 
 ### Step 1: Choose The Target Tool
 
@@ -116,7 +117,9 @@ Install the methodology with the bundled CLI. The installer can target Claude, O
 |---|---|---|
 | Claude | You use Claude Code slash commands and Claude skills | `~/.claude` |
 | OpenCode | You use OpenCode commands and skills | `~/.config/opencode` |
-| Both | You switch between Claude Code and OpenCode | both paths |
+| Antigravity | You use Google Antigravity global workflows and skills | `~/.gemini` |
+| Both | You switch between Claude Code and OpenCode | Claude + OpenCode paths |
+| All | You use Claude, OpenCode, and Google Antigravity | All three paths |
 
 ### Step 2: Install With `pnpm dlx`
 
@@ -132,10 +135,22 @@ Install for OpenCode:
 pnpm dlx sdd-jc-methodology install --tool opencode
 ```
 
-Install for both tools:
+Install for Antigravity:
+
+```bash
+pnpm dlx sdd-jc-methodology install --tool antigravity
+```
+
+Install for both Claude and OpenCode:
 
 ```bash
 pnpm dlx sdd-jc-methodology install --tool both
+```
+
+Install for all three:
+
+```bash
+pnpm dlx sdd-jc-methodology install --tool all
 ```
 
 Claude is the default, so this is equivalent to `--tool claude`:
@@ -158,21 +173,27 @@ Check OpenCode installation:
 pnpm dlx sdd-jc-methodology doctor --tool opencode
 ```
 
-Check both:
+Check Antigravity installation:
 
 ```bash
-pnpm dlx sdd-jc-methodology doctor --tool both
+pnpm dlx sdd-jc-methodology doctor --tool antigravity
+```
+
+Check all:
+
+```bash
+pnpm dlx sdd-jc-methodology doctor --tool all
 ```
 
 Expected result: every command, skill, and helper resource shows `OK`.
 
 ### Step 4: Restart Your Tool
 
-Restart Claude Code or OpenCode after installation. Running sessions may not pick up new commands or skills until the tool restarts.
+Restart Claude Code, OpenCode, or Antigravity after installation. Running sessions may not pick up new commands or skills until the tool restarts.
 
 ### Step 5: Confirm Commands Are Available
 
-In Claude Code or OpenCode, type `/` and confirm these commands are available:
+In your tool of choice, confirm JCSPECS commands are available (either as slash commands or workflows):
 
 ```text
 /sdd-constitution

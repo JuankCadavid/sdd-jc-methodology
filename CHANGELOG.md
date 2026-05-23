@@ -6,9 +6,18 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
-### Notes
+### Added
 
-- No unreleased changes yet.
+- Added support for Google Antigravity (IDE and CLI) in the `sdd-jc` installer and doctor diagnostics checks.
+- Added a new JCSPECS command `/sdd-audit` to detect drift between active codebase reality and active design specifications.
+- Added a new JCSPECS automated test parser utility (`scripts/parse_tests.js`) to parse Jest/Vitest JSON test suite output and build Markdown matrices inside `test-report.md` automatically.
+
+### Changed
+
+- Updated `/sdd-execute` with JCSPECS Spec Reference git commit format conventions and a formal Pivot Protocol loop.
+- Updated `/sdd-test` with guidelines on using the automated test parser helper.
+- Updated `/sdd-archive` to refresh and re-index CodeGraph databases when archiving completed specs.
+- Enriched `docs/flow.md` and `AGENTS.md` to document and govern JCSPECS advanced engineering features.
 
 ## [0.3.3] - 2026-05-18
 

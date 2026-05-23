@@ -1,12 +1,12 @@
 # Agent Guidance
 
-This repository packages the SDD JC methodology for Claude Code and OpenCode.
+This repository packages the SDD JC methodology for Claude Code, OpenCode, and Google Antigravity.
 
 ## Repository Purpose
 
 - `.claude/commands/` contains installable SDD command prompts.
 - `.claude/skills/` contains installable methodology skills.
-- `bin/sdd-jc.js` installs commands, skills, and helper resources into Claude and/or OpenCode config directories.
+- `bin/sdd-jc.js` installs commands, skills, and helper resources into Claude, OpenCode, and Google Antigravity config directories.
 - `scripts/release.js` prepares controlled npm package releases.
 - `docs/release-checklist.md` documents the release process.
 
@@ -17,6 +17,10 @@ This repository packages the SDD JC methodology for Claude Code and OpenCode.
 - Keep installer behavior safe: skip existing files by default and require `--force` to overwrite.
 - Do not commit generated `.tgz` files or `node_modules/`.
 - Do not commit service account keys, npm tokens, `.npmrc`, or local MCP config containing secrets.
+- **Spec-to-Code Traceability:** Every commit made during `/sdd-execute` must be prefixed with `[SPEC:<spec-path>]` (e.g. `[SPEC:changes/add-remember-me] message`).
+- **Pivot Protocol:** If execution invalidates approved specs, the agent must mark tasks blocked (`[~]`), record pivot details in `execution.md`, and obtain user sign-off.
+- **Drift Auditing:** Run `/sdd-audit` to detect differences between active codebase reality and active system/detailed designs.
+- **CodeGraph Re-indexing:** Remind or execute the re-indexing command during `/sdd-archive` to keep CodeGraph databases healthy.
 
 ## Skill Usage
 
@@ -90,6 +94,6 @@ git diff --check
 When installer behavior changes, also test temporary targets:
 
 ```bash
-node bin/sdd-jc.js install --tool both --dry-run
-node bin/sdd-jc.js doctor --tool both
+node bin/sdd-jc.js install --tool all --dry-run
+node bin/sdd-jc.js doctor --tool all
 ```

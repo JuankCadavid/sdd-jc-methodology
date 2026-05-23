@@ -1,6 +1,6 @@
 # CLI Reference
 
-The `sdd-jc` CLI installs the JCSPECS command prompts, skills, and helper resources into Claude Code, OpenCode, or both.
+The `sdd-jc` CLI installs the JCSPECS command prompts, skills, and helper resources into Claude Code, OpenCode, Google Antigravity, or multiple tools.
 
 ## Install
 
@@ -9,7 +9,9 @@ Run directly from npm:
 ```bash
 pnpm dlx sdd-jc-methodology install --tool claude
 pnpm dlx sdd-jc-methodology install --tool opencode
+pnpm dlx sdd-jc-methodology install --tool antigravity
 pnpm dlx sdd-jc-methodology install --tool both
+pnpm dlx sdd-jc-methodology install --tool all
 ```
 
 Claude is the default target:
@@ -22,7 +24,7 @@ Use a persistent global install if preferred:
 
 ```bash
 pnpm add -g sdd-jc-methodology
-sdd-jc install --tool both
+sdd-jc install --tool all
 ```
 
 ## Commands
@@ -41,10 +43,13 @@ sdd-jc install --tool both
 |---|---|---|
 | `--tool claude` | install, update, doctor | Target Claude Code config |
 | `--tool opencode` | install, update, doctor | Target OpenCode config |
+| `--tool antigravity` | install, update, doctor | Target Google Antigravity config |
 | `--tool both` | install, update, doctor | Target Claude and OpenCode |
+| `--tool all` | install, update, doctor | Target Claude, OpenCode, and Antigravity |
 | `--target <path>` | single-tool install/update/doctor | Override the selected tool target directory |
-| `--claude-target <path>` | `--tool both` | Override Claude target directory |
-| `--opencode-target <path>` | `--tool both` | Override OpenCode target directory |
+| `--claude-target <path>` | multiple tools | Override Claude target directory |
+| `--opencode-target <path>` | multiple tools | Override OpenCode target directory |
+| `--antigravity-target <path>` | multiple tools | Override Antigravity target directory |
 | `--force` | install, update | Overwrite existing files |
 | `--dry-run` | install, update | Show planned writes without writing files |
 | `--commands-only` | install, update, doctor | Only install or check commands |
@@ -57,8 +62,9 @@ sdd-jc install --tool both
 Default targets:
 
 ```text
-Claude:   ~/.claude
-OpenCode: ~/.config/opencode
+Claude:      ~/.claude
+OpenCode:    ~/.config/opencode
+Antigravity: ~/.gemini
 ```
 
 Claude install layout:
@@ -79,7 +85,16 @@ OpenCode install layout:
 ~/.config/opencode/sdd-jc/.mcp.json.example
 ```
 
-Restart Claude Code or OpenCode after install/update so running sessions load new commands and skills.
+Antigravity install layout:
+
+```text
+~/.gemini/antigravity/global_workflows/  (custom commands mapped as global workflows)
+~/.gemini/config/skills/                 (skills mapped as global skills)
+~/.gemini/config/sdd-jc/scripts/         (scripts mapped as config resources)
+~/.gemini/config/sdd-jc/.mcp.json.example
+```
+
+Restart Claude Code, OpenCode, or Google Antigravity after install/update so running sessions load new commands and skills.
 
 ## Safety Rules
 
@@ -90,10 +105,10 @@ Restart Claude Code or OpenCode after install/update so running sessions load ne
 
 ## Examples
 
-Preview a both-tool install:
+Preview a three-tool install:
 
 ```bash
-sdd-jc install --tool both --dry-run
+sdd-jc install --tool all --dry-run
 ```
 
 Install Claude commands into a local project folder:
@@ -108,16 +123,16 @@ Install both tools into custom directories:
 sdd-jc install --tool both --claude-target ./.claude --opencode-target ./.opencode
 ```
 
-Update OpenCode skills only:
+Update Antigravity skills only:
 
 ```bash
-sdd-jc update --tool opencode --skills-only --force
+sdd-jc update --tool antigravity --skills-only --force
 ```
 
-Check both installs:
+Check all installs:
 
 ```bash
-sdd-jc doctor --tool both
+sdd-jc doctor --tool all
 ```
 
 ## Packaged Resources
@@ -133,8 +148,8 @@ The CLI installs helper resources under the target `sdd-jc/` directory:
 
 If commands do not appear in your AI tool:
 
-- Run `sdd-jc doctor --tool <claude|opencode|both>`.
-- Restart Claude Code or OpenCode.
+- Run `sdd-jc doctor --tool <claude|opencode|antigravity|both|all>`.
+- Restart Claude Code, OpenCode, or Google Antigravity.
 - Confirm the target directory is the one your tool reads.
 - Re-run with `--force` if older files should be replaced.
 

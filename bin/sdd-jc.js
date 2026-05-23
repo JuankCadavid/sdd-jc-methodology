@@ -8,7 +8,7 @@ const PACKAGE_ROOT = path.resolve(__dirname, "..");
 const SOURCE_CLAUDE = path.join(PACKAGE_ROOT, ".claude");
 const SOURCE_COMMANDS = path.join(SOURCE_CLAUDE, "commands");
 const SOURCE_SKILLS = path.join(SOURCE_CLAUDE, "skills");
-const RESOURCE_SCRIPTS = ["gsc_verify.py"];
+const RESOURCE_SCRIPTS = ["gsc_verify.py", "parse_tests.js"];
 const SOURCE_SCRIPTS = path.join(PACKAGE_ROOT, "scripts");
 const SOURCE_MCP_EXAMPLE = path.join(PACKAGE_ROOT, ".mcp.json.example");
 const BANNER = `     ██╗ ██████╗███████╗██████╗ ███████╗ ██████╗███████╗
@@ -21,6 +21,7 @@ const BANNER = `     ██╗ ██████╗███████╗█�
 const TOOL_DEFAULTS = {
   claude: path.join(os.homedir(), ".claude"),
   opencode: path.join(os.homedir(), ".config", "opencode"),
+  antigravity: path.join(os.homedir(), ".gemini"),
 };
 
 function printHelp() {
@@ -37,10 +38,11 @@ Commands:
   help      Show this help
 
 Options:
-  --tool <name>        Install target: claude, opencode, or both. Default: claude
+  --tool <name>        Install target: claude, opencode, antigravity, both, or all. Default: claude
   --target <path>      Target config directory for selected single tool
   --claude-target      Claude config directory. Default: ~/.claude
   --opencode-target    OpenCode config directory. Default: ~/.config/opencode
+  --antigravity-target Antigravity config directory. Default: ~/.gemini
   --force              Overwrite existing files
   --dry-run            Show what would happen without writing files
   --commands-only      Install or check only commands
@@ -49,10 +51,11 @@ Options:
 Examples:
   sdd-jc install
   sdd-jc install --tool opencode
+  sdd-jc install --tool antigravity
   sdd-jc install --tool both --dry-run
   sdd-jc install --tool claude --target ./.claude
   sdd-jc update --tool both --force
-  sdd-jc doctor --tool opencode
+  sdd-jc doctor --tool antigravity
   sdd-jc list
 `);
 }
@@ -68,6 +71,7 @@ function parseArgs(argv) {
     target: undefined,
     claudeTarget: TOOL_DEFAULTS.claude,
     opencodeTarget: TOOL_DEFAULTS.opencode,
+    antigravityTarget: TOOL_DEFAULTS.antigravity,
     force: false,
     dryRun: false,
     commandsOnly: false,
@@ -80,8 +84,8 @@ function parseArgs(argv) {
     if (arg === "--tool") {
       const value = argv[i + 1];
       if (!value) fail("Missing value for --tool");
-      if (!["claude", "opencode", "both"].includes(value)) {
-        fail("--tool must be one of: claude, opencode, both");
+      if (!["claude", "opencode", "antigravity", "both", "all"].includes(value)) {
+        fail("--tool must be one of: claude, opencode, antigravity, both, all");
       }
       args.tool = value;
       i += 1;
@@ -99,6 +103,11 @@ function parseArgs(argv) {
       const value = argv[i + 1];
       if (!value) fail("Missing value for --opencode-target");
       args.opencodeTarget = resolveUserPath(value);
+      i += 1;
+    } else if (arg === "--antigravity-target") {
+      const value = argv[i + 1];
+      if (!value) fail("Missing value for --antigravity-target");
+      args.antigravityTarget = resolveUserPath(value);
       i += 1;
     } else if (arg === "--force") {
       args.force = true;
@@ -119,12 +128,13 @@ function parseArgs(argv) {
     fail("Use only one of --commands-only or --skills-only");
   }
 
-  if (args.target && args.tool === "both") {
-    fail("--target can only be used with --tool claude or --tool opencode. Use --claude-target and --opencode-target with --tool both.");
+  if (args.target && (args.tool === "both" || args.tool === "all")) {
+    fail("--target can only be used with a single tool target.");
   }
 
   if (args.target && args.tool === "claude") args.claudeTarget = args.target;
   if (args.target && args.tool === "opencode") args.opencodeTarget = args.target;
+  if (args.target && args.tool === "antigravity") args.antigravityTarget = args.target;
 
   return args;
 }
@@ -166,6 +176,7 @@ function listSkills() {
 
 function selectedTools(args) {
   if (args.tool === "both") return ["claude", "opencode"];
+  if (args.tool === "all") return ["claude", "opencode", "antigravity"];
   return [args.tool];
 }
 
@@ -244,10 +255,24 @@ function copyResourceScripts(targetDir, args) {
 }
 
 function installTool(tool, args) {
-  const targetRoot = tool === "claude" ? args.claudeTarget : args.opencodeTarget;
-  const targetCommands = path.join(targetRoot, "commands");
-  const targetSkills = path.join(targetRoot, "skills");
-  const targetResources = path.join(targetRoot, "sdd-jc");
+  const targetRoot = tool === "claude"
+    ? args.claudeTarget
+    : tool === "opencode"
+      ? args.opencodeTarget
+      : args.antigravityTarget;
+
+  const targetCommands = tool === "antigravity"
+    ? path.join(targetRoot, "antigravity", "global_workflows")
+    : path.join(targetRoot, "commands");
+
+  const targetSkills = tool === "antigravity"
+    ? path.join(targetRoot, "config", "skills")
+    : path.join(targetRoot, "skills");
+
+  const targetResources = tool === "antigravity"
+    ? path.join(targetRoot, "config", "sdd-jc")
+    : path.join(targetRoot, "sdd-jc");
+
   let installed = 0;
   let skipped = 0;
 
@@ -316,17 +341,33 @@ function runList() {
   console.log("  .mcp.json.example");
 }
 
-function hasInstalledCommand(targetRoot, name) {
-  return fs.existsSync(path.join(targetRoot, "commands", name));
+function hasInstalledCommand(targetCommands, name) {
+  return fs.existsSync(path.join(targetCommands, name));
 }
 
-function hasInstalledSkill(targetRoot, name) {
-  return fs.existsSync(path.join(targetRoot, "skills", name, "SKILL.md"));
+function hasInstalledSkill(targetSkills, name) {
+  return fs.existsSync(path.join(targetSkills, name, "SKILL.md"));
 }
 
 function doctorTool(tool, args) {
-  const targetRoot = tool === "claude" ? args.claudeTarget : args.opencodeTarget;
-  const targetResources = path.join(targetRoot, "sdd-jc");
+  const targetRoot = tool === "claude"
+    ? args.claudeTarget
+    : tool === "opencode"
+      ? args.opencodeTarget
+      : args.antigravityTarget;
+
+  const targetCommands = tool === "antigravity"
+    ? path.join(targetRoot, "antigravity", "global_workflows")
+    : path.join(targetRoot, "commands");
+
+  const targetSkills = tool === "antigravity"
+    ? path.join(targetRoot, "config", "skills")
+    : path.join(targetRoot, "skills");
+
+  const targetResources = tool === "antigravity"
+    ? path.join(targetRoot, "config", "sdd-jc")
+    : path.join(targetRoot, "sdd-jc");
+
   let missing = 0;
 
   console.log(`\nChecking ${tool}: ${targetRoot}`);
@@ -334,7 +375,7 @@ function doctorTool(tool, args) {
   if (shouldInclude("commands", args)) {
     console.log("\nCommands:");
     for (const command of listCommands()) {
-      const ok = hasInstalledCommand(targetRoot, command);
+      const ok = hasInstalledCommand(targetCommands, command);
       console.log(`  ${ok ? "OK" : "MISSING"} ${command}`);
       if (!ok) missing += 1;
     }
@@ -343,7 +384,7 @@ function doctorTool(tool, args) {
   if (shouldInclude("skills", args)) {
     console.log("\nSkills:");
     for (const skill of listSkills()) {
-      const ok = hasInstalledSkill(targetRoot, skill);
+      const ok = hasInstalledSkill(targetSkills, skill);
       console.log(`  ${ok ? "OK" : "MISSING"} ${skill}`);
       if (!ok) missing += 1;
     }

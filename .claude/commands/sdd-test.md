@@ -87,6 +87,10 @@ Recommended matrix columns:
 
 Create `docs/specs/$ARGUMENTS/test-report.md`.
 
+**Automated Test Parsing Option:** If the repository uses standard testing frameworks (like Jest or Vitest) and has a JCSPECS test parsing helper installed (e.g. `sdd-jc/scripts/parse_tests.js`), you may run the tests outputting to JSON (e.g. `jest --json --outputFile=jest-results.json` or `vitest --reporter=json --outputFile=test-results.json`) and run:
+`node <path-to-sdd-jc>/scripts/parse_tests.js jest-results.json`
+to automatically scaffold the results matrix directly into the test report sections.
+
 The report must include:
 
 1. Document Control

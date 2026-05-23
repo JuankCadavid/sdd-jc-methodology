@@ -88,11 +88,13 @@ Use `[~]` for a started but incomplete task, `[x]` for a completed task, and `[ 
 - Fix failures before marking the task complete.
 - If the listed command is unavailable, identify the closest repository-specific build, lint, test, or manual check and record the substitution in `execution.md`.
 
-### Step 3: Update Status
+### Step 3: Update Status & Commit
 
 1. Update `tasks.md` from `[ ]` to `[x]` when complete.
 2. Use `[~]` when the task is partially complete or blocked.
 3. Append implementation notes to `execution.md`.
+4. **Git Commit Staging:** When staging and committing changes made for the task, always follow the **JCSPECS Spec Reference** commit standard. Prefix the commit message with `[SPEC:<spec-path>]` (e.g. `git commit -m "[SPEC:changes/add-remember-me] implement secure cookie storage"`).
+5. **Code Traceability:** Add file-level or block-level comment spec references (`// @sdd-spec <spec-path>`) in critical or complex codebase additions to assist future audits.
 
 ### Step 4: Continue or Pause
 
@@ -123,10 +125,14 @@ Each task entry should record:
 
 ---
 
-## Error Handling
+## Error Handling & Pivot Protocol
 
 - If required SDD files are missing, stop and report what is missing.
 - If the design is ambiguous, ask the user before proceeding.
 - If verification fails, debug and fix before marking complete.
 - If a task is blocked, report the blocker and move to the next eligible task if appropriate.
-- If implementation requires changing the approved requirements or design, pause and ask for approval before expanding scope.
+- **Pivot Protocol:** If implementation discoveries reveal that the approved requirements or design are wrong or technically unviable:
+  1. Pause execution and mark the current task as `[~]` (blocked).
+  2. Document the blocker, alternatives, and revised technical direction under `execution.md` inside a new `## Pivot Record: <Task ID>` section.
+  3. Modify the spec's `requirements.md`, `design.md`, and/or `tasks.md` to map out the updated plan.
+  4. Stop, explain the situation to the user, and obtain explicit review/approval on the pivot before resuming execution.

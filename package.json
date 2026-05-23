@@ -23,7 +23,8 @@
     "docs",
     "LICENSE",
     "README.md",
-    "scripts/gsc_verify.py"
+    "scripts/gsc_verify.py",
+    "scripts/parse_tests.js"
   ],
   "scripts": {
     "pack:dry-run": "npm pack --dry-run",

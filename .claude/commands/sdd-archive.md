@@ -97,11 +97,12 @@ The summary must include:
 9. Accepted Warnings Or Follow-Ups
 10. Historical Notes
 
-### Step 3: Move Folder
+### Step 3: Move Folder & Refresh CodeGraph
 
 1. Ensure `docs/specs/archive/` exists.
 2. Move `docs/specs/$ARGUMENTS/` to `docs/specs/archive/YYYY-MM-DD-$SAFE_NAME/`.
 3. If the target archive folder already exists, do not overwrite it. Add a numeric suffix such as `-2` and report the final path.
+4. **CodeGraph Refresh Hook:** Check if `.codegraph/` exists in the repository root. If it does, recommend that the user or environment runs a fresh CodeGraph indexing/update (e.g. running `codegraph index` or equivalent) to keep the repository graph semantically up-to-date with the archived changes.
 
 ### Step 4: Report To User
 
