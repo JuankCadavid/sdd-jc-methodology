@@ -16,19 +16,21 @@ Establish or strengthen the project-wide SDD foundation. This command creates th
 
 ### Step 0: Determine Project Mode and Foundation Setup
 
-First classify the repository mode:
+First classify the repository into one of three modes. The classification is non-destructive — it controls how aggressively the constitution drafts, scans, or preserves existing material.
 
-- **New project**: little or no application code, no stable project documentation, or the user is starting a product baseline from scratch.
-- **Existing project**: application code, package manifests, infrastructure, tests, routes, components, or prior docs already exist.
+- **Brand-new project (Seed Setup):** little or no application code, no stable project documentation, no prior SDD artifacts, and the user is starting a product baseline from scratch.
+- **Legacy codebase (Discovery Setup):** meaningful application code, package manifests, infrastructure, tests, routes, components, or prior non-SDD docs exist, but the JCSPECS SDD baseline (`docs/prd.md`, `docs/system-design/design.md`, `docs/detailed-design/detailed-design.md`, `docs/specs/general-setup/`) is missing or skeletal.
+- **Active SDD project (Safe Update):** the SDD baseline already exists, prior specs live under `docs/specs/`, and an `.agents/` directory may already contain customized personas. The constitution must upgrade weak sections without overwriting customizations.
 
-For both modes:
+For all three modes:
 
 1. Ensure `docs/` exists.
 2. Ensure `docs/specs/` exists.
 3. Ensure `docs/specs/general-setup/` exists.
 4. Ensure root `CLAUDE.md` exists or is enhanced.
 5. Ensure root `AGENTS.md` exists or is enhanced.
-6. Default behavior is to enhance existing project docs in place instead of creating parallel copies.
+6. Ensure project-level `.agents/` exists with `leader.md`, `implementer.md`, and `reviewer.md` (see Step 7B).
+7. Default behavior is to enhance existing project docs in place instead of creating parallel copies.
 
 The constitutional baseline must cover these files:
 
@@ -40,10 +42,15 @@ The constitutional baseline must cover these files:
 - `docs/specs/general-setup/task.md`
 - `CLAUDE.md`
 - `AGENTS.md`
+- `.agents/leader.md`
+- `.agents/implementer.md`
+- `.agents/reviewer.md`
 
-For new projects, draft the baseline from user intent, product assumptions, chosen stack, and explicit open questions.
+**Mode-specific drafting policy:**
 
-For existing projects, do not draft the baseline until repository reality has been inspected and summarized.
+- **Brand-new:** prompt the user for a seed intent (product idea, target users, stack preference), then draft baselines and `.agents/` from the default templates plus that intent.
+- **Legacy:** do not draft the baseline until repository reality has been inspected and summarized. Use CodeGraph or `Grep` to extract components, API surfaces, styling tokens, and module boundaries; synthesize the baseline from that evidence; tailor `.agents/` personas to the detected stack (frameworks, test runner, design tokens).
+- **Active SDD:** read existing files and any custom subagent rules. **Do not overwrite them.** Upgrade only weak sections, fill in missing files, and extend `.agents/` to support the multi-agent loop while preserving custom instructions.
 
 ---
 
@@ -253,17 +260,64 @@ Preserve the repository's existing `CLAUDE.md` and `AGENTS.md` conventions and e
 
 ---
 
+### Step 7B: Scaffold the `.agents/` Triad
+
+Establish or upgrade the project-level `.agents/` directory that powers the JCSPECS multi-agent execution loop (Leader → Implementer → Reviewer used by `/sdd-execute`).
+
+Target layout:
+
+```text
+<project-root>/
+├── .agents/
+│   ├── leader.md        # Orchestration playbook, task tracking, .agents references
+│   ├── implementer.md   # Coding guidelines, testing standards, design-token discipline
+│   └── reviewer.md      # Spec conformance audit, design-token compliance, structured FAIL output
+```
+
+**Source of truth for templates:**
+
+The packaged methodology ships default personas under `sdd-jc/templates/` inside the active tool's config directory:
+
+- Claude Code: `~/.claude/sdd-jc/templates/{leader,implementer,reviewer}.md`
+- OpenCode: `~/.config/opencode/sdd-jc/templates/{leader,implementer,reviewer}.md`
+- Antigravity: `~/.gemini/config/sdd-jc/templates/{leader,implementer,reviewer}.md`
+
+If the packaged templates are available, prefer copying them as the seed; otherwise draft equivalent personas inline using the structure documented in this command and the `/sdd-execute` command.
+
+**Mode-specific scaffolding policy:**
+
+- **Brand-new (Seed Setup):** copy the three default templates verbatim into `.agents/`. Tailor only the project name and detected stack if known.
+- **Legacy (Discovery Setup):** copy the three default templates, then customize them based on the codebase scan — inject detected design-token paths, the test command, the lint command, framework conventions, and any directory boundaries discovered. The Reviewer persona in particular should know which `design.md` and `detailed-design.md` paths to cite.
+- **Active SDD (Safe Update):** **do not overwrite** existing `.agents/*.md` files. For each missing file, install the default template (customized to the detected stack). For each existing file, read it, identify gaps versus the current packaged template (e.g. missing rework-loop instructions, missing PASS/FAIL output contract, missing JCSPECS commit standard), and append a minimal upgrade block that preserves all existing custom instructions.
+
+**Required content per persona:**
+
+- **`leader.md`** — orchestration sequence, rework loop with 3-attempt ceiling, structured FAIL handoff to the next Implementer spawn, `execution.md` audit-trail format, `tasks.md` status transitions, JCSPECS commit standard, Pivot Protocol escalation.
+- **`implementer.md`** — strict context alignment to constitution + spec, incremental focus (no scope creep), aesthetics and design-token compliance from `docs/system-design/design.md`, verification rigor (must run the task's verification command before reporting), structured completion report.
+- **`reviewer.md`** — read-only role, audit checklist (requirement conformance, design-token compliance, technical compliance, stability), structured PASS/FAIL output where every FAIL item lists *Discovered Issue*, *Violated Rule*, and *Remediation Suggestion*.
+
+**Cross-tool compatibility:**
+
+The `.agents/` directory must be tool-agnostic:
+
+- Pure Markdown + YAML frontmatter, natively compatible with Antigravity, Claude Code, and OpenCode.
+- All JCSPECS commands resolve the `.agents/` path relative to the active terminal's current working directory, binding it strictly to the current workspace (no global agents directory).
+- Antigravity invokes `invoke_subagent` using prompts read from `.agents/`; Claude Code and OpenCode delegate via sub-prompt contexts seeded with the persona content.
+
+---
+
 ### Step 8: Present and Confirm
 
 After drafting or enhancing the documents, present a concise summary covering:
 
 - What was created vs enhanced
-- Whether the project was treated as new or existing
+- Which of the three modes was applied (Brand-new / Legacy / Active SDD) and why
 - Whether CodeGraph was used, initialized, declined, or unavailable
 - The chosen spec taxonomy under `docs/specs/`
 - The main problem statement and personas captured in the PRD
 - The main UX/system decisions captured in system design
 - The main technical decisions captured in detailed design
+- The state of `.agents/` (created from defaults, customized to detected stack, or preserved with upgrades) and any customizations applied
 - Any assumptions and open questions that still need validation
 
 Ask the user whether to approve or request changes. If changes are requested, revise the affected documents and re-present.
@@ -272,4 +326,4 @@ Ask the user whether to approve or request changes. If changes are requested, re
 
 ## Outcome
 
-At the end of `/sdd-constitution`, the repository should have a project-level baseline that future `/sdd-specify`, `/sdd-execute`, `/sdd-validate`, and `/sdd-test` work can rely on without guessing the structure or conventions.
+At the end of `/sdd-constitution`, the repository should have a project-level baseline that future `/sdd-specify`, `/sdd-execute`, `/sdd-validate`, and `/sdd-test` work can rely on without guessing the structure or conventions. The `.agents/` triad must be in place so that `/sdd-execute` can run the Leader → Implementer → Reviewer rework loop without falling back to inline personas.

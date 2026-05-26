@@ -8,6 +8,8 @@ const PACKAGE_ROOT = path.resolve(__dirname, "..");
 const SOURCE_CLAUDE = path.join(PACKAGE_ROOT, ".claude");
 const SOURCE_COMMANDS = path.join(SOURCE_CLAUDE, "commands");
 const SOURCE_SKILLS = path.join(SOURCE_CLAUDE, "skills");
+const SOURCE_TEMPLATES = path.join(SOURCE_CLAUDE, "templates");
+const AGENT_TEMPLATES = ["leader.md", "implementer.md", "reviewer.md"];
 const RESOURCE_SCRIPTS = ["gsc_verify.py", "parse_tests.js"];
 const SOURCE_SCRIPTS = path.join(PACKAGE_ROOT, "scripts");
 const SOURCE_MCP_EXAMPLE = path.join(PACKAGE_ROOT, ".mcp.json.example");
@@ -254,6 +256,23 @@ function copyResourceScripts(targetDir, args) {
   return { installed, skipped };
 }
 
+function copyAgentTemplates(targetDir, args) {
+  let installed = 0;
+  let skipped = 0;
+
+  for (const templateName of AGENT_TEMPLATES) {
+    const result = copySingleFile(
+      path.join(SOURCE_TEMPLATES, templateName),
+      path.join(targetDir, templateName),
+      args
+    );
+    installed += result.installed;
+    skipped += result.skipped;
+  }
+
+  return { installed, skipped };
+}
+
 function installTool(tool, args) {
   const targetRoot = tool === "claude"
     ? args.claudeTarget
@@ -301,6 +320,10 @@ function installTool(tool, args) {
     installed += scriptsResult.installed;
     skipped += scriptsResult.skipped;
 
+    const templatesResult = copyAgentTemplates(path.join(targetResources, "templates"), args);
+    installed += templatesResult.installed;
+    skipped += templatesResult.skipped;
+
     const mcpResult = copySingleFile(
       SOURCE_MCP_EXAMPLE,
       path.join(targetResources, ".mcp.json.example"),
@@ -344,6 +367,7 @@ function runList() {
 
   console.log("\nResources:");
   RESOURCE_SCRIPTS.forEach((name) => console.log(`  scripts/${name}`));
+  AGENT_TEMPLATES.forEach((name) => console.log(`  templates/${name}`));
   console.log("  .mcp.json.example");
 }
 
@@ -411,6 +435,7 @@ function doctorTool(tool, args) {
     const resourceChecks = [
       path.join(targetResources, "scripts", "gsc_verify.py"),
       path.join(targetResources, ".mcp.json.example"),
+      ...AGENT_TEMPLATES.map((name) => path.join(targetResources, "templates", name)),
     ];
 
     for (const resourcePath of resourceChecks) {

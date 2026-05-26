@@ -4,7 +4,7 @@ description: Execute approved specs systematically following the SDD methodology
 
 # Execute SDD Tasks
 
-Execute implementation tasks from an approved SDD spec path. Read `tasks.md`, choose the next eligible task, implement only that task's scope, verify it, update task status, and record progress in `execution.md`.
+Execute implementation tasks from an approved SDD spec path using the JCSPECS **Leader → Implementer → Reviewer** multi-agent triad. Read `tasks.md`, choose the next eligible task, delegate implementation, audit the diff, retry on failure (max 3 attempts), update task status, and record the full audit trail in `execution.md`.
 
 Execution should be incremental. Do not turn one approved task into a broader refactor unless the spec explicitly requires it or the user approves the scope change.
 
@@ -29,10 +29,30 @@ Each successful task execution should produce:
 
 - focused code or documentation changes within task scope
 - updated task status in `tasks.md`
-- an appended entry in `execution.md`
+- an appended audit entry in `execution.md` covering every Implementer attempt and every Reviewer verdict
 - verification evidence from the command or check listed in the task
+- a Reviewer PASS verdict before the task is marked complete
 
-Use `[~]` for a started but incomplete task, `[x]` for a completed task, and `[ ]` for pending work.
+Use `[~]` for a started but incomplete or blocked task, `[x]` for a completed task, and `[ ]` for pending work.
+
+---
+
+## Multi-Agent Triad
+
+In this command you act as the **Leader** (Orchestrator). You delegate concrete work to two subordinate agent roles defined in the project's `.agents/` directory:
+
+- `.agents/leader.md` — orchestration rules and audit conventions (your own playbook).
+- `.agents/implementer.md` — the persona used when delegating implementation.
+- `.agents/reviewer.md` — the persona used when delegating spec-conformance audit.
+
+If `.agents/` is missing, run `/sdd-constitution` first to scaffold it. Do not invent personas inline — the constitution is the source of truth.
+
+**Delegation mechanism by tool:**
+
+- **Claude Code / OpenCode:** spawn a focused subagent (or sub-prompt context) seeded with the persona file plus the task/diff context.
+- **Google Antigravity:** invoke `invoke_subagent` (or the equivalent workflow primitive) using prompts read from `.agents/`.
+
+The Leader does not write production code itself unless the rework loop is exhausted and the user has explicitly approved a fallback.
 
 ---
 
@@ -50,8 +70,12 @@ Use `[~]` for a started but incomplete task, `[x]` for a completed task, and `[ 
    - `docs/system-design/design.md`
    - `docs/detailed-design/detailed-design.md`
    - `docs/specs/general-setup/`
-4. Read root and package-level `CLAUDE.md` files if they exist.
-5. Identify current task state: `[x]`, `[~]`, `[ ]`.
+4. Read root and package-level `CLAUDE.md` and `AGENTS.md` files if they exist.
+5. Read the agent personas:
+   - `.agents/leader.md`
+   - `.agents/implementer.md`
+   - `.agents/reviewer.md`
+6. Identify current task state: `[x]`, `[~]`, `[ ]`.
 
 ### Step 1: Select Next Task
 
@@ -62,53 +86,110 @@ Use `[~]` for a started but incomplete task, `[x]` for a completed task, and `[ 
 3. If no tasks are eligible, report completion or blocking state and stop.
 4. If multiple tasks are eligible, prefer the first task by document order unless there is a clear dependency or risk reason to choose another.
 
-### Step 2: Execute Task
+### Step 2: Execute Task via Rework Loop
 
-#### 2.1 — Read Scope & Design
+The Leader executes each task through a bounded loop. The loop terminates on Reviewer `PASS`, on HALT after 3 failed attempts, or on a Pivot.
+
+```text
+attempt = 1
+feedback = none
+loop:
+  spawn Implementer with task scope + design context + feedback (if any)
+  receive Implementer report (changes + verification evidence)
+  extract git diff
+  spawn Reviewer with diff + spec context
+  receive Reviewer verdict (PASS | FAIL)
+  if PASS:
+    finalize task (Step 3)
+    exit loop
+  else (FAIL):
+    append FAIL findings to execution.md
+    if attempt >= 3:
+      HALT, mark task [~], present audit trail (Step 4)
+      exit loop
+    feedback = Reviewer issues
+    attempt += 1
+    continue loop
+```
+
+#### 2.1 — Read Scope & Design (Leader)
 
 - Re-read the specific design sections referenced by the task.
 - Re-read the requirements and scenarios covered by the task.
-- Read the existing files that will be touched.
-- Confirm the implementation still matches the constitutional docs and module spec.
 - Identify the smallest safe change that satisfies the task.
+- Identify the verification command listed in the task.
 
-#### 2.2 — Invoke Relevant Skills
+#### 2.2 — Spawn Implementer
 
-- Load only the skills listed in the task.
-- If the task is UI-heavy, prefer `ui-ux-pro-max` when available.
-- Otherwise use the documented fallback skills from the task or design.
+Delegate to the Implementer with:
 
-#### 2.3 — Implement
+- the persona content from `.agents/implementer.md`
+- the active task ID, title, and scope from `tasks.md`
+- the relevant slices of `requirements.md`, `design.md`, and `detailed-design.md`
+- the project constitution references (`CLAUDE.md`, `AGENTS.md`, `docs/system-design/design.md`)
+- the recommended skill list from the task (e.g. `ui-ux-pro-max`, `react-doctor`, `nestjs-expert`)
+- any prior Reviewer feedback when this is a rework attempt
+- the verification command to run before reporting completion
 
-- Keep changes minimal and within task scope.
-- Follow the design specification exactly unless the spec is clearly incomplete or contradictory.
-- If the design is ambiguous, ask the user for clarification before making up a direction.
-- If implementation discovery invalidates the spec, stop and propose the smallest required spec update before continuing.
-- Do not mark unrelated cleanup or opportunistic refactors as part of the task unless they are necessary for correctness.
+The Implementer must keep changes minimal and within task scope, follow the design spec exactly unless the spec is clearly incomplete or contradictory, and run the verification before reporting completion.
 
-#### 2.4 — Verify
+#### 2.3 — Spawn Reviewer
 
-- Run the verification command listed in the task.
-- Fix failures before marking the task complete.
-- If the listed command is unavailable, identify the closest repository-specific build, lint, test, or manual check and record the substitution in `execution.md`.
+When the Implementer reports completion, the Leader:
 
-### Step 3: Update Status & Commit
+1. Extracts the git diff of changes since the start of the attempt.
+2. Spawns the Reviewer with:
+   - the persona content from `.agents/reviewer.md`
+   - the git diff
+   - the relevant slices of `requirements.md`, `design.md`, `detailed-design.md`, and `docs/system-design/design.md`
+   - the Implementer's verification evidence
 
-1. Update `tasks.md` from `[ ]` to `[x]` when complete.
-2. Use `[~]` when the task is partially complete or blocked.
-3. Append implementation notes to `execution.md`.
-4. **Git Commit Staging:** When staging and committing changes made for the task, always follow the **JCSPECS Spec Reference** commit standard. Prefix the commit message with `[SPEC:<spec-path>]` (e.g. `git commit -m "[SPEC:changes/add-remember-me] implement secure cookie storage"`).
-5. **Code Traceability:** Add file-level or block-level comment spec references (`// @sdd-spec <spec-path>`) in critical or complex codebase additions to assist future audits.
+The Reviewer is read-only. It must conclude with either:
 
-### Step 4: Continue or Pause
+- **`STATUS: PASS`** + a 1–2 sentence summary, or
+- **`STATUS: FAIL`** + a structured list of issues, each containing:
+  1. **Discovered Issue** — what is incorrect or missing
+  2. **Violated Rule** — the specific spec document and section violated
+  3. **Remediation Suggestion** — what the Implementer must change
 
-After completing a task, summarize the task result, verification outcome, and next eligible task. Ask whether to continue, pause, or skip the next task.
+#### 2.4 — Loop Guardrails
+
+- **Maximum Retries:** A hard ceiling of **3 rework attempts** per task. This prevents infinite loops and token waste.
+- **Structured Feedback:** On `FAIL`, pass the full Reviewer report unchanged to the next Implementer spawn. Do not paraphrase.
+- **Escalation on HALT:** After 3 failed attempts, mark the task `[~]`, log the full loop history in `execution.md`, and present the audit trail to the user for guidance.
+- **Pivot Detection:** If either the Implementer or the Reviewer surfaces evidence that the spec itself is wrong or unviable (not merely the implementation), stop looping immediately and trigger the Pivot Protocol below — do not consume rework attempts on a broken spec.
+
+### Step 3: Finalize on PASS
+
+Only after a Reviewer `PASS`:
+
+1. Update `tasks.md` from `[ ]` (or `[~]`) to `[x]`.
+2. Append a structured entry to `execution.md` (see log format below) covering every attempt in this task's loop.
+3. **Git Commit Staging:** Always follow the **JCSPECS Spec Reference** commit standard. Prefix the commit message with `[SPEC:<spec-path>]` (e.g. `git commit -m "[SPEC:changes/add-remember-me] implement secure cookie storage"`).
+4. **Code Traceability:** Add file-level or block-level comment spec references (`// @sdd-spec <spec-path>`) in critical or complex codebase additions to assist future audits.
+
+### Step 4: HALT on Rework Limit
+
+If 3 attempts fail in a row:
+
+1. Mark the task `[~]` in `tasks.md`.
+2. Append a final `## HALT: <Task ID>` block to `execution.md` containing:
+   - all three Reviewer `FAIL` reports
+   - all three Implementer summaries
+   - the verification output of the final attempt
+   - the Leader's hypothesis on the root cause (spec ambiguity, missing context, environmental issue, etc.)
+3. Present the blocker to the user with a clear question — for example: *"The Reviewer rejected three attempts on the same `design token compliance` finding. The spec at `design.md#tokens` does not list a token for this surface. How would you like to proceed?"*
+4. Do **not** advance to the next task automatically after a HALT.
+
+### Step 5: Continue or Pause
+
+After a task PASSes or HALTs, summarize the task result, verification outcome, the Reviewer summary, and the next eligible task. Ask whether to continue, pause, or skip the next task.
 
 ---
 
 ## Execution Log Format (`execution.md`)
 
-The execution log is created on first run and appended to on subsequent runs.
+The execution log is created on first run and appended to on subsequent runs. It is the canonical audit trail of the multi-agent loop.
 
 Minimum sections:
 
@@ -116,27 +197,31 @@ Minimum sections:
 2. Task Execution History
 3. Summary when all tasks are complete
 
-Each task entry should record:
+Each task entry must record:
 
-- status
+- final status (PASS / HALT / pivot)
 - date
 - task ID and title
-- files changed
+- number of Implementer attempts run
+- for each attempt: files changed, Implementer verification command + result, Reviewer verdict + summary or full FAIL findings
 - requirements covered
 - decisions made
 - issues encountered
-- verification result
+- final verification result
+
+A minimal PASS-on-first-attempt entry can be compact; a HALT or rework entry must include the full attempt-by-attempt history.
 
 ---
 
 ## Error Handling & Pivot Protocol
 
 - If required SDD files are missing, stop and report what is missing.
-- If the design is ambiguous, ask the user before proceeding.
-- If verification fails, debug and fix before marking complete.
-- If a task is blocked, report the blocker and move to the next eligible task if appropriate.
-- **Pivot Protocol:** If implementation discoveries reveal that the approved requirements or design are wrong or technically unviable:
-  1. Pause execution and mark the current task as `[~]` (blocked).
-  2. Document the blocker, alternatives, and revised technical direction under `execution.md` inside a new `## Pivot Record: <Task ID>` section.
+- If `.agents/` is missing, stop and direct the user to run `/sdd-constitution`.
+- If the design is ambiguous, the Leader asks the user before spawning the Implementer — do not pass an ambiguous task into the loop.
+- If verification fails inside the Implementer, the Implementer must fix it before reporting completion; if it cannot, it reports back the failure and the Leader treats that as an implicit FAIL.
+- If a task is blocked, report the blocker and move to the next eligible task only if appropriate.
+- **Pivot Protocol:** If Implementer or Reviewer discoveries reveal that the approved requirements or design are wrong or technically unviable:
+  1. Stop the rework loop. Mark the current task as `[~]` (blocked) — even if rework attempts remain.
+  2. Document the blocker, alternatives, and revised technical direction in `execution.md` inside a new `## Pivot Record: <Task ID>` section.
   3. Modify the spec's `requirements.md`, `design.md`, and/or `tasks.md` to map out the updated plan.
   4. Stop, explain the situation to the user, and obtain explicit review/approval on the pivot before resuming execution.

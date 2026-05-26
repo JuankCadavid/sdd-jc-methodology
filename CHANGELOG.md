@@ -6,9 +6,16 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
-### Notes
+### Added
 
-- No unreleased changes yet.
+- Added a JCSPECS multi-agent execution triad (Leader → Implementer → Reviewer) with default personas packaged under `.claude/templates/{leader,implementer,reviewer}.md`.
+- Added the `sdd-jc` installer support for deploying agent templates to `<tool>/sdd-jc/templates/` and doctor diagnostics that check them.
+- Added a design document for the multi-agent orchestration under `docs/plans/2026-05-26-multi-agent-sdd-orchestration-design.md`.
+
+### Changed
+
+- Updated `/sdd-execute` to orchestrate the Leader → Implementer → Reviewer rework loop with a hard 3-attempt ceiling, structured FAIL feedback (Discovered Issue / Violated Rule / Remediation Suggestion), HALT escalation, and a richer `execution.md` audit-trail format.
+- Updated `/sdd-constitution` with a 3-mode classification (Brand-new / Legacy / Active SDD), non-destructive `.agents/` scaffolding policy, and cross-tool compatibility guidance for Claude Code, OpenCode, and Antigravity.
 
 ## [0.4.0] - 2026-05-23
 
