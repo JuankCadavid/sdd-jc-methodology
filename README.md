@@ -54,6 +54,7 @@ SDD JC is a constitution-first, spec-driven methodology for AI-assisted developm
 
 - `.claude/commands/` — custom SDD command prompts
 - `.claude/skills/` — required and preferred skills used by the methodology
+- `.claude/templates/` — default Leader, Implementer, and Reviewer personas used by the multi-agent harness (deployed into project `.agents/`)
 - `docs/` — human-facing documentation for the flow, CLI, commands, skills, and release process
 - `scripts/` — helper scripts referenced by commands (e.g. `gsc_verify.py`)
 - `.mcp.json.example` — reference MCP server configuration (e.g. `gsc`)
@@ -94,6 +95,10 @@ SDD JC is a constitution-first, spec-driven methodology for AI-assisted developm
   - `tailwind-design-system`
   - `ui-ux-pro-max`
   - `vercel-react-best-practices`
+- `.claude/templates/`
+  - `leader.md`
+  - `implementer.md`
+  - `reviewer.md`
 - `docs/`
   - `flow.md`
   - `cli.md`
@@ -260,6 +265,7 @@ For Claude, the installer writes:
 ~/.claude/commands/
 ~/.claude/skills/
 ~/.claude/sdd-jc/scripts/
+~/.claude/sdd-jc/templates/      (leader, implementer, reviewer personas used by /sdd-constitution)
 ~/.claude/sdd-jc/.mcp.json.example
 ```
 
@@ -269,6 +275,7 @@ For OpenCode, the installer writes:
 ~/.config/opencode/commands/
 ~/.config/opencode/skills/
 ~/.config/opencode/sdd-jc/scripts/
+~/.config/opencode/sdd-jc/templates/
 ~/.config/opencode/sdd-jc/.mcp.json.example
 ```
 
@@ -478,12 +485,13 @@ Use this flow for normal feature work:
 
 Run `/sdd-constitution` first in a new repository, after a major product pivot, or when the baseline docs are missing. For an established repository with a good baseline, start at `/sdd-propose <change-name>` or `/sdd-specify <spec-path>`.
 
-`/sdd-constitution` handles two project modes:
+`/sdd-constitution` classifies the repository into one of three project modes:
 
-- **New project:** creates the baseline from user intent, chosen stack, assumptions, and open questions.
-- **Existing project:** inspects real code, docs, architecture, tests, package manifests, routes, and conventions before drafting or updating baseline docs.
+- **Brand-new (Seed Setup):** little or no code or durable docs. Creates the baseline from user intent, chosen stack, assumptions, and open questions, and copies default `.agents/` personas verbatim.
+- **Legacy (Discovery Setup):** real code exists but the SDD baseline does not. Inspects code, docs, architecture, tests, package manifests, and routes before drafting baseline docs, and customizes `.agents/` personas to the detected stack and design tokens.
+- **Active SDD (Safe Update):** the SDD baseline and possibly customized `.agents/` already exist. Upgrades weak sections, fills missing files, and extends `.agents/` non-destructively — never overwrites custom persona rules.
 
-For both modes, `/sdd-constitution` creates or enhances root `CLAUDE.md` and root `AGENTS.md` so Claude Code and OpenCode receive the same project guidance.
+For all three modes, `/sdd-constitution` creates or enhances root `CLAUDE.md` and root `AGENTS.md` so Claude Code, OpenCode, and Google Antigravity receive the same project guidance.
 
 For existing projects, CodeGraph is an optional acceleration path. If `.codegraph/` exists, agents should use it for semantic code exploration, symbol lookup, callers/callees, and impact checks. If `.codegraph/` is missing and the `codegraph` CLI is available, the agent should ask whether to run `codegraph init -i`. If CodeGraph is unavailable or declined, the methodology continues with normal `Glob`, `Grep`, and file reads.
 
@@ -498,7 +506,7 @@ See the full [Command Reference](docs/commands/README.md) for detailed pages per
 | `/sdd-constitution` | Starting a repo or repairing weak project context | `docs/prd.md`, system design, detailed design, general spec templates, `CLAUDE.md`, `AGENTS.md` guidance |
 | `/sdd-propose <change-name-or-spec-path>` | Aligning on intent before full specification | `proposal.md` under `docs/specs/<spec-path>/` |
 | `/sdd-specify <spec-path>` | Planning one bounded change before code | `requirements.md`, `design.md`, `tasks.md` under `docs/specs/<spec-path>/` |
-| `/sdd-execute <spec-path>` | Implementing approved tasks | Code changes, updated `tasks.md`, `execution.md` |
+| `/sdd-execute <spec-path>` | Implementing approved tasks via the Leader → Implementer → Reviewer harness | Code changes, updated `tasks.md`, `execution.md` with full PASS/FAIL audit trail |
 | `/sdd-test <spec-path>` | Adding or running test evidence | `test-report.md` with requirement-to-test traceability |
 | `/sdd-validate <spec-path>` | Checking implementation against the spec | `validation-report.md` with pass, warning, failure, and remediation items |
 | `/sdd-archive <spec-path>` | Closing completed work after validation | Archived spec folder under `docs/specs/archive/` with `archive-summary.md` |
@@ -706,14 +714,54 @@ Fallback rule:
 
 ## Methodology Contract
 
-- `/sdd-constitution` establishes the project baseline docs and `docs/specs/general-setup/` templates.
+- `/sdd-constitution` establishes the project baseline docs and `docs/specs/general-setup/` templates, and scaffolds the project `.agents/` harness (Leader, Implementer, Reviewer).
 - `/sdd-propose` creates a lightweight proposal before full specification.
 - `/sdd-specify` must follow those templates when generating module specs.
-- `/sdd-execute` implements tasks from an approved spec path.
+- `/sdd-execute` orchestrates a Leader → Implementer → Reviewer rework loop (max 3 retries) to implement tasks from an approved spec path.
 - `/sdd-test` validates requirement-to-test traceability.
 - `/sdd-validate` audits implementation conformance against the spec and constitutional baseline.
 - `/sdd-archive` preserves completed specs under `docs/specs/archive/` after validation.
 - `/sdd-seo` operates outside the main spec lifecycle: it provisions Google Search Console ownership for a domain and produces a standalone SEO audit under `docs/specs/seo/<domain>/`. Run it any time after deployment; rerun after major content or schema changes.
+
+## Multi-Agent Harness Engineering
+
+`/sdd-execute` is not a single-agent script. It is a coordinated triad of specialized roles that share the same spec, the same constitution, and the same audit trail. The harness exists to remove confirmation bias from review (an independent auditor instead of the same agent that wrote the code), to keep each role's context window small and focused, and to enforce design-token and constitutional discipline through a hard PASS/FAIL gate.
+
+Roles live in the project's `.agents/` directory (scaffolded by `/sdd-constitution`):
+
+| Role | File | Responsibilities |
+|---|---|---|
+| Leader | `.agents/leader.md` | Orchestration. Picks the next eligible task, delegates, enforces the rework loop, updates `tasks.md` and `execution.md`, commits with `[SPEC:<spec-path>]`. |
+| Implementer | `.agents/implementer.md` | Writes and tests the code. Strictly task-scoped, must follow design tokens from `docs/system-design/design.md`, must run the verification command before reporting. |
+| Reviewer | `.agents/reviewer.md` | Read-only spec audit. Compares the diff against requirements, design tokens, detailed-design, and stability. Outputs a structured PASS or FAIL with *Discovered Issue*, *Violated Rule*, and *Remediation Suggestion* for each finding. |
+
+The Leader runs each task through this loop:
+
+```text
+Leader picks the next task → spawns Implementer with task + persona
+Implementer writes code and runs verification → reports back
+Leader extracts git diff → spawns Reviewer with diff + persona
+Reviewer emits STATUS: PASS or STATUS: FAIL
+
+if PASS  → update tasks.md, append execution.md, commit, advance
+if FAIL  → log feedback; if attempts < 3, respawn Implementer with the Reviewer's findings
+if 3 consecutive FAILs → HALT, mark task [~], present full audit trail for human guidance
+```
+
+**Guardrails:**
+
+- **Maximum retries.** A hard ceiling of 3 rework attempts per task prevents infinite loops and token waste.
+- **Structured feedback.** The Reviewer's report is passed back unchanged to the next Implementer spawn — no paraphrasing.
+- **Pivot protocol.** If discovery proves the spec itself is wrong (not the implementation), the loop stops immediately and a `## Pivot Record` is opened in `execution.md` for user sign-off — rework retries are not consumed on a broken spec.
+- **Cross-tool.** `.agents/` is pure Markdown + YAML frontmatter and is resolved relative to the active workspace, so the same harness runs under Claude Code, OpenCode, and Google Antigravity (the latter invokes `invoke_subagent` using the same persona files).
+
+`/sdd-constitution` classifies the repository into one of three modes and seeds `.agents/` accordingly:
+
+| Mode | When | `.agents/` Behavior |
+|---|---|---|
+| Brand-new | No code, no docs | Copies the default Leader/Implementer/Reviewer templates verbatim |
+| Legacy | Real code, no SDD baseline | Copies defaults and customizes them with detected stack, design tokens, lint and test commands |
+| Active SDD | Baseline already exists | Preserves customized `.agents/` files in place and only upgrades or fills gaps non-destructively |
 
 ## Host Assumptions
 

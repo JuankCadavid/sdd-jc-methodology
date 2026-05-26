@@ -6,10 +6,10 @@ JCSPECS commands are installed as slash-command prompts for Claude Code and Open
 
 | Command | Use When | Main Output |
 |---|---|---|
-| [`/sdd-constitution`](sdd-constitution.md) | Starting a repo or repairing weak project context | Project baseline docs, `CLAUDE.md`, `AGENTS.md`, general spec templates |
+| [`/sdd-constitution`](sdd-constitution.md) | Starting a repo or repairing weak project context | Project baseline docs, `CLAUDE.md`, `AGENTS.md`, general spec templates, and the `.agents/` multi-agent harness |
 | [`/sdd-propose <change-name-or-spec-path>`](sdd-propose.md) | Aligning on intent before full specification | `proposal.md` under `docs/specs/<spec-path>/` |
 | [`/sdd-specify <spec-path>`](sdd-specify.md) | Planning one bounded change before code | `requirements.md`, `design.md`, `tasks.md` |
-| [`/sdd-execute <spec-path>`](sdd-execute.md) | Implementing approved tasks | Code/docs changes, updated `tasks.md`, `execution.md` |
+| [`/sdd-execute <spec-path>`](sdd-execute.md) | Implementing approved tasks via the Leader → Implementer → Reviewer harness | Code/docs changes, updated `tasks.md`, `execution.md` with full PASS/FAIL audit trail |
 | [`/sdd-test <spec-path>`](sdd-test.md) | Proving behavior with test evidence | `test-report.md` |
 | [`/sdd-validate <spec-path>`](sdd-validate.md) | Auditing conformance before completion | `validation-report.md` |
 | [`/sdd-archive <spec-path>`](sdd-archive.md) | Closing completed work after validation | Archived spec folder with `archive-summary.md` |

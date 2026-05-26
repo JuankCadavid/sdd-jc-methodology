@@ -73,6 +73,7 @@ Claude install layout:
 ~/.claude/commands/
 ~/.claude/skills/
 ~/.claude/sdd-jc/scripts/
+~/.claude/sdd-jc/templates/      (leader.md, implementer.md, reviewer.md — used by /sdd-constitution to scaffold project .agents/)
 ~/.claude/sdd-jc/.mcp.json.example
 ```
 
@@ -82,6 +83,7 @@ OpenCode install layout:
 ~/.config/opencode/commands/
 ~/.config/opencode/skills/
 ~/.config/opencode/sdd-jc/scripts/
+~/.config/opencode/sdd-jc/templates/
 ~/.config/opencode/sdd-jc/.mcp.json.example
 ```
 
@@ -91,6 +93,7 @@ Antigravity install layout:
 ~/.gemini/antigravity/global_workflows/  (custom commands mapped as global workflows)
 ~/.gemini/config/skills/                 (skills mapped as global skills)
 ~/.gemini/config/sdd-jc/scripts/         (scripts mapped as config resources)
+~/.gemini/config/sdd-jc/templates/       (multi-agent harness templates: leader, implementer, reviewer)
 ~/.gemini/config/sdd-jc/.mcp.json.example
 ```
 
@@ -142,6 +145,10 @@ The CLI installs helper resources under the target `sdd-jc/` directory:
 | Resource | Purpose |
 |---|---|
 | `scripts/gsc_verify.py` | Google Site Verification helper used by `/sdd-seo` |
+| `scripts/parse_tests.js` | Jest/Vitest JSON test-output parser used by `/sdd-test` to generate the requirement-to-test matrix |
+| `templates/leader.md` | Default Leader (Orchestrator) persona for the multi-agent harness — copied into project `.agents/` by `/sdd-constitution` |
+| `templates/implementer.md` | Default Implementer persona for the multi-agent harness |
+| `templates/reviewer.md` | Default Reviewer persona for the multi-agent harness |
 | `.mcp.json.example` | Example MCP config for the Google Search Console MCP server |
 
 ## Troubleshooting

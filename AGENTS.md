@@ -6,7 +6,8 @@ This repository packages the SDD JC methodology for Claude Code, OpenCode, and G
 
 - `.claude/commands/` contains installable SDD command prompts.
 - `.claude/skills/` contains installable methodology skills.
-- `bin/sdd-jc.js` installs commands, skills, and helper resources into Claude, OpenCode, and Google Antigravity config directories.
+- `.claude/templates/` contains the default Leader, Implementer, and Reviewer personas used by the JCSPECS multi-agent harness. `/sdd-constitution` copies these into each project's `.agents/` directory.
+- `bin/sdd-jc.js` installs commands, skills, and helper resources (including the agent templates) into Claude, OpenCode, and Google Antigravity config directories.
 - `scripts/release.js` prepares controlled npm package releases.
 - `docs/release-checklist.md` documents the release process.
 
@@ -21,6 +22,7 @@ This repository packages the SDD JC methodology for Claude Code, OpenCode, and G
 - **Pivot Protocol:** If execution invalidates approved specs, the agent must mark tasks blocked (`[~]`), record pivot details in `execution.md`, and obtain user sign-off.
 - **Drift Auditing:** Run `/sdd-audit` to detect differences between active codebase reality and active system/detailed designs.
 - **CodeGraph Re-indexing:** Remind or execute the re-indexing command during `/sdd-archive` to keep CodeGraph databases healthy.
+- **Multi-Agent Harness:** `/sdd-execute` runs each task through a Leader → Implementer → Reviewer loop with a hard 3-attempt rework ceiling. Personas live in `.claude/templates/` (source) and project `.agents/` (deployed by `/sdd-constitution`). Do not collapse this loop back into a single-agent flow.
 
 ## Skill Usage
 
