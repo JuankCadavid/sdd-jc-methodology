@@ -6,6 +6,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [0.6.0] - 2026-06-09
+
 ### Added
 
 - Added capability-tier model routing guidance under `docs/model-routing.md`: six tiers (Architect, Coder, Auditor, Context-Ingest, Fast-Cheap, Multimodal), a phase→tier mapping for every SDD phase (with the `/sdd-execute` triad split), and an editable per-tool model registry for Claude Code (PRO) and OpenCode Go.
@@ -15,7 +21,6 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 - Updated `/sdd-constitution` with Step 7C to scaffold a non-destructive `## Model Routing` registry into each project's `AGENTS.md` / `CLAUDE.md`.
 - Documented the capability-tier model routing in `README.md`, `docs/flow.md`, `docs/README.md`, and the `/sdd-constitution` command reference, and added a governance rule to `AGENTS.md` that model selection is guidance-only (no `model:` frontmatter, no installer injection).
-
 ## [0.5.0] - 2026-05-26
 
 ### Added
