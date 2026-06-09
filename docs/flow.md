@@ -225,3 +225,27 @@ if 3 consecutive FAILs → HALT, mark task [~], present audit trail
 **Cross-tool compatibility:**
 
 The `.agents/` directory is pure Markdown + YAML frontmatter and is resolved relative to the active workspace, so the harness runs under Claude Code, OpenCode, and Google Antigravity. Antigravity invokes `invoke_subagent` with prompts read from `.agents/`; Claude Code and OpenCode delegate via sub-prompt contexts seeded with the persona files.
+
+### 7. Capability-Tier Model Routing
+
+Each SDD phase has a different dominant demand, so JCSPECS routes phases to models by **capability
+tier** rather than using one model everywhere. Six tiers — **T1 Architect, T2 Coder, T3 Auditor,
+T4 Context-Ingest, T5 Fast-Cheap, T6 Multimodal** — map to the phases:
+
+| Phase / Role | Tier |
+|---|---|
+| `/sdd-constitution` | T4 + T1 |
+| `/sdd-propose`, `/sdd-specify` (requirements/design) | T1 |
+| `/sdd-specify` (tasks) | T5 |
+| `/sdd-specify` (UI/UX system-design) | T6 |
+| `/sdd-execute` Leader / Implementer / Reviewer | T5 / T2 / T3 |
+| `/sdd-test` | T2 |
+| `/sdd-validate` | T3 |
+| `/sdd-audit` | T4 + T3 |
+| `/sdd-archive` | T5 |
+
+A single editable registry binds each tier to a concrete model **per tool** (Claude Code and
+OpenCode). `/sdd-constitution` (Step 7C) scaffolds a `## Model Routing` copy of that registry into
+the project's `AGENTS.md` / `CLAUDE.md`. It is **guidance only** — no `model:` frontmatter, no
+installer changes — and it enforces **author ≠ auditor** (Reviewer model ≠ Implementer model). See
+[model-routing.md](model-routing.md) for the tiers, principles, and the default registry.

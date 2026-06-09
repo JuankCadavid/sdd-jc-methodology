@@ -44,6 +44,7 @@ SDD JC is a constitution-first, spec-driven methodology for AI-assisted developm
 
 → **[Documentation Hub](docs/README.md)**: full JCSPECS documentation<br>
 → **[Flow](docs/flow.md)**: constitution-to-archive lifecycle<br>
+→ **[Model Routing](docs/model-routing.md)**: capability-tier model selection per SDD phase (Claude Code + OpenCode)<br>
 → **[Commands](docs/commands/README.md)**: slash command reference<br>
 → **[Skills](docs/skills/README.md)**: packaged skill reference<br>
 → **[CLI](docs/cli.md)**: `sdd-jc` install/update/list/doctor reference<br>
@@ -762,6 +763,25 @@ if 3 consecutive FAILs → HALT, mark task [~], present full audit trail for hum
 | Brand-new | No code, no docs | Copies the default Leader/Implementer/Reviewer templates verbatim |
 | Legacy | Real code, no SDD baseline | Copies defaults and customizes them with detected stack, design tokens, lint and test commands |
 | Active SDD | Baseline already exists | Preserves customized `.agents/` files in place and only upgrades or fills gaps non-destructively |
+
+## Capability-Tier Model Routing
+
+Not every model is best at every job. JCSPECS routes each SDD phase to the model matched to its
+dominant demand using six **capability tiers** — Architect, Coder, Auditor, Context-Ingest,
+Fast-Cheap, and Multimodal. A single editable **registry** binds each tier to a concrete model
+**per tool**, so model upgrades are a one-line edit rather than a rewrite.
+
+This is **guidance-first and model-agnostic**: no `model:` frontmatter is added to commands and the
+installer injects nothing. You switch models yourself (Claude Code `/model`, OpenCode model
+selector), and `/sdd-constitution` scaffolds a `## Model Routing` registry into each project's
+`AGENTS.md` / `CLAUDE.md`.
+
+Key principles: **ARCHITECT = BUILDER** (the model that designs also builds), **author ≠ auditor**
+(the Reviewer runs on a different model than the Implementer), reserve deep-reasoning models for
+`/sdd-propose` and `/sdd-validate`, and use fast/cheap models for the tasks split and `/sdd-archive`.
+
+See **[docs/model-routing.md](docs/model-routing.md)** for the tiers, the full phase→tier mapping,
+and the default registry for Claude Code (PRO) and OpenCode Go.
 
 ## Host Assumptions
 

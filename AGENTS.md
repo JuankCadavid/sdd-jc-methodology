@@ -23,6 +23,7 @@ This repository packages the SDD JC methodology for Claude Code, OpenCode, and G
 - **Drift Auditing:** Run `/sdd-audit` to detect differences between active codebase reality and active system/detailed designs.
 - **CodeGraph Re-indexing:** Remind or execute the re-indexing command during `/sdd-archive` to keep CodeGraph databases healthy.
 - **Multi-Agent Harness:** `/sdd-execute` runs each task through a Leader → Implementer → Reviewer loop with a hard 3-attempt rework ceiling. Personas live in `.claude/templates/` (source) and project `.agents/` (deployed by `/sdd-constitution`). Do not collapse this loop back into a single-agent flow.
+- **Model Routing is guidance-only.** Model selection per SDD phase is documented in `docs/model-routing.md` (capability tiers + a per-tool registry) and scaffolded into each project's `AGENTS.md` / `CLAUDE.md` by `/sdd-constitution` (Step 7C). Never add a `model:` key to command frontmatter and never inject models in the installer — a single value cannot serve both Claude Code (`opus`/`sonnet`/`haiku`) and OpenCode (`provider/model`), and it would break the model-agnostic install. The Reviewer must run on a different model than the Implementer (author ≠ auditor).
 
 ## Skill Usage
 

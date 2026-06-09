@@ -56,7 +56,9 @@ If packaged templates are not available, the constitution drafts equivalent pers
 
 The `.agents/` directory is tool-agnostic: pure Markdown + YAML frontmatter, resolved relative to the active workspace, and used by Claude Code, OpenCode, and Google Antigravity (`invoke_subagent`).
 
-## Skills Commonly Used
+## Model Routing Scaffolding
+
+Step 7C adds or upgrades a `## Model Routing` section in the project's root `AGENTS.md` and `CLAUDE.md`: a capability-tier registry that maps each SDD phase to a model **per tool** (Claude Code and OpenCode). It is guidance only — no `model:` frontmatter is added and the installer is unchanged. The registry enforces **author ≠ auditor** (the Reviewer runs on a different model than the Implementer) and, in Active-SDD mode, is non-destructive: an existing customized registry is preserved and only gaps are filled. See [Model Routing](../model-routing.md) for the tiers and the default registry.
 
 - `product-manager-toolkit`
 - `ui-ux-pro-max`

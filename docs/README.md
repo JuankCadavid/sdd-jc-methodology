@@ -7,6 +7,7 @@ Use this documentation when you want the human-facing reference. The installable
 ## Start Here
 
 - [Flow](flow.md) - end-to-end methodology lifecycle from constitution to archive
+- [Model Routing](model-routing.md) - capability-tier model selection per SDD phase for Claude Code and OpenCode
 - [CLI](cli.md) - `sdd-jc` terminal reference for install, update, list, and doctor
 - [Commands](commands/README.md) - slash command reference
 - [Skills](skills/README.md) - packaged skill inventory and usage guidance
@@ -32,6 +33,7 @@ Use `/sdd-seo <site-domain>` independently when you need Google Search Console s
 | Topic | File | Use When |
 |---|---|---|
 | Flow | [flow.md](flow.md) | You need the lifecycle, artifacts, review gates, and project modes |
+| Model Routing | [model-routing.md](model-routing.md) | You need to choose which model runs each SDD phase across Claude Code and OpenCode |
 | CLI | [cli.md](cli.md) | You need install/update/list/doctor options or install paths |
 | Commands | [commands/README.md](commands/README.md) | You need command purpose, inputs, outputs, and sequencing |
 | Skills | [skills/README.md](skills/README.md) | You need to know which packaged skill supports which work |

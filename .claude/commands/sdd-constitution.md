@@ -255,6 +255,7 @@ The update should explain briefly:
 - How module specs should be organized under `docs/specs/`
 - Which skills should be used for common work in the project
 - Whether CodeGraph is initialized and how agents should use it for existing-project analysis
+- Which model to switch to per SDD phase (the `## Model Routing` registry added in Step 7C)
 
 Preserve the repository's existing `CLAUDE.md` and `AGENTS.md` conventions and extend them.
 
@@ -306,6 +307,48 @@ The `.agents/` directory must be tool-agnostic:
 
 ---
 
+### Step 7C: Scaffold Model Routing
+
+Add or upgrade a `## Model Routing` section in the project's root `AGENTS.md` **and** `CLAUDE.md`
+so each project carries its own editable, per-tool model-selection registry. This is **guidance
+only** — it tells humans and agents which model to switch to per phase. Do not add `model:`
+frontmatter to any command and do not change the installer.
+
+The canonical reference is the packaged `docs/model-routing.md` (criteria-first philosophy, the six
+capability tiers, the phase→tier mapping, and the model registry). Mirror its content into the
+project guides so the project does not depend on the package's `docs/` after install.
+
+**The scaffolded `## Model Routing` section must contain:**
+
+1. A one-line statement of the criteria-first philosophy and the guiding principles
+   (match the dominant demand; ARCHITECT = BUILDER; **author ≠ auditor**; reserve deep-reasoning for
+   propose/verify; fast & cheap for tasks/archive).
+2. The six capability tiers (T1 Architect, T2 Coder, T3 Auditor, T4 Context-Ingest, T5 Fast-Cheap,
+   T6 Multimodal) with one-line definitions.
+3. The phase→tier mapping for the real JCSPECS phases, with the `/sdd-execute` triad split into
+   Leader (T5), Implementer (T2), and Reviewer (T3), and an explicit note that the Reviewer model
+   must differ from the Implementer model.
+4. The editable model registry table with columns `Tier | Claude Code | OpenCode | Fallback`.
+   Fill the Claude Code column for the user's plan (e.g. PRO: Opus reserved for T1/T3, Sonnet as the
+   T2/T4/T6 workhorse, Haiku for T5). Fill the OpenCode column from the user's confirmed roster; if
+   it is unknown, leave clearly-marked `<CONFIRM SLUG>` placeholders rather than guessing.
+5. The instruction: *"To change models, edit only this registry table. Model selection is guidance
+   only — never add `model:` to command frontmatter."*
+
+**Mode-specific policy (mirror Step 7B):**
+
+- **Brand-new (Seed Setup):** insert the full `## Model Routing` section using the packaged defaults.
+- **Legacy (Discovery Setup):** insert the section and, where detected, annotate the registry with
+  the project's actual tooling (e.g. note if the team already standardizes on a specific model).
+- **Active SDD (Safe Update):** **do not overwrite** an existing customized registry. If the section
+  is missing, add it; if it exists, only fill gaps (missing tiers, missing author ≠ auditor note)
+  without changing the user's pinned models.
+
+Confirm the user's available models before writing concrete identifiers: which tier they run in
+Claude Code (and their plan's rate limits) and which models their OpenCode roster exposes.
+
+---
+
 ### Step 8: Present and Confirm
 
 After drafting or enhancing the documents, present a concise summary covering:
@@ -326,4 +369,4 @@ Ask the user whether to approve or request changes. If changes are requested, re
 
 ## Outcome
 
-At the end of `/sdd-constitution`, the repository should have a project-level baseline that future `/sdd-specify`, `/sdd-execute`, `/sdd-validate`, and `/sdd-test` work can rely on without guessing the structure or conventions. The `.agents/` triad must be in place so that `/sdd-execute` can run the Leader → Implementer → Reviewer rework loop without falling back to inline personas.
+At the end of `/sdd-constitution`, the repository should have a project-level baseline that future `/sdd-specify`, `/sdd-execute`, `/sdd-validate`, and `/sdd-test` work can rely on without guessing the structure or conventions. The `.agents/` triad must be in place so that `/sdd-execute` can run the Leader → Implementer → Reviewer rework loop without falling back to inline personas. The root guides must also carry a `## Model Routing` registry (Step 7C) so each phase runs on a model matched to its demand, with the Reviewer on a different model than the Implementer.
