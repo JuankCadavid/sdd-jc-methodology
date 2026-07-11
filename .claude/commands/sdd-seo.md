@@ -126,6 +126,13 @@ Produce `docs/specs/$SPEC_PATH/seo-setup-report.md` documenting:
 
 **Role:** Technical SEO Auditor — measure the state of the domain in Google's index.
 
+**Required skill:** load `seo-audit` before starting this phase and apply it throughout:
+
+- Sequence and weight findings by its priority order: crawlability & indexation → technical foundations → on-page → content quality → authority.
+- Record every finding with its structure: **Issue / Impact / Evidence / Fix / Priority**.
+- Respect its schema-detection limitation: static fetches (`curl`, `web_fetch`) cannot see JS-injected JSON-LD. Validate structured data via `url_inspection_inspect.richResultsResult` or a rendering tool, never via static HTML alone.
+- Apply its International SEO checklist (hreflang reciprocity, self-reference, `x-default`, cross-locale canonicals, locale sitemaps) whenever the site serves multiple languages or regions.
+
 Use `systematic-debugging` when results are inconsistent with site reality.
 
 Skill preference for any UX/UI recommendations:
@@ -185,6 +192,19 @@ This separates "thin content" failures from "JS render" failures.
 
 Fetch the homepage and count anchor links to each sitemap URL. URLs with zero internal links from the homepage are flagged as orphan-like.
 
+#### Step 2.7 — On-page audit (`seo-audit` framework)
+
+For the pages sampled in Step 2.5, apply the on-page checklist from the `seo-audit` skill:
+
+- Title tags: unique per page, ~50–60 characters, primary keyword near the beginning.
+- Meta descriptions: unique per page, ~150–160 characters, clear value proposition.
+- Heading structure: exactly one H1, no skipped levels, headings describe content.
+- Image alt text present and descriptive; internal anchor text descriptive (no bare "click here").
+- Canonical tags: self-referencing on unique pages, consistent protocol/host/trailing-slash.
+- Multilingual sites: hreflang set includes a self-reference and reciprocal return links, `x-default` declared, each locale self-canonical (never cross-locale).
+
+Record each failure as a finding using the skill's Issue / Impact / Evidence / Fix / Priority structure.
+
 ---
 
 ### Phase 3: Write `seo-audit-report.md`
@@ -201,8 +221,9 @@ Required sections:
 6. Search Analytics Summary — top queries / pages / devices / countries, or an explicit "no data yet" note.
 7. Render Audit
 8. Internal Linking Findings
-9. Remediation Plan — prioritized (High / Medium / Low) actionable items, each scoped enough that an implementer can execute it without further discovery.
-10. Re-audit Schedule — when to run `/sdd-seo <domain>` again.
+9. On-Page SEO Findings — Step 2.7 results, each in the `seo-audit` Issue / Impact / Evidence / Fix / Priority format.
+10. Remediation Plan — prioritized (High / Medium / Low) actionable items, each scoped enough that an implementer can execute it without further discovery.
+11. Re-audit Schedule — when to run `/sdd-seo <domain>` again.
 
 The report title must be `# SEO Audit Report — <domain>`.
 
@@ -241,6 +262,7 @@ After the command completes, verify:
 - [ ] `sites_list` shows the property with `permissionLevel: siteOwner`.
 - [ ] Every URL in the sitemap is either audited or explicitly excluded with a reason.
 - [ ] Every structured-data warning is reproduced with the exact bad value and the exact fix.
+- [ ] On-page findings from Step 2.7 use the `seo-audit` Issue / Impact / Evidence / Fix / Priority format.
 - [ ] The implementation prompt is self-contained and would not require this conversation to execute.
 
 ---

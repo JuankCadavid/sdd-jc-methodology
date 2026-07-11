@@ -25,6 +25,7 @@ The installable source files live in `.claude/skills/*/SKILL.md`. These pages ar
 | [`nestjs-expert`](nestjs-expert.md) | NestJS modules, DI, guards, interceptors, testing, TypeORM/Mongoose | `/sdd-specify`, `/sdd-execute`, `/sdd-test`, `/sdd-validate` |
 | [`product-manager-toolkit`](product-manager-toolkit.md) | Product discovery, PRDs, prioritization, customer interview analysis | `/sdd-constitution`, `/sdd-propose`, `/sdd-specify` |
 | [`react-doctor`](react-doctor.md) | React diagnostics after changes | `/sdd-test`, `/sdd-validate` |
+| [`seo-audit`](seo-audit.md) | Technical, on-page, and international SEO audits with a standard finding format | `/sdd-seo`, `/sdd-validate` |
 | [`shadcn-ui`](shadcn-ui.md) | shadcn/ui components, forms, themes, Tailwind integration | `/sdd-specify`, `/sdd-execute`, `/sdd-validate` |
 | [`stitch-design`](stitch-design.md) | Stitch prompt enhancement and design generation workflows | `/sdd-constitution`, `/sdd-specify` |
 | [`systematic-debugging`](systematic-debugging.md) | Bugs, test failures, unexpected behavior, root-cause investigation | `/sdd-execute`, `/sdd-test`, `/sdd-validate`, `/sdd-seo` |

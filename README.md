@@ -90,6 +90,7 @@ SDD JC is a constitution-first, spec-driven methodology for AI-assisted developm
   - `nestjs-expert`
   - `product-manager-toolkit`
   - `react-doctor`
+  - `seo-audit`
   - `shadcn-ui`
   - `stitch-design`
   - `systematic-debugging`
@@ -681,7 +682,7 @@ See [OpenSpec Comparison](docs/openspec-comparison.md) for the current JCSPECS c
 
 ### Auxiliary commands
 
-- `/sdd-seo <site-domain>` — SEO setup & audit via Google Search Console. Verifies a domain through DNS TXT using a service account, adds the property to GSC, then audits index coverage, sitemaps, structured data, search analytics, server-side render, and internal linking. Produces `seo-setup-report.md` and `seo-audit-report.md` under `docs/specs/seo/<domain>/`, including a copy-paste implementation prompt for fixing every High-severity finding.
+- `/sdd-seo <site-domain>` — SEO setup & audit via Google Search Console. Verifies a domain through DNS TXT using a service account, adds the property to GSC, then audits index coverage, sitemaps, structured data, search analytics, server-side render, internal linking, and on-page SEO (titles, metas, headings, canonicals, hreflang) using the packaged `seo-audit` skill. Produces `seo-setup-report.md` and `seo-audit-report.md` under `docs/specs/seo/<domain>/`, including a copy-paste implementation prompt for fixing every High-severity finding.
 
   Dependencies bundled with this repo:
 

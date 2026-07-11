@@ -6,9 +6,13 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
-### Notes
+### Added
 
-- No unreleased changes yet.
+- Packaged the `seo-audit` skill (from [marketingskills](https://github.com/coreyhaines31/marketingskills), v2.0.0) under `.claude/skills/seo-audit/` with its `references/` and `evals/`, and added its human-facing page at `docs/skills/seo-audit.md`.
+
+### Changed
+
+- `/sdd-seo` Phase 2 now requires loading the `seo-audit` skill: findings use its Issue / Impact / Evidence / Fix / Priority format, are weighted by its priority order (crawlability → technical → on-page → content → authority), and its schema-detection limitation (static fetches cannot see JS-injected JSON-LD) and International SEO checklist apply throughout. Added Step 2.7 (on-page audit of the render-sampled pages) and a matching `On-Page SEO Findings` report section.
 
 ## [0.7.0] - 2026-07-10
 

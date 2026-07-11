@@ -27,6 +27,7 @@ Use the packaged skills in `.claude/skills/` as the source of truth. Examples:
 - Use `react-doctor` and `vercel-react-best-practices` for React/Next.js changes.
 - Use `angular-developer` for Angular projects, components, services, routing, forms, signals, SSR, accessibility, styling, animations, testing, and CLI tooling.
 - Use domain skills such as `nestjs-expert`, `aws-serverless`, `api-design-principles`, or `product-manager-toolkit` when the task matches.
+- Use `seo-audit` for SEO audits and diagnosis; `/sdd-seo` loads it in its audit phase.
 
 If a task document lists required or recommended skills, follow that list first.
 

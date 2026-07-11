@@ -55,8 +55,13 @@ docs/specs/<spec-path>/seo-audit-report.md
 - search analytics by query, page, country, and device
 - server-rendered content checks with Googlebot user agent
 - internal linking quick check
+- on-page audit (titles, metas, headings, canonicals, hreflang) via the `seo-audit` skill
 - prioritized remediation plan
 - implementation prompt for high-severity fixes
+
+## Skills
+
+The audit phase loads the packaged [`seo-audit`](../skills/seo-audit.md) skill: findings follow its Issue / Impact / Evidence / Fix / Priority format and are weighted by its priority order (crawlability → technical → on-page → content → authority). `systematic-debugging` applies when index data is inconsistent with site reality.
 
 ## Helper Resources
 
