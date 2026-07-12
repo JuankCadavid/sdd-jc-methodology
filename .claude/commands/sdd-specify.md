@@ -262,10 +262,14 @@ Preferred UI/UX skill rule:
 
 #### Step 3.3 — Present & Approve
 
-Present a summary of the generated tasks and explicitly ask the user how to proceed, providing these options:
+Present a summary of the generated tasks, including:
+- An **Estimated Lines of Code (LOC)** output for the entire spec.
+- A **PR Strategy Recommendation**: If the estimate exceeds ~400 LOC or the task graph is highly complex, recommend splitting the implementation into multiple Pull Requests and suggest logical boundaries (e.g., "PR 1: Backend/API, PR 2: Frontend UI").
+
+Then explicitly ask the user how to proceed, providing these options:
 
 1. **Continue** (Proceed to the final Verification Checklist)
-2. **Adjust** (Refine or change the tasks)
+2. **Adjust** (Refine or change the tasks or PR strategy)
 3. **Stop** (Pause the specification process here)
 4. **Type something** (Provide custom instructions or feedback)
 
@@ -299,7 +303,8 @@ When the spec is ready, present a short handoff summary:
 2. Problem being solved
 3. Requirements and key scenarios
 4. Important design decisions and risks
-5. Task count and recommended first task
-6. Open questions or assumptions that still need user confirmation
+5. Task count, estimated LOC, and recommended PR strategy (single vs. multiple PRs)
+6. Recommended first task
+7. Open questions or assumptions that still need user confirmation
 
 If a proposal existed, mention whether the generated spec stayed aligned with it or changed based on implementation discovery.

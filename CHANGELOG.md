@@ -6,9 +6,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
-### Notes
+### Added
+- Added `docs/infrastructure.md` generation to `/sdd-constitution` (new Step 6) to establish deployment environments and cloud architecture rules early.
+- Added Estimated Lines of Code (LOC) and PR Strategy recommendations to the Tasks presentation menu in `/sdd-specify` to prevent oversized Pull Requests.
 
-- No unreleased changes yet.
+### Changed
+- Updated `/sdd-constitution` to explicitly ask for infrastructure expectations (AWS, GCP, Vercel, etc.) during the context clarification phase if they are not provided.
 
 ## [0.9.0] - 2026-07-12
 

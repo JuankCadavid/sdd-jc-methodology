@@ -39,6 +39,7 @@ The constitutional baseline must cover these files:
 - `docs/prd.md`
 - `docs/ux-ui/design.md`
 - `docs/trd/trd.md`
+- `docs/infrastructure.md`
 - `docs/specs/general-setup/requirements.md`
 - `docs/specs/general-setup/design.md`
 - `docs/specs/general-setup/task.md`
@@ -114,6 +115,7 @@ Focus especially on:
 - Success metrics or KPIs
 - Scope boundaries and non-goals
 - Known constraints, dependencies, and risks
+- Infrastructure expectations (e.g., AWS, deployment platforms, architectural rules, specific cloud components required)
 - Preferred `docs/specs/` taxonomy when the repo does not already imply one
 
 Ask only what is needed to avoid unstable assumptions.
@@ -228,7 +230,23 @@ Create or enhance `docs/trd/trd.md` as the technical implementation blueprint.
 
 ---
 
-### Step 6: Create or Enhance General Setup Templates
+### Step 6: Create or Enhance the Infrastructure Document
+
+Create or enhance `docs/infrastructure.md` as the deployment and hosting blueprint.
+
+**Required structure:**
+
+1. Target Environment (e.g., AWS, GCP, Vercel, On-prem)
+2. Core Cloud Components (e.g., Lambda, S3, RDS, ECS)
+3. Deployment Strategy (e.g., CI/CD, Terraform, CDK)
+4. Network & Security Architecture
+5. Infrastructure Rules & Constraints
+
+If this information is missing during the initial setup or discovery phase, explicitly ask the user for the intended infrastructure specifications before drafting this document.
+
+---
+
+### Step 7: Create or Enhance General Setup Templates
 
 Create or enhance the canonical templates under `docs/specs/general-setup/`.
 
@@ -248,13 +266,14 @@ They must reflect:
 
 ---
 
-### Step 7: Update Root Agent Guides
+### Step 8: Update Root Agent Guides
 
 Update root `CLAUDE.md` and `AGENTS.md` so they reference:
 
 - `docs/prd.md`
 - `docs/ux-ui/design.md`
 - `docs/trd/trd.md`
+- `docs/infrastructure.md`
 - `docs/specs/general-setup/`
 
 The update should explain briefly:
@@ -282,7 +301,7 @@ This index is what keeps agent context inheritance working: agents load the root
 
 ---
 
-### Step 7B: Scaffold the `.agents/` Triad
+### Step 8B: Scaffold the `.agents/` Triad
 
 Establish or upgrade the project-level `.agents/` directory that powers the JCSPECS multi-agent execution loop (Leader → Implementer → Reviewer used by `/sdd-execute`).
 
@@ -328,7 +347,7 @@ The `.agents/` directory must be tool-agnostic:
 
 ---
 
-### Step 7C: Scaffold Model Routing
+### Step 8C: Scaffold Model Routing
 
 Add or upgrade a `## Model Routing` section in the project's root `AGENTS.md` **and** `CLAUDE.md`
 so each project carries its own editable, per-tool model-selection registry. This is **guidance
@@ -370,7 +389,7 @@ Claude Code (and their plan's rate limits) and which models their OpenCode roste
 
 ---
 
-### Step 8: Present and Confirm
+### Step 9: Present and Confirm
 
 After drafting or enhancing the documents, present a concise summary covering:
 
@@ -381,6 +400,7 @@ After drafting or enhancing the documents, present a concise summary covering:
 - The main problem statement and personas captured in the PRD
 - The main UX/system decisions captured in the UX/UI design document
 - The main technical decisions captured in the TRD
+- The core infrastructure decisions captured in the Infrastructure document
 - The state of `.agents/` (created from defaults, customized to detected stack, or preserved with upgrades) and any customizations applied
 - Any assumptions and open questions that still need validation
 
@@ -390,4 +410,4 @@ Ask the user whether to approve or request changes. If changes are requested, re
 
 ## Outcome
 
-At the end of `/sdd-constitution`, the repository should have a project-level baseline that future `/sdd-specify`, `/sdd-execute`, `/sdd-validate`, and `/sdd-test` work can rely on without guessing the structure or conventions. The `.agents/` triad must be in place so that `/sdd-execute` can run the Leader → Implementer → Reviewer rework loop without falling back to inline personas. The root guides must also carry a `## Model Routing` registry (Step 7C) so each phase runs on a model matched to its demand, with the Reviewer on a different model than the Implementer.
+At the end of `/sdd-constitution`, the repository should have a project-level baseline that future `/sdd-specify`, `/sdd-execute`, `/sdd-validate`, and `/sdd-test` work can rely on without guessing the structure or conventions. The `.agents/` triad must be in place so that `/sdd-execute` can run the Leader → Implementer → Reviewer rework loop without falling back to inline personas. The root guides must also carry a `## Model Routing` registry (Step 8C) so each phase runs on a model matched to its demand, with the Reviewer on a different model than the Implementer.
