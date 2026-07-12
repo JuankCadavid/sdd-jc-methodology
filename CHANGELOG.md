@@ -6,9 +6,8 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
-### Notes
-
-- No unreleased changes yet.
+### Changed
+- Updated README.md to fully document recent methodology enhancements (Scope Chunking, BDD, HITL menus, Judgment Day skill, Infrastructure blueprint, and LOC Estimation).
 
 ## [0.9.1] - 2026-07-12
 
