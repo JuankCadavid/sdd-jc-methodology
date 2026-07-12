@@ -83,7 +83,8 @@ For every requirement in `requirements.md`, verify:
 2. mapped tasks are complete when full implementation is claimed
 3. code evidence exists
 4. key scenarios have automated or documented manual test evidence
-5. behavior matches the requirement intent, not only the task wording
+5. negative constraints (`BUT it must NOT`) and strict validations (`AND IT MUST`) have been explicitly implemented and verified
+6. behavior matches the requirement intent, not only the task wording
 
 ### Phase 5: Quality Audit
 

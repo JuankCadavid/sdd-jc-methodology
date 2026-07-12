@@ -62,7 +62,7 @@ Do not create `requirements.md`, `design.md`, or `tasks.md` in this command unle
 4. Read nearby or related specs under `docs/specs/`.
 5. Inspect relevant code paths only enough to understand current behavior and likely impact.
 
-### Step 1: Clarify Intent
+### Step 1: Clarify Intent & Scope Chunking
 
 Use `brainstorming` and, when helpful, `product-manager-toolkit` to clarify:
 
@@ -74,6 +74,10 @@ Use `brainstorming` and, when helpful, `product-manager-toolkit` to clarify:
 - non-goals
 - dependencies and constraints
 - success criteria
+
+**Scope Chunking:** If the user provides a very large or multi-faceted instruction (e.g., an entire epic or multiple distinct features), analyze whether the request should be split into multiple bounded proposals.
+- If it should be split, propose breaking it down to the user.
+- Upon agreement, create the respective folders for each bounded change under `docs/specs/` and generate a `proposal.md` for each.
 
 Ask focused questions only when the proposal would otherwise depend on unstable assumptions.
 

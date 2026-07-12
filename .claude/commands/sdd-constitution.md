@@ -16,10 +16,12 @@ Establish or strengthen the project-wide SDD foundation. This command creates th
 
 ### Step 0: Determine Project Mode and Foundation Setup
 
-First classify the repository into one of three modes. The classification is non-destructive — it controls how aggressively the constitution drafts, scans, or preserves existing material.
+Before classifying the repository, use the `brainstorming` skill to ask the user if this is a new project/MVP starting from 0, or if it is an existing project with an established structure.
 
-- **Brand-new project (Seed Setup):** little or no application code, no stable project documentation, no prior SDD artifacts, and the user is starting a product baseline from scratch.
-- **Legacy codebase (Discovery Setup):** meaningful application code, package manifests, infrastructure, tests, routes, components, or prior non-SDD docs exist, but the JCSPECS SDD baseline (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/specs/general-setup/`) is missing or skeletal.
+Based on the response, classify the repository into one of three modes. The classification is non-destructive — it controls how aggressively the constitution drafts, scans, or preserves existing material.
+
+- **Brand-new project (Seed Setup):** The user is starting from scratch. Prepare the project from 0. There is little or no application code, no stable project documentation, and no prior SDD artifacts.
+- **Legacy codebase (Discovery Setup):** The user indicates an existing project structure. Analyze the existing project and explicitly prompt to install CodeGraph (`codegraph init -i`) before proceeding. Meaningful application code, package manifests, infrastructure, tests, routes, components, or prior non-SDD docs exist, but the JCSPECS SDD baseline (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/specs/general-setup/`) is missing or skeletal.
 - **Active SDD project (Safe Update):** the SDD baseline already exists, prior specs live under `docs/specs/`, and an `.agents/` directory may already contain customized personas. The constitution must upgrade weak sections without overwriting customizations.
 
 For all three modes:

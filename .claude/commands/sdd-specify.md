@@ -70,7 +70,7 @@ Lite mode still requires testable requirements, scenarios, and done criteria.
 
 **Role:** Product Owner — define what is being built and why.
 
-#### Step 1.1 — Explore
+#### Step 1.1 — Explore & Scope Chunking
 
 Use `brainstorming` and, when helpful, `product-manager-toolkit` to clarify:
 
@@ -78,6 +78,10 @@ Use `brainstorming` and, when helpful, `product-manager-toolkit` to clarify:
 - scope boundaries and dependencies
 - primary flows and feature areas
 - success metrics and constraints
+
+**Scope Chunking:** If the user provides a very large instruction or epic, evaluate if it is too massive for a single spec.
+- If it spans multiple distinct modules or features, propose splitting the spec into multiple separate specs.
+- If the user agrees, create the separate folders under `docs/specs/` and draft a `proposal.md` or jump straight to the split documents (`requirements.md`, `design.md`, `tasks.md`) for each chunk.
 
 #### Step 1.2 — Write
 
@@ -119,6 +123,8 @@ The system SHALL provide the observable behavior.
 - WHEN the triggering action happens
 - THEN the expected outcome occurs
 - AND any required side effect is visible
+- BUT it must NOT [explicit constraint or negative path]
+- AND IT MUST [explicit validation or boundary condition]
 ```
 
 Avoid putting internal class names, library choices, or step-by-step implementation details in requirements. Those belong in `design.md` or `tasks.md`.
@@ -131,7 +137,14 @@ If `proposal.md` includes a Requirement Delta Preview, convert it into full requ
 
 #### Step 1.3 — Present & Approve
 
-Present a summary and ask the user to approve or request changes before moving on.
+Present a summary of the generated requirements and explicitly ask the user how to proceed, providing these options:
+
+1. **Continue** (Proceed to Phase 2: `design.md`)
+2. **Adjust** (Refine or change the requirements)
+3. **Stop** (Pause the specification process here)
+4. **Type something** (Provide custom instructions or feedback)
+
+Wait for the user's response before moving on.
 
 ---
 
@@ -187,7 +200,23 @@ Guidelines:
 
 #### Step 2.3 — Present & Approve
 
-Present a summary and ask the user to approve or request changes before moving on.
+Present a summary of the generated design and explicitly ask the user how to proceed, providing these options:
+
+1. **Review Design** (Use the `judgment-day` skill to review the design before moving on)
+2. **Continue** (Proceed to Phase 3: `tasks.md`)
+3. **Adjust** (Refine or change the design)
+4. **Stop** (Pause the specification process here)
+5. **Type something** (Provide custom instructions or feedback)
+
+If the user selects **Review Design** and the `judgment-day` judges detect issues that need correction, present the following options to handle the findings:
+
+1. **Fix and Re-judge** (Apply fixes for the findings and run the judgment again)
+2. **Fix only** (Apply fixes but do not run the judgment again)
+3. **Continue** (Accept the design as-is and proceed to Phase 3: `tasks.md`)
+4. **Stop** (Pause the specification process here)
+5. **Type something** (Provide custom instructions or feedback)
+
+Wait for the user's response before moving on.
 
 ---
 
@@ -222,6 +251,7 @@ Task quality rules:
 - one task should be small enough to complete and verify in one focused session
 - every task must reference the requirements it satisfies
 - every task must include a concrete verification command or manual check
+- tasks should explicitly address the negative constraints (`BUT it must NOT`) and strict validations (`AND IT MUST`) defined in their respective requirement scenarios
 - tasks should avoid broad instructions like "implement feature" without scoped subtasks
 - tasks may be grouped by phase, but dependencies must remain explicit
 
@@ -232,7 +262,14 @@ Preferred UI/UX skill rule:
 
 #### Step 3.3 — Present & Approve
 
-Present a summary and ask the user to approve or request changes.
+Present a summary of the generated tasks and explicitly ask the user how to proceed, providing these options:
+
+1. **Continue** (Proceed to the final Verification Checklist)
+2. **Adjust** (Refine or change the tasks)
+3. **Stop** (Pause the specification process here)
+4. **Type something** (Provide custom instructions or feedback)
+
+Wait for the user's response before moving on.
 
 ---
 
@@ -244,10 +281,10 @@ After all three documents are approved, verify:
 - [ ] All documents follow `docs/specs/general-setup/` conventions
 - [ ] The chosen depth is appropriate for the risk and size of the work
 - [ ] Requirements describe observable behavior, not implementation details
-- [ ] Key requirements include Given/When/Then scenarios
+- [ ] Key requirements include Given/When/Then scenarios with strict `BUT` and `AND IT MUST` rules where applicable
 - [ ] Every requirement appears in at least one task
 - [ ] Every task references requirements and design sections
-- [ ] Every task has clear done criteria and verification guidance
+- [ ] Every task has clear done criteria and verification guidance that accounts for the negative scenarios
 - [ ] The task dependency graph has no circular dependencies
 - [ ] The spec path matches the repo's chosen taxonomy under `docs/specs/`
 - [ ] Only real, available skills are referenced in tasks

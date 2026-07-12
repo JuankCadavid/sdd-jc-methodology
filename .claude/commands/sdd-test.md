@@ -49,12 +49,13 @@ Create or update `docs/specs/$ARGUMENTS/test-report.md` with:
    - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
    - root and package-level `CLAUDE.md` files
 3. Identify backend, frontend, and end-to-end scope from the design and tasks.
-4. Extract key requirements and Given/When/Then scenarios from `requirements.md`.
+4. Extract key requirements, Given/When/Then scenarios, negative constraints (`BUT it must NOT`), and strict validations (`AND IT MUST`) from `requirements.md`.
 
 ### Phase 1: Unit Tests
 
 - Create or improve backend unit tests where needed.
 - Create or improve frontend unit tests where needed.
+- Explicitly test negative constraints (`BUT it must NOT`) and strict boundary validations (`AND IT MUST`).
 - Map tests back to requirements and scenarios.
 - Prefer focused tests that prove one behavior clearly over broad tests with unclear intent.
 
@@ -80,7 +81,7 @@ Use skills as needed:
 
 ### Phase 4: Coverage & Traceability
 
-Create a requirement-to-test matrix so every key requirement has test evidence or an explicit gap.
+Create a requirement-to-test matrix so every key requirement has test evidence or an explicit gap. Ensure negative constraints and strict validations are mapped.
 
 Recommended matrix columns:
 

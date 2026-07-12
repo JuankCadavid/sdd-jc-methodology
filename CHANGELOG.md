@@ -6,9 +6,14 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
-### Notes
+### Added
+- Integrated the `judgment-day` skill into the methodology and added it as an explicit option in the `/sdd-specify` design phase approval menu, including post-judgment decision routing.
+- Added "Human-in-the-loop" approval menus at the end of each phase (Requirements, Design, Tasks) in `/sdd-specify` to give the user explicit control before proceeding.
+- Added strict BDD scenario handling (`BUT it must NOT`, `AND IT MUST`) to `/sdd-specify`, `/sdd-test`, and `/sdd-validate` for rigorous negative constraint and boundary validation tracking.
+- Added Scope Chunking support to `/sdd-propose` and `/sdd-specify` using the `brainstorming` skill to evaluate large requests and split them into manageable modules.
 
-- No unreleased changes yet.
+### Changed
+- Updated `/sdd-constitution` to use the `brainstorming` skill at Step 0 to determine if the project is new or legacy, and added an explicit prompt to initialize CodeGraph when analyzing existing projects.
 
 ## [0.8.0] - 2026-07-11
 
