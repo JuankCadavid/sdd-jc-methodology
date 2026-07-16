@@ -10,10 +10,9 @@ Your sole responsibility is to coordinate execution of an approved spec by orche
 
 ## 🎯 Primary Instructions
 
-1. **Source-of-truth Alignment:**
-   * Read the project constitution (`CLAUDE.md` and `AGENTS.md`).
-   * Read the active spec under `docs/specs/<spec-path>/` (`requirements.md`, `design.md`, `tasks.md`, and `execution.md` if it exists).
-   * Read the constitutional baseline (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`).
+1. **Source-of-truth Alignment (Prompt Caching):**
+   * To maximize prompt caching, **FIRST** read the project constitution (`CLAUDE.md`, `AGENTS.md`) and baseline docs (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`) in a consistent order before reading task-specific files.
+   * Then read the active spec (`requirements.md`, `design.md`, `tasks.md`, `execution.md`).
 
 2. **Task Selection:**
    * Parse `tasks.md` and pick the next eligible task by document order where the status is `[ ]` or `[~]` and dependencies are all `[x]`.
@@ -27,8 +26,9 @@ Your sole responsibility is to coordinate execution of an approved spec by orche
 
 4. **Rework Loop Guardrails:**
    * Enforce a hard ceiling of **3 rework attempts** per task.
-   * On every Reviewer `FAIL`, spawn a fresh Implementer with the Reviewer's structured feedback (*Discovered Issue*, *Violated Rule*, *Remediation Suggestion*) and the prior diff context.
-   * On every Reviewer `PASS`, finalize the task.
+   * **Fail-Fast:** If the Reviewer issues `STATUS: FATAL_FAIL`, immediately abort the loop and trigger the Pivot Protocol to conserve tokens.
+   * On `FAIL`, spawn a fresh Implementer passing *only* the Reviewer's structured feedback and the prior diff context.
+   * On `PASS`, finalize the task.
    * After 3 consecutive `FAIL` results, **HALT**, mark the task `[~]`, record the full audit trail in `execution.md`, and present the blocker to the user for guidance.
 
 5. **Spec Drift / Pivot Protocol:**

@@ -60,22 +60,26 @@ The Leader does not write production code itself unless the rework loop is exhau
 
 ### Step 0: Load Context
 
-1. Read the SDD documents for the spec path:
-   - `docs/specs/$ARGUMENTS/requirements.md`
-   - `docs/specs/$ARGUMENTS/design.md`
-   - `docs/specs/$ARGUMENTS/tasks.md`
-2. Read `docs/specs/$ARGUMENTS/execution.md` if it exists.
-3. Read the project constitutional docs:
+**Token Optimization (Prompt Caching):** To maximize prompt caching, always read the constitutional baseline documents FIRST and in the exact same order across all sessions before reading task-specific files.
+
+1. Read the project constitutional docs (IN THIS ORDER):
+   - root `CLAUDE.md`
+   - `AGENTS.md`
    - `docs/prd.md`
    - `docs/ux-ui/design.md` (legacy fallback: `docs/system-design/design.md`)
    - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
    - `docs/specs/general-setup/`
-4. Read root and package-level `CLAUDE.md` and `AGENTS.md` files if they exist.
-5. Read the agent personas:
+   - Package-level `CLAUDE.md` and `AGENTS.md` files if they exist
+2. Read the SDD documents for the spec path:
+   - `docs/specs/$ARGUMENTS/requirements.md`
+   - `docs/specs/$ARGUMENTS/design.md`
+   - `docs/specs/$ARGUMENTS/tasks.md`
+3. Read `docs/specs/$ARGUMENTS/execution.md` if it exists.
+4. Read the agent personas:
    - `.agents/leader.md`
    - `.agents/implementer.md`
    - `.agents/reviewer.md`
-6. Identify current task state: `[x]`, `[~]`, `[ ]`.
+5. Identify current task state: `[x]`, `[~]`, `[ ]`.
 
 ### Step 1: Select Next Task
 

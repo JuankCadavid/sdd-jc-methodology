@@ -8,6 +8,8 @@ Archive a completed SDD spec path after implementation, testing, and validation 
 
 Archiving preserves the full decision trail. It keeps active `docs/specs/` easier to scan while retaining proposal, requirements, design, tasks, execution notes, test evidence, and validation evidence for future review.
 
+> **Recommended model tier:** T5 Fast-Cheap. This is a format-following and file-moving job; a deep reasoning model is not required.
+
 ## Usage
 
 ```
@@ -51,8 +53,17 @@ docs/specs/archive/2026-05-16-bugfix--login-redirect/
 
 ### Step 0: Load Context
 
+**Token Optimization (Prompt Caching):** To maximize prompt caching, always read the constitutional baseline documents FIRST and in the exact same order across all sessions before reading task-specific files.
+
 1. Confirm `docs/specs/$ARGUMENTS/` exists.
-2. Read all available files in that folder, especially:
+2. Read project-level context ONLY if needed to interpret archive readiness (IN THIS ORDER):
+   - root `CLAUDE.md`
+   - `AGENTS.md`
+   - `docs/prd.md`
+   - `docs/ux-ui/design.md` (legacy fallback: `docs/system-design/design.md`)
+   - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
+   - `docs/specs/general-setup/`
+3. Read all available files in the spec folder, especially:
    - `proposal.md` if present
    - `requirements.md`
    - `design.md`
@@ -60,11 +71,6 @@ docs/specs/archive/2026-05-16-bugfix--login-redirect/
    - `execution.md` if present
    - `test-report.md` if present
    - `validation-report.md` if present
-3. Read project-level context only if needed to interpret archive readiness:
-   - `docs/prd.md`
-   - `docs/ux-ui/design.md` (legacy fallback: `docs/system-design/design.md`)
-   - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
-   - `docs/specs/general-setup/`
 
 ### Step 1: Check Archive Readiness
 

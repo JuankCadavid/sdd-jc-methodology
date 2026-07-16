@@ -8,6 +8,8 @@ Validate that a spec path's implementation matches its SDD documents. Produce `v
 
 Validation is the final conformance audit. It checks whether the implementation still matches the approved requirements, scenarios, design decisions, tasks, tests, and constitutional baseline.
 
+> **Recommended model tier:** T3 Auditor (deep independent review). Ensure you are using a strong reasoning model that differs from the one used during implementation.
+
 ## Usage
 
 ```
@@ -44,18 +46,22 @@ Use these result levels consistently:
 
 ### Phase 0: Load Context
 
-1. Read:
+**Token Optimization (Prompt Caching):** To maximize prompt caching, always read the constitutional baseline documents FIRST and in the exact same order across all sessions before reading task-specific files.
+
+1. Read constitutional context (IN THIS ORDER):
+   - root `CLAUDE.md`
+   - `AGENTS.md`
+   - `docs/prd.md`
+   - `docs/ux-ui/design.md` (legacy fallback: `docs/system-design/design.md`)
+   - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
+   - `docs/specs/general-setup/`
+   - package-level `CLAUDE.md` files if they exist
+2. Read spec context:
    - `docs/specs/$ARGUMENTS/proposal.md` if present
    - `docs/specs/$ARGUMENTS/requirements.md`
    - `docs/specs/$ARGUMENTS/design.md`
    - `docs/specs/$ARGUMENTS/tasks.md`
    - `docs/specs/$ARGUMENTS/execution.md` if present
-2. Read constitutional context:
-   - `docs/prd.md`
-   - `docs/ux-ui/design.md` (legacy fallback: `docs/system-design/design.md`)
-   - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
-   - `docs/specs/general-setup/`
-3. Read root and package-level `CLAUDE.md` files if they exist.
 
 ### Phase 1: Task Completion Check
 

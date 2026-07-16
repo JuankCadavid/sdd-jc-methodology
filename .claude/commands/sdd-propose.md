@@ -8,6 +8,8 @@ Create a lightweight proposal for one bounded change before generating full SDD 
 
 The proposal is the reviewable intent layer. It should help the user decide whether the change is worth specifying before time is spent on requirements, design, tasks, or implementation.
 
+> **Recommended model tier:** T1 Architect (deep reasoning, architecture, trade-offs). Ensure you are using the strongest reasoning model available for this phase.
+
 ## Usage
 
 ```
@@ -50,17 +52,20 @@ Do not create `requirements.md`, `design.md`, or `tasks.md` in this command unle
 
 ### Step 0: Resolve Path And Load Context
 
+**Token Optimization (Prompt Caching):** To maximize prompt caching, always read the constitutional baseline documents FIRST and in the exact same order across all sessions before reading task-specific files.
+
 1. Resolve `$SPEC_PATH` using the path rules above.
 2. Create `docs/specs/$SPEC_PATH/` if it does not exist.
-3. Read project-level context when available:
+3. Read project-level context when available (IN THIS ORDER):
+   - root `CLAUDE.md`
+   - `AGENTS.md`
    - `docs/prd.md`
    - `docs/ux-ui/design.md` (legacy fallback: `docs/system-design/design.md`)
    - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
    - `docs/specs/general-setup/`
-   - root `CLAUDE.md`
    - package-level `CLAUDE.md` files
 4. Read nearby or related specs under `docs/specs/`.
-5. Inspect relevant code paths only enough to understand current behavior and likely impact.
+5. **CodeGraph over full reads:** If `.codegraph/` exists, use `codegraph_search` and `codegraph_context` to inspect relevant code paths instead of reading full source files or using generic `grep`/`glob`. This drastically reduces input tokens.
 
 ### Step 1: Clarify Intent, Sources & Scope Chunking
 

@@ -39,15 +39,19 @@ Create or update `docs/specs/$ARGUMENTS/test-report.md` with:
 
 ### Phase 0: Load Context
 
-1. Read:
-   - `docs/specs/$ARGUMENTS/requirements.md`
-   - `docs/specs/$ARGUMENTS/design.md`
-   - `docs/specs/$ARGUMENTS/tasks.md`
-2. Read project-level context:
+**Token Optimization (Prompt Caching):** To maximize prompt caching, always read the constitutional baseline documents FIRST and in the exact same order across all sessions before reading task-specific files.
+
+1. Read project-level context (IN THIS ORDER):
+   - root `CLAUDE.md`
+   - `AGENTS.md`
    - `docs/prd.md`
    - `docs/ux-ui/design.md` (legacy fallback: `docs/system-design/design.md`)
    - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
-   - root and package-level `CLAUDE.md` files
+   - Package-level `CLAUDE.md` and `AGENTS.md` files if they exist
+2. Read spec context:
+   - `docs/specs/$ARGUMENTS/requirements.md`
+   - `docs/specs/$ARGUMENTS/design.md`
+   - `docs/specs/$ARGUMENTS/tasks.md`
 3. Identify backend, frontend, and end-to-end scope from the design and tasks.
 4. Extract key requirements, Given/When/Then scenarios, negative constraints (`BUT it must NOT`), and strict validations (`AND IT MUST`) from `requirements.md`.
 

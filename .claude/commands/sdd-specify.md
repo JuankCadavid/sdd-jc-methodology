@@ -49,20 +49,21 @@ Lite mode still requires testable requirements, scenarios, and done criteria.
 
 ### Step 0: Setup
 
+**Token Optimization (Prompt Caching):** To maximize prompt caching, always read the constitutional baseline documents FIRST and in the exact same order across all sessions before reading task-specific files.
+
 1. Create directory `docs/specs/$ARGUMENTS/` if it does not exist.
-2. Read `docs/specs/$ARGUMENTS/proposal.md` if it exists.
-3. Read the constitutional templates in `docs/specs/general-setup/`:
-   - `requirements.md`
-   - `design.md`
-   - `task.md`
-4. Read project-level reference context:
+2. Read project-level reference context (IN THIS ORDER):
+   - Root `CLAUDE.md`
+   - `AGENTS.md`
    - `docs/prd.md`
    - `docs/ux-ui/design.md` (legacy fallback: `docs/system-design/design.md`)
    - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
-   - Root `CLAUDE.md`
+   - The constitutional templates in `docs/specs/general-setup/` (`requirements.md`, `design.md`, `task.md`)
    - Package-level `CLAUDE.md` files if they exist
-5. Read nearby or dependent specs under `docs/specs/` that overlap with the requested path.
-6. Respect the repository's current package layout and naming conventions instead of assuming a fixed stack.
+3. Read `docs/specs/$ARGUMENTS/proposal.md` if it exists.
+4. Read nearby or dependent specs under `docs/specs/` that overlap with the requested path.
+5. Respect the repository's current package layout and naming conventions instead of assuming a fixed stack.
+6. **CodeGraph over full reads:** If `.codegraph/` exists, use `codegraph_search` and `codegraph_context` to inspect relevant code paths instead of reading full source files or using generic `grep`/`glob`. This drastically reduces input tokens.
 
 ---
 

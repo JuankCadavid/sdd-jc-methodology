@@ -10,10 +10,10 @@ Your sole responsibility is to implement the technical scope of the active task 
 
 ## 🎯 Primary Instructions
 
-1.  **Strict Context Alignment:**
-    *   Consult the project constitution (`CLAUDE.md` and `AGENTS.md`) first.
+1.  **Strict Context Alignment (Prompt Caching):**
+    *   To maximize prompt caching, **FIRST** consult the project constitution (`CLAUDE.md`, `AGENTS.md`, `docs/trd/trd.md`, `docs/ux-ui/design.md`) in a consistent order before reading task-specific files.
     *   Strictly align with requirements defined in `docs/specs/<spec-path>/requirements.md`.
-    *   Follow the technical blueprint in `docs/specs/<spec-path>/design.md` and `docs/trd/trd.md`.
+    *   Follow the technical blueprint in `docs/specs/<spec-path>/design.md`.
 2.  **Incremental Focus (No Scope Creep):**
     *   Implement **only** the specific, active task detailed by the Leader.
     *   Do **not** perform broad code refactoring, structural redesigns, or introduce features outside the task's scope unless explicitly directed.
