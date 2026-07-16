@@ -3,6 +3,7 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const { parseArgs } = require("util");
 
 const PACKAGE_ROOT = path.resolve(__dirname, "..");
 const SOURCE_CLAUDE = path.join(PACKAGE_ROOT, ".claude");
@@ -20,10 +21,48 @@ const BANNER = `     ██╗ ██████╗███████╗█�
 ╚█████╔╝╚██████╗███████║██║     ███████╗╚██████╗███████║
  ╚════╝  ╚═════╝╚══════╝╚═╝     ╚══════╝ ╚═════╝╚══════╝`;
 
-const TOOL_DEFAULTS = {
+// ANSI Colors
+const colors = {
+  reset: "\x1b[0m",
+  green: "\x1b[32m",
+  red: "\x1b[31m",
+  yellow: "\x1b[33m",
+  cyan: "\x1b[36m",
+};
+
+function formatPath(p) {
+  // Normalize paths for display to prefer forward slashes, even on Windows, for consistency in docs/CLI
+  return p.split(path.sep).join("/");
+}
+
+// Default paths per OS
+const defaultPaths = {
   claude: path.join(os.homedir(), ".claude"),
   opencode: path.join(os.homedir(), ".config", "opencode"),
   antigravity: path.join(os.homedir(), ".gemini"),
+};
+
+// Tool Registry defining target directories mapping per tool
+const TOOL_REGISTRY = {
+  claude: (rootPath) => ({
+    commands: [path.join(rootPath, "commands")],
+    skills: path.join(rootPath, "skills"),
+    resources: path.join(rootPath, "sdd-jc"),
+  }),
+  opencode: (rootPath) => ({
+    commands: [path.join(rootPath, "commands")],
+    skills: path.join(rootPath, "skills"),
+    resources: path.join(rootPath, "sdd-jc"),
+  }),
+  antigravity: (rootPath) => ({
+    commands: [
+      path.join(rootPath, "antigravity", "global_workflows"),
+      path.join(rootPath, "antigravity-cli", "global_workflows"),
+      path.join(rootPath, "antigravity-cli", "workflows"),
+    ],
+    skills: path.join(rootPath, "config", "skills"),
+    resources: path.join(rootPath, "config", "sdd-jc"),
+  }),
 };
 
 function printHelp() {
@@ -49,111 +88,94 @@ Options:
   --dry-run            Show what would happen without writing files
   --commands-only      Install or check only commands
   --skills-only        Install or check only skills
+  --fix                Automatically fix missing files during doctor command
 
 Examples:
   sdd-jc install
   sdd-jc install --tool opencode
-  sdd-jc install --tool antigravity
   sdd-jc install --tool both --dry-run
   sdd-jc install --tool claude --target ./.claude
   sdd-jc update --tool both --force
-  sdd-jc doctor --tool antigravity
+  sdd-jc doctor --tool all --fix
   sdd-jc list
 `);
 }
 
 function printBanner() {
-  console.log(BANNER);
-}
-
-function parseArgs(argv) {
-  const args = {
-    command: argv[2] || "help",
-    tool: "claude",
-    target: undefined,
-    claudeTarget: TOOL_DEFAULTS.claude,
-    opencodeTarget: TOOL_DEFAULTS.opencode,
-    antigravityTarget: TOOL_DEFAULTS.antigravity,
-    force: false,
-    dryRun: false,
-    commandsOnly: false,
-    skillsOnly: false,
-  };
-
-  for (let i = 3; i < argv.length; i += 1) {
-    const arg = argv[i];
-
-    if (arg === "--tool") {
-      const value = argv[i + 1];
-      if (!value) fail("Missing value for --tool");
-      if (!["claude", "opencode", "antigravity", "both", "all"].includes(value)) {
-        fail("--tool must be one of: claude, opencode, antigravity, both, all");
-      }
-      args.tool = value;
-      i += 1;
-    } else if (arg === "--target") {
-      const value = argv[i + 1];
-      if (!value) fail("Missing value for --target");
-      args.target = resolveUserPath(value);
-      i += 1;
-    } else if (arg === "--claude-target") {
-      const value = argv[i + 1];
-      if (!value) fail("Missing value for --claude-target");
-      args.claudeTarget = resolveUserPath(value);
-      i += 1;
-    } else if (arg === "--opencode-target") {
-      const value = argv[i + 1];
-      if (!value) fail("Missing value for --opencode-target");
-      args.opencodeTarget = resolveUserPath(value);
-      i += 1;
-    } else if (arg === "--antigravity-target") {
-      const value = argv[i + 1];
-      if (!value) fail("Missing value for --antigravity-target");
-      args.antigravityTarget = resolveUserPath(value);
-      i += 1;
-    } else if (arg === "--force") {
-      args.force = true;
-    } else if (arg === "--dry-run") {
-      args.dryRun = true;
-    } else if (arg === "--commands-only") {
-      args.commandsOnly = true;
-    } else if (arg === "--skills-only") {
-      args.skillsOnly = true;
-    } else if (arg === "--help" || arg === "-h") {
-      args.command = "help";
-    } else {
-      fail(`Unknown option: ${arg}`);
-    }
-  }
-
-  if (args.commandsOnly && args.skillsOnly) {
-    fail("Use only one of --commands-only or --skills-only");
-  }
-
-  if (args.target && (args.tool === "both" || args.tool === "all")) {
-    fail("--target can only be used with a single tool target.");
-  }
-
-  if (args.target && args.tool === "claude") args.claudeTarget = args.target;
-  if (args.target && args.tool === "opencode") args.opencodeTarget = args.target;
-  if (args.target && args.tool === "antigravity") args.antigravityTarget = args.target;
-
-  return args;
-}
-
-function resolveUserPath(input) {
-  return path.resolve(input.replace(/^~(?=$|\/|\\)/, os.homedir()));
+  console.log(colors.cyan + BANNER + colors.reset);
 }
 
 function fail(message) {
-  console.error(`ERROR: ${message}`);
+  console.error(`${colors.red}ERROR: ${message}${colors.reset}`);
   process.exit(1);
+}
+
+function resolveUserPath(input) {
+  // Works for both ~/path (Unix) and ~\\path (Windows)
+  return path.resolve(input.replace(/^~(?=$|\/|\\)/, os.homedir()));
+}
+
+function getArgs() {
+  const options = {
+    tool: { type: "string", default: "claude" },
+    target: { type: "string" },
+    "claude-target": { type: "string", default: defaultPaths.claude },
+    "opencode-target": { type: "string", default: defaultPaths.opencode },
+    "antigravity-target": { type: "string", default: defaultPaths.antigravity },
+    force: { type: "boolean", default: false },
+    "dry-run": { type: "boolean", default: false },
+    "commands-only": { type: "boolean", default: false },
+    "skills-only": { type: "boolean", default: false },
+    fix: { type: "boolean", default: false },
+    help: { type: "boolean", short: "h", default: false },
+  };
+
+  try {
+    const { values, positionals } = parseArgs({
+      options,
+      strict: true,
+      allowPositionals: true,
+    });
+
+    let command = positionals[0] || "help";
+    if (values.help) command = "help";
+
+    if (values["commands-only"] && values["skills-only"]) {
+      fail("Use only one of --commands-only or --skills-only");
+    }
+
+    if (!["claude", "opencode", "antigravity", "both", "all"].includes(values.tool)) {
+      fail("--tool must be one of: claude, opencode, antigravity, both, all");
+    }
+
+    if (values.target && (values.tool === "both" || values.tool === "all")) {
+      fail("--target can only be used with a single tool target.");
+    }
+
+    // Resolve paths
+    const args = {
+      command,
+      tool: values.tool,
+      force: values.force,
+      dryRun: values["dry-run"],
+      commandsOnly: values["commands-only"],
+      skillsOnly: values["skills-only"],
+      fix: values.fix,
+      claudeTarget: resolveUserPath(values.target && values.tool === "claude" ? values.target : values["claude-target"]),
+      opencodeTarget: resolveUserPath(values.target && values.tool === "opencode" ? values.target : values["opencode-target"]),
+      antigravityTarget: resolveUserPath(values.target && values.tool === "antigravity" ? values.target : values["antigravity-target"]),
+    };
+
+    return args;
+  } catch (err) {
+    fail(err.message);
+  }
 }
 
 function ensureDirectory(dir, dryRun) {
   if (fs.existsSync(dir)) return;
   if (dryRun) {
-    console.log(`create directory ${dir}`);
+    console.log(`  ${colors.yellow}would create dir${colors.reset} ${dir}`);
     return;
   }
   fs.mkdirSync(dir, { recursive: true });
@@ -192,12 +214,12 @@ function copySingleFile(sourcePath, targetPath, args) {
   ensureDirectory(path.dirname(targetPath), args.dryRun);
 
   if (fs.existsSync(targetPath) && !args.force) {
-    console.log(`skip existing ${targetPath}`);
+    console.log(`  ${colors.yellow}skip existing${colors.reset} ${targetPath}`);
     return { installed: 0, skipped: 1 };
   }
 
   const action = fs.existsSync(targetPath) ? "overwrite" : "install";
-  console.log(`${args.dryRun ? "would " : ""}${action} ${targetPath}`);
+  console.log(`  ${colors.green}${args.dryRun ? "would " : ""}${action}${colors.reset} ${targetPath}`);
 
   if (!args.dryRun) {
     fs.copyFileSync(sourcePath, targetPath);
@@ -218,13 +240,13 @@ function copyDirectoryContents(sourceDir, targetDir, args) {
     const targetPath = path.join(targetDir, entry.name);
 
     if (fs.existsSync(targetPath) && !args.force) {
-      console.log(`skip existing ${targetPath}`);
+      console.log(`  ${colors.yellow}skip existing${colors.reset} ${targetPath}`);
       skipped += 1;
       continue;
     }
 
     const action = fs.existsSync(targetPath) ? "overwrite" : "install";
-    console.log(`${args.dryRun ? "would " : ""}${action} ${targetPath}`);
+    console.log(`  ${colors.green}${args.dryRun ? "would " : ""}${action}${colors.reset} ${targetPath}`);
 
     if (!args.dryRun) {
       fs.cpSync(sourcePath, targetPath, {
@@ -239,70 +261,26 @@ function copyDirectoryContents(sourceDir, targetDir, args) {
   return { installed, skipped };
 }
 
-function copyResourceScripts(targetDir, args) {
-  let installed = 0;
-  let skipped = 0;
-
-  for (const scriptName of RESOURCE_SCRIPTS) {
-    const result = copySingleFile(
-      path.join(SOURCE_SCRIPTS, scriptName),
-      path.join(targetDir, scriptName),
-      args
-    );
-    installed += result.installed;
-    skipped += result.skipped;
-  }
-
-  return { installed, skipped };
-}
-
-function copyAgentTemplates(targetDir, args) {
-  let installed = 0;
-  let skipped = 0;
-
-  for (const templateName of AGENT_TEMPLATES) {
-    const result = copySingleFile(
-      path.join(SOURCE_TEMPLATES, templateName),
-      path.join(targetDir, templateName),
-      args
-    );
-    installed += result.installed;
-    skipped += result.skipped;
-  }
-
-  return { installed, skipped };
+function getToolRegistryInfo(tool, args) {
+  const rootPath =
+    tool === "claude"
+      ? args.claudeTarget
+      : tool === "opencode"
+      ? args.opencodeTarget
+      : args.antigravityTarget;
+  return { rootPath, paths: TOOL_REGISTRY[tool](rootPath) };
 }
 
 function installTool(tool, args) {
-  const targetRoot = tool === "claude"
-    ? args.claudeTarget
-    : tool === "opencode"
-      ? args.opencodeTarget
-      : args.antigravityTarget;
-
-  const targetCommandsList = tool === "antigravity"
-    ? [
-        path.join(targetRoot, "antigravity", "global_workflows"),
-        path.join(targetRoot, "antigravity-cli", "global_workflows"),
-        path.join(targetRoot, "antigravity-cli", "workflows"),
-      ]
-    : [path.join(targetRoot, "commands")];
-
-  const targetSkills = tool === "antigravity"
-    ? path.join(targetRoot, "config", "skills")
-    : path.join(targetRoot, "skills");
-
-  const targetResources = tool === "antigravity"
-    ? path.join(targetRoot, "config", "sdd-jc")
-    : path.join(targetRoot, "sdd-jc");
+  const { rootPath, paths } = getToolRegistryInfo(tool, args);
 
   let installed = 0;
   let skipped = 0;
 
-  console.log(`\n${tool} target: ${targetRoot}`);
+  console.log(`\n${colors.cyan}${tool.toUpperCase()} target: ${rootPath}${colors.reset}`);
 
   if (shouldInclude("commands", args)) {
-    for (const targetCommands of targetCommandsList) {
+    for (const targetCommands of paths.commands) {
       const result = copyDirectoryContents(SOURCE_COMMANDS, targetCommands, args);
       installed += result.installed;
       skipped += result.skipped;
@@ -310,23 +288,35 @@ function installTool(tool, args) {
   }
 
   if (shouldInclude("skills", args)) {
-    const result = copyDirectoryContents(SOURCE_SKILLS, targetSkills, args);
+    const result = copyDirectoryContents(SOURCE_SKILLS, paths.skills, args);
     installed += result.installed;
     skipped += result.skipped;
   }
 
   if (shouldInclude("resources", args)) {
-    const scriptsResult = copyResourceScripts(path.join(targetResources, "scripts"), args);
-    installed += scriptsResult.installed;
-    skipped += scriptsResult.skipped;
+    for (const scriptName of RESOURCE_SCRIPTS) {
+      const result = copySingleFile(
+        path.join(SOURCE_SCRIPTS, scriptName),
+        path.join(paths.resources, "scripts", scriptName),
+        args
+      );
+      installed += result.installed;
+      skipped += result.skipped;
+    }
 
-    const templatesResult = copyAgentTemplates(path.join(targetResources, "templates"), args);
-    installed += templatesResult.installed;
-    skipped += templatesResult.skipped;
+    for (const templateName of AGENT_TEMPLATES) {
+      const result = copySingleFile(
+        path.join(SOURCE_TEMPLATES, templateName),
+        path.join(paths.resources, "templates", templateName),
+        args
+      );
+      installed += result.installed;
+      skipped += result.skipped;
+    }
 
     const mcpResult = copySingleFile(
       SOURCE_MCP_EXAMPLE,
-      path.join(targetResources, ".mcp.json.example"),
+      path.join(paths.resources, ".mcp.json.example"),
       args
     );
     installed += mcpResult.installed;
@@ -348,119 +338,139 @@ function runInstall(args) {
 
   console.log(`\nDone. Installed: ${installed} | Skipped: ${skipped}`);
   if (skipped > 0 && !args.force) {
-    console.log("Use --force to overwrite existing files.");
+    console.log(`Use ${colors.yellow}--force${colors.reset} to overwrite existing files.`);
   }
 
   if (selectedTools(args).includes("opencode") && !args.dryRun) {
-    console.log("Restart OpenCode for installed commands and skills to be loaded.");
+    console.log(`Restart ${colors.cyan}OpenCode${colors.reset} for installed commands and skills to be loaded.`);
   }
 }
 
 function runList() {
   const commands = listCommands();
   const skills = listSkills();
-  console.log("Commands:");
+  console.log(`\n${colors.cyan}Commands:${colors.reset}`);
   commands.forEach((name) => console.log(`  ${name.replace(/\.md$/, "")}`));
 
-  console.log("\nSkills:");
+  console.log(`\n${colors.cyan}Skills:${colors.reset}`);
   skills.forEach((name) => console.log(`  ${name}`));
 
-  console.log("\nResources:");
-  RESOURCE_SCRIPTS.forEach((name) => console.log(`  scripts/${name}`));
-  AGENT_TEMPLATES.forEach((name) => console.log(`  templates/${name}`));
+  console.log(`\n${colors.cyan}Resources:${colors.reset}`);
+  RESOURCE_SCRIPTS.forEach((name) => console.log(`  ${formatPath(path.join("scripts", name))}`));
+  AGENT_TEMPLATES.forEach((name) => console.log(`  ${formatPath(path.join("templates", name))}`));
   console.log("  .mcp.json.example");
 }
 
-function hasInstalledCommand(targetCommands, name) {
-  return fs.existsSync(path.join(targetCommands, name));
-}
-
-function hasInstalledSkill(targetSkills, name) {
-  return fs.existsSync(path.join(targetSkills, name, "SKILL.md"));
+function hasInstalledCommand(targetCommandsList, name) {
+  for (const targetCommands of targetCommandsList) {
+    if (fs.existsSync(path.join(targetCommands, name))) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function doctorTool(tool, args) {
-  const targetRoot = tool === "claude"
-    ? args.claudeTarget
-    : tool === "opencode"
-      ? args.opencodeTarget
-      : args.antigravityTarget;
-
-  const targetCommandsList = tool === "antigravity"
-    ? [
-        path.join(targetRoot, "antigravity", "global_workflows"),
-        path.join(targetRoot, "antigravity-cli", "global_workflows"),
-        path.join(targetRoot, "antigravity-cli", "workflows"),
-      ]
-    : [path.join(targetRoot, "commands")];
-
-  const targetSkills = tool === "antigravity"
-    ? path.join(targetRoot, "config", "skills")
-    : path.join(targetRoot, "skills");
-
-  const targetResources = tool === "antigravity"
-    ? path.join(targetRoot, "config", "sdd-jc")
-    : path.join(targetRoot, "sdd-jc");
-
+  const { rootPath, paths } = getToolRegistryInfo(tool, args);
   let missing = 0;
+  let fixed = 0;
 
-  console.log(`\nChecking ${tool}: ${targetRoot}`);
+  console.log(`\n${colors.cyan}Checking ${tool.toUpperCase()}: ${rootPath}${colors.reset}`);
 
   if (shouldInclude("commands", args)) {
-    console.log("\nCommands:");
+    console.log(`\n${colors.yellow}Commands:${colors.reset}`);
     for (const command of listCommands()) {
-      let ok = false;
-      for (const targetCommands of targetCommandsList) {
-        if (hasInstalledCommand(targetCommands, command)) {
-          ok = true;
-          break;
+      const ok = hasInstalledCommand(paths.commands, command);
+      if (ok) {
+        console.log(`  ${colors.green}OK${colors.reset} ${command}`);
+      } else {
+        if (args.fix) {
+          const targetPath = path.join(paths.commands[0], command);
+          copySingleFile(path.join(SOURCE_COMMANDS, command), targetPath, { force: true, dryRun: false });
+          console.log(`  ${colors.cyan}FIXED${colors.reset} ${command}`);
+          fixed += 1;
+        } else {
+          console.log(`  ${colors.red}MISSING${colors.reset} ${command}`);
+          missing += 1;
         }
       }
-      console.log(`  ${ok ? "OK" : "MISSING"} ${command}`);
-      if (!ok) missing += 1;
     }
   }
 
   if (shouldInclude("skills", args)) {
-    console.log("\nSkills:");
+    console.log(`\n${colors.yellow}Skills:${colors.reset}`);
     for (const skill of listSkills()) {
-      const ok = hasInstalledSkill(targetSkills, skill);
-      console.log(`  ${ok ? "OK" : "MISSING"} ${skill}`);
-      if (!ok) missing += 1;
+      const ok = fs.existsSync(path.join(paths.skills, skill, "SKILL.md"));
+      if (ok) {
+        console.log(`  ${colors.green}OK${colors.reset} ${skill}`);
+      } else {
+        if (args.fix) {
+          copyDirectoryContents(path.join(SOURCE_SKILLS, skill), path.join(paths.skills, skill), { force: true, dryRun: false });
+          console.log(`  ${colors.cyan}FIXED${colors.reset} ${skill}`);
+          fixed += 1;
+        } else {
+          console.log(`  ${colors.red}MISSING${colors.reset} ${skill}`);
+          missing += 1;
+        }
+      }
     }
   }
 
   if (shouldInclude("resources", args)) {
-    console.log("\nResources:");
+    console.log(`\n${colors.yellow}Resources:${colors.reset}`);
     const resourceChecks = [
-      path.join(targetResources, "scripts", "gsc_verify.py"),
-      path.join(targetResources, ".mcp.json.example"),
-      ...AGENT_TEMPLATES.map((name) => path.join(targetResources, "templates", name)),
+      { src: path.join(SOURCE_SCRIPTS, "gsc_verify.py"), dest: path.join(paths.resources, "scripts", "gsc_verify.py") },
+      { src: path.join(SOURCE_SCRIPTS, "parse_tests.js"), dest: path.join(paths.resources, "scripts", "parse_tests.js") },
+      { src: SOURCE_MCP_EXAMPLE, dest: path.join(paths.resources, ".mcp.json.example") },
+      ...AGENT_TEMPLATES.map((name) => ({
+        src: path.join(SOURCE_TEMPLATES, name),
+        dest: path.join(paths.resources, "templates", name),
+      })),
     ];
 
-    for (const resourcePath of resourceChecks) {
-      const ok = fs.existsSync(resourcePath);
-      console.log(`  ${ok ? "OK" : "MISSING"} ${resourcePath}`);
-      if (!ok) missing += 1;
+    for (const check of resourceChecks) {
+      const ok = fs.existsSync(check.dest);
+      if (ok) {
+        console.log(`  ${colors.green}OK${colors.reset} ${check.dest}`);
+      } else {
+         if (args.fix) {
+          copySingleFile(check.src, check.dest, { force: true, dryRun: false });
+          console.log(`  ${colors.cyan}FIXED${colors.reset} ${check.dest}`);
+          fixed += 1;
+        } else {
+          console.log(`  ${colors.red}MISSING${colors.reset} ${check.dest}`);
+          missing += 1;
+        }
+      }
     }
   }
 
-  return missing;
+  return { missing, fixed };
 }
 
 function runDoctor(args) {
-  let missing = 0;
+  let missingTotal = 0;
+  let fixedTotal = 0;
+  
   for (const tool of selectedTools(args)) {
-    missing += doctorTool(tool, args);
+    const { missing, fixed } = doctorTool(tool, args);
+    missingTotal += missing;
+    fixedTotal += fixed;
   }
 
-  console.log(`\nDone. Missing: ${missing}`);
-  if (missing > 0) process.exitCode = 1;
+  console.log(`\nDone. Missing: ${missingTotal} | Fixed: ${fixedTotal}`);
+  if (missingTotal > 0) {
+    console.log(`Run ${colors.cyan}sdd-jc doctor --fix${colors.reset} to auto-repair missing files.`);
+    process.exitCode = 1;
+  }
 }
 
 function main() {
-  printBanner();
-  const args = parseArgs(process.argv);
+  const args = getArgs();
+  
+  if (args.command !== "help" && args.command !== "list") {
+    printBanner();
+  }
 
   switch (args.command) {
     case "install":
