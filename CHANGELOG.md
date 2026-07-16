@@ -6,11 +6,16 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [0.10.2] - 2026-07-16
+
 ### Changed
 - Refined prompt caching across all commands and templates: reading constitutional baseline docs FIRST in a consistent order drastically reduces API token cost.
 - Reinforced model tier assignments (`> **Recommended model tier:**`) across commands so users only expend expensive T1/T3 tokens when deep reasoning is actually required, avoiding token waste on format-following tasks like `/sdd-archive`.
 - Expanded `.codegraph/` integration: agents are now explicitly instructed to use `codegraph_search` and `codegraph_context` over full file reads (`grep`/`glob`) during `/sdd-propose` and `/sdd-specify`, significantly reducing input tokens.
-
 ## [0.10.1] - 2026-07-16
 
 ### Changed
