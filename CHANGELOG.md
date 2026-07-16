@@ -6,6 +6,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [0.11.0] - 2026-07-16
+
 ### Added
 - Rewrote the `sdd-jc` CLI argument parser to use the native Node.js `util.parseArgs` (Node >= 18.0.0) for stronger type safety, default values, and better error handling.
 - Added native ANSI colors to the CLI interface for high-visibility terminal output (`sdd-jc doctor` and `sdd-jc list`).
@@ -15,7 +21,6 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 - Refactored the `sdd-jc` CLI core architecture to use a unified `TOOL_REGISTRY` pattern, eliminating duplicate tool-specific conditionals and vastly improving the scalability of adding future IDE/Tool targets.
 - Improved CLI cross-platform compatibility (Windows-first) by strictly normalizing all console path outputs and `~` directory resolutions to work flawlessly in PowerShell and CMD.
 - Removed the circular self-dependency from `package.json` to guarantee zero-dependency execution for faster `npx`/`pnpm dlx` global installs.
-
 ## [0.10.2] - 2026-07-16
 
 ### Changed
