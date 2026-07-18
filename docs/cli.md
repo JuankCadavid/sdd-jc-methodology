@@ -4,6 +4,18 @@ The `akili` CLI installs the AKILI command prompts, skills, and helper resources
 
 ## Install
 
+### Interactive Mode (Recommended)
+
+Run the CLI without arguments or use the `init` command to launch an interactive wizard. It will guide you through selecting the target tools and choosing between global or local installation:
+
+```bash
+pnpm dlx akili-specs
+# or
+akili init
+```
+
+### Manual Installation
+
 Run directly from npm:
 
 ```bash
@@ -27,10 +39,17 @@ pnpm add -g akili-specs
 akili install --tool all
 ```
 
+To install directly into the local project workspace instead of globally, use the `--local` flag:
+
+```bash
+akili install --tool both --local
+```
+
 ## Commands
 
 | Command | Purpose |
 |---|---|
+| `akili init` | Interactive setup wizard for installation |
 | `akili install` | Install commands, skills, and helper resources |
 | `akili update` | Reinstall packaged commands, skills, and helper resources |
 | `akili list` | List packaged commands, skills, and helper resources |
@@ -50,10 +69,12 @@ akili install --tool all
 | `--claude-target <path>` | multiple tools | Override Claude target directory |
 | `--opencode-target <path>` | multiple tools | Override OpenCode target directory |
 | `--antigravity-target <path>` | multiple tools | Override Antigravity target directory |
+| `--local`, `-l` | install, update, doctor | Target the current project directory (e.g., `./.claude`) instead of the global home directory |
 | `--force` | install, update | Overwrite existing files |
 | `--dry-run` | install, update | Show planned writes without writing files |
 | `--commands-only` | install, update, doctor | Only install or check commands |
 | `--skills-only` | install, update, doctor | Only install or check skills |
+| `--fix` | doctor | Automatically repair and copy missing files |
 
 `--commands-only` and `--skills-only` are mutually exclusive.
 

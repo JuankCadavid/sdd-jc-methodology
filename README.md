@@ -128,42 +128,35 @@ Install the methodology with the bundled CLI. The installer can target Claude, O
 | Both | You switch between Claude Code and OpenCode | Claude + OpenCode paths |
 | All | You use Claude, OpenCode, and Google Antigravity | All three paths |
 
-### Step 2: Install With `pnpm dlx`
+### Step 2: Install
 
-Install for Claude:
+**Interactive Installation (Recommended):**
+Simply run the CLI without arguments to launch the interactive setup wizard, which will ask you about the tool and whether you want a global or local installation:
 
 ```bash
-pnpm dlx akili-specs install --tool claude
+pnpm dlx akili-specs
+# or
+pnpm dlx akili-specs init
 ```
 
-Install for OpenCode:
+**Manual Installation via Flags:**
+
+Install globally for Claude (default):
+
+```bash
+pnpm dlx akili-specs install
+```
+
+Install globally for OpenCode:
 
 ```bash
 pnpm dlx akili-specs install --tool opencode
 ```
 
-Install for Antigravity:
+Install locally to the current project workspace:
 
 ```bash
-pnpm dlx akili-specs install --tool antigravity
-```
-
-Install for both Claude and OpenCode:
-
-```bash
-pnpm dlx akili-specs install --tool both
-```
-
-Install for all three:
-
-```bash
-pnpm dlx akili-specs install --tool all
-```
-
-Claude is the default, so this is equivalent to `--tool claude`:
-
-```bash
-pnpm dlx akili-specs install
+pnpm dlx akili-specs install --tool both --local
 ```
 
 ### Step 3: Verify The Installation

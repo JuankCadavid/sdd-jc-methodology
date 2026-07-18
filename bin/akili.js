@@ -89,9 +89,12 @@ Options:
   --commands-only      Install or check only commands
   --skills-only        Install or check only skills
   --fix                Automatically fix missing files during doctor command
+  --local, -l          Install locally to the current project instead of globally
 
 Examples:
+  akili init
   akili install
+  akili install --local
   akili install --tool opencode
   akili install --tool both --dry-run
   akili install --tool claude --target ./.claude
@@ -127,6 +130,7 @@ function getArgs() {
     "commands-only": { type: "boolean", default: false },
     "skills-only": { type: "boolean", default: false },
     fix: { type: "boolean", default: false },
+    local: { type: "boolean", short: "l", default: false },
     help: { type: "boolean", short: "h", default: false },
   };
 
@@ -153,6 +157,10 @@ function getArgs() {
     }
 
     // Resolve paths
+    const baseClaude = values.local ? path.join(process.cwd(), ".claude") : defaultPaths.claude;
+    const baseOpencode = values.local ? path.join(process.cwd(), ".config", "opencode") : defaultPaths.opencode;
+    const baseAntigravity = values.local ? path.join(process.cwd(), ".gemini") : defaultPaths.antigravity;
+
     const args = {
       command,
       tool: values.tool,
@@ -161,9 +169,10 @@ function getArgs() {
       commandsOnly: values["commands-only"],
       skillsOnly: values["skills-only"],
       fix: values.fix,
-      claudeTarget: resolveUserPath(values.target && values.tool === "claude" ? values.target : values["claude-target"]),
-      opencodeTarget: resolveUserPath(values.target && values.tool === "opencode" ? values.target : values["opencode-target"]),
-      antigravityTarget: resolveUserPath(values.target && values.tool === "antigravity" ? values.target : values["antigravity-target"]),
+      local: values.local,
+      claudeTarget: resolveUserPath(values.target && values.tool === "claude" ? values.target : (values["claude-target"] !== defaultPaths.claude ? values["claude-target"] : baseClaude)),
+      opencodeTarget: resolveUserPath(values.target && values.tool === "opencode" ? values.target : (values["opencode-target"] !== defaultPaths.opencode ? values["opencode-target"] : baseOpencode)),
+      antigravityTarget: resolveUserPath(values.target && values.tool === "antigravity" ? values.target : (values["antigravity-target"] !== defaultPaths.antigravity ? values["antigravity-target"] : baseAntigravity)),
     };
 
     return args;
@@ -465,11 +474,82 @@ function runDoctor(args) {
   }
 }
 
-function main() {
+const readline = require("readline/promises");
+
+async function runInteractiveInit() {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  console.log(`\n${colors.cyan}Welcome to the AKILI-SPECS Setup!${colors.reset}`);
+  console.log("Let's configure your AI-assisted development environment.\n");
+
+  const toolAnswer = await rl.question(
+    `Which tool do you want to install AKILI-SPECS for?\n` +
+    `  1) Claude Code\n` +
+    `  2) OpenCode\n` +
+    `  3) Google Antigravity\n` +
+    `  4) Both (Claude Code + OpenCode)\n` +
+    `  5) All three\n` +
+    `${colors.cyan}>${colors.reset} `
+  );
+
+  let tool = "claude";
+  if (toolAnswer.trim() === "2") tool = "opencode";
+  else if (toolAnswer.trim() === "3") tool = "antigravity";
+  else if (toolAnswer.trim() === "4") tool = "both";
+  else if (toolAnswer.trim() === "5") tool = "all";
+
+  console.log("");
+  const scopeAnswer = await rl.question(
+    `Do you want to install it globally or locally for this specific project?\n` +
+    `  1) Globally (available in all your projects)\n` +
+    `  2) Locally (only for this project workspace)\n` +
+    `${colors.cyan}>${colors.reset} `
+  );
+
+  const isLocal = scopeAnswer.trim() === "2";
+  rl.close();
+
+  const args = {
+    command: "install",
+    tool: tool,
+    force: false,
+    dryRun: false,
+    commandsOnly: false,
+    skillsOnly: false,
+    fix: false,
+    local: isLocal,
+  };
+
+  if (isLocal) {
+    const cwd = process.cwd();
+    args.claudeTarget = path.join(cwd, ".claude");
+    args.opencodeTarget = path.join(cwd, ".config", "opencode");
+    args.antigravityTarget = path.join(cwd, ".gemini");
+    console.log(`\n${colors.yellow}Setting up local project installation...${colors.reset}`);
+  } else {
+    args.claudeTarget = defaultPaths.claude;
+    args.opencodeTarget = defaultPaths.opencode;
+    args.antigravityTarget = defaultPaths.antigravity;
+    console.log(`\n${colors.yellow}Setting up global installation...${colors.reset}`);
+  }
+
+  runInstall(args);
+}
+
+async function main() {
   const args = getArgs();
   
-  if (args.command !== "help" && args.command !== "list") {
+  if (args.command !== "help" && args.command !== "list" && args.command !== "init") {
     printBanner();
+  }
+
+  if (process.argv.length === 2 || args.command === "init") {
+    printBanner();
+    await runInteractiveInit();
+    return;
   }
 
   switch (args.command) {
