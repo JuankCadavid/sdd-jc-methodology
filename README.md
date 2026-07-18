@@ -1,12 +1,12 @@
 <div align="center">
 
 <pre>
-     ██╗ ██████╗███████╗██████╗ ███████╗ ██████╗███████╗
-     ██║██╔════╝██╔════╝██╔══██╗██╔════╝██╔════╝██╔════╝
-     ██║██║     ███████╗██████╔╝█████╗  ██║     ███████╗
-██   ██║██║     ╚════██║██╔═══╝ ██╔══╝  ██║     ╚════██║
-╚█████╔╝╚██████╗███████║██║     ███████╗╚██████╗███████║
- ╚════╝  ╚═════╝╚══════╝╚═╝     ╚══════╝ ╚═════╝╚══════╝
+ █████╗ ██╗  ██╗██╗██╗     ██╗
+██╔══██╗██║ ██╔╝██║██║     ██║
+███████║█████╔╝ ██║██║     ██║
+██╔══██║██╔═██╗ ██║██║     ██║
+██║  ██║██║  ██╗██║███████╗██║
+╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝╚═╝
 </pre>
 
 # AKILI
@@ -16,8 +16,8 @@
 **Durable product context · traceable requirements · governed releases · 100% local methodology files**
 
 <p>
-  <a href="https://www.npmjs.com/package/akili-methodology"><img alt="npm version" src="https://img.shields.io/npm/v/akili-methodology?style=for-the-badge&label=npm"></a>
-  <img alt="License MIT" src="https://img.shields.io/npm/l/akili-methodology?style=for-the-badge&label=license&color=cfb600">
+  <a href="https://www.npmjs.com/package/akili-specs"><img alt="npm version" src="https://img.shields.io/npm/v/akili-specs?style=for-the-badge&label=npm"></a>
+  <img alt="License MIT" src="https://img.shields.io/npm/l/akili-specs?style=for-the-badge&label=license&color=cfb600">
   <img alt="Node.js 18+" src="https://img.shields.io/badge/Node.js-18%2B-91c714?style=for-the-badge">
 </p>
 
@@ -133,37 +133,37 @@ Install the methodology with the bundled CLI. The installer can target Claude, O
 Install for Claude:
 
 ```bash
-pnpm dlx akili-methodology install --tool claude
+pnpm dlx akili-specs install --tool claude
 ```
 
 Install for OpenCode:
 
 ```bash
-pnpm dlx akili-methodology install --tool opencode
+pnpm dlx akili-specs install --tool opencode
 ```
 
 Install for Antigravity:
 
 ```bash
-pnpm dlx akili-methodology install --tool antigravity
+pnpm dlx akili-specs install --tool antigravity
 ```
 
 Install for both Claude and OpenCode:
 
 ```bash
-pnpm dlx akili-methodology install --tool both
+pnpm dlx akili-specs install --tool both
 ```
 
 Install for all three:
 
 ```bash
-pnpm dlx akili-methodology install --tool all
+pnpm dlx akili-specs install --tool all
 ```
 
 Claude is the default, so this is equivalent to `--tool claude`:
 
 ```bash
-pnpm dlx akili-methodology install
+pnpm dlx akili-specs install
 ```
 
 ### Step 3: Verify The Installation
@@ -171,25 +171,25 @@ pnpm dlx akili-methodology install
 Check Claude installation:
 
 ```bash
-pnpm dlx akili-methodology doctor --tool claude
+pnpm dlx akili-specs doctor --tool claude
 ```
 
 Check OpenCode installation:
 
 ```bash
-pnpm dlx akili-methodology doctor --tool opencode
+pnpm dlx akili-specs doctor --tool opencode
 ```
 
 Check Antigravity installation:
 
 ```bash
-pnpm dlx akili-methodology doctor --tool antigravity
+pnpm dlx akili-specs doctor --tool antigravity
 ```
 
 Check all:
 
 ```bash
-pnpm dlx akili-methodology doctor --tool all
+pnpm dlx akili-specs doctor --tool all
 ```
 
 Expected result: every command, skill, and helper resource shows `OK`.
@@ -246,7 +246,7 @@ node bin/akili.js doctor --tool both
 If you prefer a persistent global CLI:
 
 ```bash
-pnpm add -g akili-methodology
+pnpm add -g akili-specs
 akili install
 akili install --tool opencode
 akili doctor --tool opencode
@@ -288,19 +288,19 @@ OpenCode loads global command markdown files from `~/.config/opencode/commands/`
 Update Claude:
 
 ```bash
-pnpm dlx akili-methodology update --tool claude --force
+pnpm dlx akili-specs update --tool claude --force
 ```
 
 Update OpenCode:
 
 ```bash
-pnpm dlx akili-methodology update --tool opencode --force
+pnpm dlx akili-specs update --tool opencode --force
 ```
 
 Update both:
 
 ```bash
-pnpm dlx akili-methodology update --tool both --force
+pnpm dlx akili-specs update --tool both --force
 ```
 
 Use `--force` when you want packaged files to replace older installed files. Without `--force`, existing files are skipped.
@@ -360,9 +360,9 @@ npm publish --access public --registry=https://registry.npmjs.org/
 After publish, smoke test:
 
 ```bash
-pnpm dlx akili-methodology@X.Y.Z list
-pnpm dlx akili-methodology@X.Y.Z install --tool both --dry-run
-npm view akili-methodology version --registry=https://registry.npmjs.org/
+pnpm dlx akili-specs@X.Y.Z list
+pnpm dlx akili-specs@X.Y.Z install --tool both --dry-run
+npm view akili-specs version --registry=https://registry.npmjs.org/
 npm run release:status
 ```
 

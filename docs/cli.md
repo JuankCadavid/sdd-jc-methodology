@@ -7,23 +7,23 @@ The `akili` CLI installs the AKILI command prompts, skills, and helper resources
 Run directly from npm:
 
 ```bash
-pnpm dlx akili-methodology install --tool claude
-pnpm dlx akili-methodology install --tool opencode
-pnpm dlx akili-methodology install --tool antigravity
-pnpm dlx akili-methodology install --tool both
-pnpm dlx akili-methodology install --tool all
+pnpm dlx akili-specs install --tool claude
+pnpm dlx akili-specs install --tool opencode
+pnpm dlx akili-specs install --tool antigravity
+pnpm dlx akili-specs install --tool both
+pnpm dlx akili-specs install --tool all
 ```
 
 Claude is the default target:
 
 ```bash
-pnpm dlx akili-methodology install
+pnpm dlx akili-specs install
 ```
 
 Use a persistent global install if preferred:
 
 ```bash
-pnpm add -g akili-methodology
+pnpm add -g akili-specs
 akili install --tool all
 ```
 

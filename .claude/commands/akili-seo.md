@@ -43,7 +43,7 @@ The user must provide (or confirm) once per Google Cloud project:
    }
    ```
    If `GSC_SITE_URL` is set, prefer the `sc-domain:` form (e.g. `sc-domain:example.com`) over the URL-prefix form.
-5. A local helper for the Site Verification API. The `gsc` MCP does **not** expose Site Verification endpoints (no `getToken`, no `verify`) — it only wraps the Search Console API. Use the bundled `scripts/gsc_verify.py` from `akili-methodology` (depends on `google-auth` and `google-api-python-client`). Invoke it as:
+5. A local helper for the Site Verification API. The `gsc` MCP does **not** expose Site Verification endpoints (no `getToken`, no `verify`) — it only wraps the Search Console API. Use the bundled `scripts/gsc_verify.py` from `akili-specs` (depends on `google-auth` and `google-api-python-client`). Invoke it as:
 
    ```bash
    GSC_KEY_PATH=/abs/path/to/key.json python3 scripts/gsc_verify.py get <domain>
