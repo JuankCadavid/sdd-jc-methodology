@@ -14,12 +14,12 @@ const AGENT_TEMPLATES = ["leader.md", "implementer.md", "reviewer.md"];
 const RESOURCE_SCRIPTS = ["gsc_verify.py", "parse_tests.js"];
 const SOURCE_SCRIPTS = path.join(PACKAGE_ROOT, "scripts");
 const SOURCE_MCP_EXAMPLE = path.join(PACKAGE_ROOT, ".mcp.json.example");
-const BANNER = `     ██╗ ██████╗███████╗██████╗ ███████╗ ██████╗███████╗
-     ██║██╔════╝██╔════╝██╔══██╗██╔════╝██╔════╝██╔════╝
-     ██║██║     ███████╗██████╔╝█████╗  ██║     ███████╗
-██   ██║██║     ╚════██║██╔═══╝ ██╔══╝  ██║     ╚════██║
-╚█████╔╝╚██████╗███████║██║     ███████╗╚██████╗███████║
- ╚════╝  ╚═════╝╚══════╝╚═╝     ╚══════╝ ╚═════╝╚══════╝`;
+const BANNER = ` █████╗ ██╗  ██╗██╗██╗     ██╗
+██╔══██╗██║ ██╔╝██║██║     ██║
+███████║█████╔╝ ██║██║     ██║
+██╔══██║██╔═██╗ ██║██║     ██║
+██║  ██║██║  ██╗██║███████╗██║
+╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝╚═╝`;
 
 // ANSI Colors
 const colors = {
@@ -47,12 +47,12 @@ const TOOL_REGISTRY = {
   claude: (rootPath) => ({
     commands: [path.join(rootPath, "commands")],
     skills: path.join(rootPath, "skills"),
-    resources: path.join(rootPath, "sdd-jc"),
+    resources: path.join(rootPath, "akili"),
   }),
   opencode: (rootPath) => ({
     commands: [path.join(rootPath, "commands")],
     skills: path.join(rootPath, "skills"),
-    resources: path.join(rootPath, "sdd-jc"),
+    resources: path.join(rootPath, "akili"),
   }),
   antigravity: (rootPath) => ({
     commands: [
@@ -61,15 +61,15 @@ const TOOL_REGISTRY = {
       path.join(rootPath, "antigravity-cli", "workflows"),
     ],
     skills: path.join(rootPath, "config", "skills"),
-    resources: path.join(rootPath, "config", "sdd-jc"),
+    resources: path.join(rootPath, "config", "akili"),
   }),
 };
 
 function printHelp() {
-  console.log(`SDD JC Methodology CLI
+  console.log(`AKILI-SPECS Methodology CLI
 
 Usage:
-  sdd-jc <command> [options]
+  akili <command> [options]
 
 Commands:
   install   Install commands, skills, and helper resources
@@ -91,13 +91,13 @@ Options:
   --fix                Automatically fix missing files during doctor command
 
 Examples:
-  sdd-jc install
-  sdd-jc install --tool opencode
-  sdd-jc install --tool both --dry-run
-  sdd-jc install --tool claude --target ./.claude
-  sdd-jc update --tool both --force
-  sdd-jc doctor --tool all --fix
-  sdd-jc list
+  akili install
+  akili install --tool opencode
+  akili install --tool both --dry-run
+  akili install --tool claude --target ./.claude
+  akili update --tool both --force
+  akili doctor --tool all --fix
+  akili list
 `);
 }
 
@@ -460,7 +460,7 @@ function runDoctor(args) {
 
   console.log(`\nDone. Missing: ${missingTotal} | Fixed: ${fixedTotal}`);
   if (missingTotal > 0) {
-    console.log(`Run ${colors.cyan}sdd-jc doctor --fix${colors.reset} to auto-repair missing files.`);
+    console.log(`Run ${colors.cyan}akili doctor --fix${colors.reset} to auto-repair missing files.`);
     process.exitCode = 1;
   }
 }

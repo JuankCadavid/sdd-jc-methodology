@@ -2,14 +2,14 @@
 description: Run spec-to-code drift auditing to detect differences between active codebase reality and the active UX/UI design and TRD.
 ---
 
-# Audit JCSPECS Specifications for Drift
+# Audit AKILI Specifications for Drift
 
 Detect and report drift between the project's specifications (PRD, UX/UI Design, and TRD) and the actual implementation in the codebase.
 
 ## Usage
 
 ```
-/sdd-audit
+/akili-audit
 ```
 
 ## Behavior
@@ -53,7 +53,7 @@ docs/specs/drift-report.md
 The Drift Report must follow this format:
 
 ```markdown
-# JCSPECS Drift Audit Report
+# AKILI Drift Audit Report
 
 - **Date of Audit:** YYYY-MM-DD
 - **Code Graph Used:** Yes/No
@@ -86,7 +86,7 @@ A brief overview of the codebase alignment state and major areas of specificatio
 | Agent Guides (root + `## Module Guides` index) | [Details] | [Aligned / Drifted] | |
 
 ## Recommended Next Steps
-Specific actions to resolve the discrepancies (e.g., "Run `/sdd-constitution` to enhance baseline", "Update `trd.md` with active REST APIs", or "Schedule a task to implement missing validation tests").
+Specific actions to resolve the discrepancies (e.g., "Run `/akili-constitution` to enhance baseline", "Update `trd.md` with active REST APIs", or "Schedule a task to implement missing validation tests").
 ```
 
 ### Step 4: Report to User

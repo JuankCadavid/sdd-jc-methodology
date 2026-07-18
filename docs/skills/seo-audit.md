@@ -9,7 +9,7 @@ Provides an expert SEO audit framework: crawlability and indexation, technical f
 - Auditing, reviewing, or diagnosing SEO issues on a site.
 - Rankings or organic traffic dropped and the cause is unknown.
 - Reviewing meta tags, structured data, page speed, or indexing issues.
-- Running the audit phase of `/sdd-seo`.
+- Running the audit phase of `/akili-seo`.
 
 ## Core Rules
 
@@ -19,8 +19,8 @@ Provides an expert SEO audit framework: crawlability and indexation, technical f
 
 ## Best Paired Commands
 
-- `/sdd-seo` for the audit phase (index coverage, structured data, render, on-page checks).
-- `/sdd-validate` when a spec includes SEO acceptance criteria.
+- `/akili-seo` for the audit phase (index coverage, structured data, render, on-page checks).
+- `/akili-validate` when a spec includes SEO acceptance criteria.
 
 ## Source
 

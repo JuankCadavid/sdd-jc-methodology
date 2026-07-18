@@ -12,8 +12,8 @@ Guides GSAP timelines for sequencing animations, using position parameters, nest
 
 ## Best Paired Commands
 
-- `/sdd-specify` for animation choreography and design decisions.
-- `/sdd-execute` for implementation.
+- `/akili-specify` for animation choreography and design decisions.
+- `/akili-execute` for implementation.
 
 ## Source
 

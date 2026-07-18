@@ -13,10 +13,10 @@ Guides NestJS architecture, modules, dependency injection, middleware, guards, i
 
 ## Best Paired Commands
 
-- `/sdd-specify` for backend design.
-- `/sdd-execute` for implementation.
-- `/sdd-test` for Jest/Supertest coverage.
-- `/sdd-validate` for architecture conformance.
+- `/akili-specify` for backend design.
+- `/akili-execute` for implementation.
+- `/akili-test` for Jest/Supertest coverage.
+- `/akili-validate` for architecture conformance.
 
 ## Source
 

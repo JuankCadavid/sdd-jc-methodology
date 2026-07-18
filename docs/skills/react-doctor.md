@@ -19,8 +19,8 @@ npx -y react-doctor@latest . --verbose --diff
 
 ## Best Paired Commands
 
-- `/sdd-test` for diagnostic evidence.
-- `/sdd-validate` for React quality review.
+- `/akili-test` for diagnostic evidence.
+- `/akili-validate` for React quality review.
 
 ## Source
 

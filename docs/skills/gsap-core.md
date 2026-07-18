@@ -13,8 +13,8 @@ Guides GSAP core animation APIs such as `gsap.to()`, `from()`, `fromTo()`, easin
 
 ## Best Paired Commands
 
-- `/sdd-specify` for animation requirements and design.
-- `/sdd-execute` for implementation.
+- `/akili-specify` for animation requirements and design.
+- `/akili-execute` for implementation.
 
 ## Source
 

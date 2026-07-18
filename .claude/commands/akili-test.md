@@ -2,7 +2,7 @@
 description: Write and execute comprehensive automated unit/integration tests for the implemented feature.
 ---
 
-# Test SDD Implementation
+# Test AKILI-SPECS Implementation
 
 Run automated and, when needed, manual tests against a spec path's implementation. Produce `test-report.md` with results, requirement coverage, scenario traceability, and failures.
 
@@ -11,13 +11,13 @@ Testing should prove the behavior promised in `requirements.md`, not only increa
 ## Usage
 
 ```
-/sdd-test <spec-path>
+/akili-test <spec-path>
 ```
 
 **Examples:**
 
-- `/sdd-test loan`
-- `/sdd-test enhancements/renewals`
+- `/akili-test loan`
+- `/akili-test enhancements/renewals`
 
 ## Arguments
 
@@ -96,8 +96,8 @@ Recommended matrix columns:
 
 Create `docs/specs/$ARGUMENTS/test-report.md`.
 
-**Automated Test Parsing Option:** If the repository uses standard testing frameworks (like Jest or Vitest) and has a JCSPECS test parsing helper installed (e.g. `sdd-jc/scripts/parse_tests.js`), you may run the tests outputting to JSON (e.g. `jest --json --outputFile=jest-results.json` or `vitest --reporter=json --outputFile=test-results.json`) and run:
-`node <path-to-sdd-jc>/scripts/parse_tests.js jest-results.json`
+**Automated Test Parsing Option:** If the repository uses standard testing frameworks (like Jest or Vitest) and has a AKILI test parsing helper installed (e.g. `akili/scripts/parse_tests.js`), you may run the tests outputting to JSON (e.g. `jest --json --outputFile=jest-results.json` or `vitest --reporter=json --outputFile=test-results.json`) and run:
+`node <path-to-akili>/scripts/parse_tests.js jest-results.json`
 to automatically scaffold the results matrix directly into the test report sections.
 
 The report must include:

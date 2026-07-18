@@ -12,8 +12,8 @@ Guides GSAP plugin usage, including registration and plugins such as ScrollToPlu
 
 ## Best Paired Commands
 
-- `/sdd-specify` for deciding whether plugin behavior is justified.
-- `/sdd-execute` for implementation.
+- `/akili-specify` for deciding whether plugin behavior is justified.
+- `/akili-execute` for implementation.
 
 ## Source
 

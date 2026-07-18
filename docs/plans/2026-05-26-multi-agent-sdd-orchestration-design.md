@@ -1,15 +1,15 @@
-# Design Document: JCSPECS Multi-Agent SDD Orchestration
+# Design Document: AKILI Multi-Agent AKILI-SPECS Orchestration
 **Date:** 2026-05-26  
-**Topic:** Multi-Agent SDD Orchestration (Leader-Implementer-Reviewer Triad)  
+**Topic:** Multi-Agent AKILI-SPECS Orchestration (Leader-Implementer-Reviewer Triad)  
 **Status:** Approved  
 
 ---
 
 ## 1. Executive Summary
 
-This document specifies the integration of a specialized **Leader-Implementer-Reviewer** agentic team into the JCSPECS Spec-Driven Development (SDD) methodology. 
+This document specifies the integration of a specialized **Leader-Implementer-Reviewer** agentic team into the AKILI Spec-Driven Development (AKILI-SPECS) methodology. 
 
-By shifting from a single-agent execution model to a collaborative, multi-agent triad, JCSPECS eliminates confirmation bias during code reviews, improves context window efficiency, and guarantees high-fidelity compliance with system design tokens and the project's constitution (`CLAUDE.md`/`AGENTS.md`).
+By shifting from a single-agent execution model to a collaborative, multi-agent triad, AKILI eliminates confirmation bias during code reviews, improves context window efficiency, and guarantees high-fidelity compliance with system design tokens and the project's constitution (`CLAUDE.md`/`AGENTS.md`).
 
 ---
 
@@ -32,19 +32,19 @@ your-workspace/
 
 ---
 
-## 3. The Smart Constitution Phase (`/sdd-constitution`)
+## 3. The Smart Constitution Phase (`/akili-constitution`)
 
 During the constitution phase, the Leader dynamically classifies the repository and sets up the agentic environment without destroying existing configurations:
 
 1.  **Brand New Project (Seed Setup):** Prompts the user for a seed intent, initializes directories, drafts initial baselines (`prd.md`, `design.md`, `detailed-design.md`), and scaffolds the default `.agents/` templates.
 2.  **Legacy Codebase (Discovery Setup):** Deep scans the codebase using CodeGraph or grep to extract components, API contracts, and styling tokens. Synthesizes baselines from this codebase reality and customizes the `.agents/` guidelines matching this tech stack.
-3.  **Active SDD Project (Safe Update):** Reads existing files and custom subagent rules. **It does not overwrite them.** It only upgrades weak sections and updates `.agents/` to support the new multi-agent loop while preserving custom instructions.
+3.  **Active AKILI-SPECS Project (Safe Update):** Reads existing files and custom subagent rules. **It does not overwrite them.** It only upgrades weak sections and updates `.agents/` to support the new multi-agent loop while preserving custom instructions.
 
 ---
 
-## 4. Automated Rework Loop (`/sdd-execute`)
+## 4. Automated Rework Loop (`/akili-execute`)
 
-When `/sdd-execute` is triggered, the Leader automatically coordinates the subagent loop in the background:
+When `/akili-execute` is triggered, the Leader automatically coordinates the subagent loop in the background:
 
 ```mermaid
 sequenceDiagram
@@ -54,7 +54,7 @@ sequenceDiagram
     participant I as Implementer Subagent
     participant R as Reviewer Subagent
 
-    User->>L: /sdd-execute changes/add-remember-me
+    User->>L: /akili-execute changes/add-remember-me
     L->>L: Reads next task & .agents/implementer.md
     L->>I: Spawns Implementer with task context
     Note over I: Writes code & runs local verifications
@@ -99,7 +99,7 @@ sequenceDiagram
 The `.agents/` directory is standardized to be completely tool-agnostic:
 
 *   **Markdown Frontmatter:** Uses pure Markdown + YAML frontmatter, natively compatible with Antigravity, Claude Code, and OpenCode.
-*   **Standard Path Resolution:** All JCSPECS commands resolve the `.agents/` path relative to the active terminal's **Current Working Directory (Cwd)**, binding it strictly to the current workspace.
+*   **Standard Path Resolution:** All AKILI commands resolve the `.agents/` path relative to the active terminal's **Current Working Directory (Cwd)**, binding it strictly to the current workspace.
 *   **Subagent Adaptations:**
     *   *Antigravity:* Calls `invoke_subagent` using prompts read from `.agents/`.
     *   *Claude Code / OpenCode:* Delegates tasks by triggering sub-prompt contexts seeded with the extracted implementer/reviewer instructions.

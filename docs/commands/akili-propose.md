@@ -1,19 +1,19 @@
-# `/sdd-propose`
+# `/akili-propose`
 
 Create a lightweight, reviewable proposal before full specification.
 
 ## Usage
 
 ```text
-/sdd-propose <change-name-or-spec-path>
+/akili-propose <change-name-or-spec-path>
 ```
 
 Examples:
 
 ```text
-/sdd-propose add-remember-me
-/sdd-propose bugfix/login-redirect
-/sdd-propose enhancements/renewals
+/akili-propose add-remember-me
+/akili-propose bugfix/login-redirect
+/akili-propose enhancements/renewals
 ```
 
 ## Path Rules
@@ -61,5 +61,5 @@ docs/specs/<spec-path>/proposal.md
 After approval:
 
 ```text
-/sdd-specify <spec-path>
+/akili-specify <spec-path>
 ```

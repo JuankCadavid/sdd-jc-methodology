@@ -13,8 +13,8 @@ Clarifies ideas before implementation by exploring intent, scope, constraints, o
 
 ## Best Paired Commands
 
-- `/sdd-propose` for intent and option exploration.
-- `/sdd-specify` for requirements, design, and task planning.
+- `/akili-propose` for intent and option exploration.
+- `/akili-specify` for requirements, design, and task planning.
 
 ## Source
 

@@ -1,41 +1,41 @@
 # CLI Reference
 
-The `sdd-jc` CLI installs the JCSPECS command prompts, skills, and helper resources into Claude Code, OpenCode, Google Antigravity, or multiple tools.
+The `akili` CLI installs the AKILI command prompts, skills, and helper resources into Claude Code, OpenCode, Google Antigravity, or multiple tools.
 
 ## Install
 
 Run directly from npm:
 
 ```bash
-pnpm dlx sdd-jc-methodology install --tool claude
-pnpm dlx sdd-jc-methodology install --tool opencode
-pnpm dlx sdd-jc-methodology install --tool antigravity
-pnpm dlx sdd-jc-methodology install --tool both
-pnpm dlx sdd-jc-methodology install --tool all
+pnpm dlx akili-methodology install --tool claude
+pnpm dlx akili-methodology install --tool opencode
+pnpm dlx akili-methodology install --tool antigravity
+pnpm dlx akili-methodology install --tool both
+pnpm dlx akili-methodology install --tool all
 ```
 
 Claude is the default target:
 
 ```bash
-pnpm dlx sdd-jc-methodology install
+pnpm dlx akili-methodology install
 ```
 
 Use a persistent global install if preferred:
 
 ```bash
-pnpm add -g sdd-jc-methodology
-sdd-jc install --tool all
+pnpm add -g akili-methodology
+akili install --tool all
 ```
 
 ## Commands
 
 | Command | Purpose |
 |---|---|
-| `sdd-jc install` | Install commands, skills, and helper resources |
-| `sdd-jc update` | Reinstall packaged commands, skills, and helper resources |
-| `sdd-jc list` | List packaged commands, skills, and helper resources |
-| `sdd-jc doctor` | Check whether expected files are installed |
-| `sdd-jc help` | Show help |
+| `akili install` | Install commands, skills, and helper resources |
+| `akili update` | Reinstall packaged commands, skills, and helper resources |
+| `akili list` | List packaged commands, skills, and helper resources |
+| `akili doctor` | Check whether expected files are installed |
+| `akili help` | Show help |
 
 ## Options
 
@@ -72,9 +72,9 @@ Claude install layout:
 ```text
 ~/.claude/commands/
 ~/.claude/skills/
-~/.claude/sdd-jc/scripts/
-~/.claude/sdd-jc/templates/      (leader.md, implementer.md, reviewer.md — used by /sdd-constitution to scaffold project .agents/)
-~/.claude/sdd-jc/.mcp.json.example
+~/.claude/akili/scripts/
+~/.claude/akili/templates/      (leader.md, implementer.md, reviewer.md — used by /akili-constitution to scaffold project .agents/)
+~/.claude/akili/.mcp.json.example
 ```
 
 OpenCode install layout:
@@ -82,9 +82,9 @@ OpenCode install layout:
 ```text
 ~/.config/opencode/commands/
 ~/.config/opencode/skills/
-~/.config/opencode/sdd-jc/scripts/
-~/.config/opencode/sdd-jc/templates/
-~/.config/opencode/sdd-jc/.mcp.json.example
+~/.config/opencode/akili/scripts/
+~/.config/opencode/akili/templates/
+~/.config/opencode/akili/.mcp.json.example
 ```
 
 Antigravity install layout:
@@ -92,9 +92,9 @@ Antigravity install layout:
 ```text
 ~/.gemini/antigravity/global_workflows/  (custom commands mapped as global workflows)
 ~/.gemini/config/skills/                 (skills mapped as global skills)
-~/.gemini/config/sdd-jc/scripts/         (scripts mapped as config resources)
-~/.gemini/config/sdd-jc/templates/       (multi-agent harness templates: leader, implementer, reviewer)
-~/.gemini/config/sdd-jc/.mcp.json.example
+~/.gemini/config/akili/scripts/         (scripts mapped as config resources)
+~/.gemini/config/akili/templates/       (multi-agent harness templates: leader, implementer, reviewer)
+~/.gemini/config/akili/.mcp.json.example
 ```
 
 Restart Claude Code, OpenCode, or Google Antigravity after install/update so running sessions load new commands and skills.
@@ -111,42 +111,42 @@ Restart Claude Code, OpenCode, or Google Antigravity after install/update so run
 Preview a three-tool install:
 
 ```bash
-sdd-jc install --tool all --dry-run
+akili install --tool all --dry-run
 ```
 
 Install Claude commands into a local project folder:
 
 ```bash
-sdd-jc install --tool claude --target ./.claude
+akili install --tool claude --target ./.claude
 ```
 
 Install both tools into custom directories:
 
 ```bash
-sdd-jc install --tool both --claude-target ./.claude --opencode-target ./.opencode
+akili install --tool both --claude-target ./.claude --opencode-target ./.opencode
 ```
 
 Update Antigravity skills only:
 
 ```bash
-sdd-jc update --tool antigravity --skills-only --force
+akili update --tool antigravity --skills-only --force
 ```
 
 Check all installs:
 
 ```bash
-sdd-jc doctor --tool all
+akili doctor --tool all
 ```
 
 ## Packaged Resources
 
-The CLI installs helper resources under the target `sdd-jc/` directory:
+The CLI installs helper resources under the target `akili/` directory:
 
 | Resource | Purpose |
 |---|---|
-| `scripts/gsc_verify.py` | Google Site Verification helper used by `/sdd-seo` |
-| `scripts/parse_tests.js` | Jest/Vitest JSON test-output parser used by `/sdd-test` to generate the requirement-to-test matrix |
-| `templates/leader.md` | Default Leader (Orchestrator) persona for the multi-agent harness — copied into project `.agents/` by `/sdd-constitution` |
+| `scripts/gsc_verify.py` | Google Site Verification helper used by `/akili-seo` |
+| `scripts/parse_tests.js` | Jest/Vitest JSON test-output parser used by `/akili-test` to generate the requirement-to-test matrix |
+| `templates/leader.md` | Default Leader (Orchestrator) persona for the multi-agent harness — copied into project `.agents/` by `/akili-constitution` |
 | `templates/implementer.md` | Default Implementer persona for the multi-agent harness |
 | `templates/reviewer.md` | Default Reviewer persona for the multi-agent harness |
 | `.mcp.json.example` | Example MCP config for the Google Search Console MCP server |
@@ -155,12 +155,12 @@ The CLI installs helper resources under the target `sdd-jc/` directory:
 
 If commands do not appear in your AI tool:
 
-- Run `sdd-jc doctor --tool <claude|opencode|antigravity|both|all>`.
+- Run `akili doctor --tool <claude|opencode|antigravity|both|all>`.
 - Restart Claude Code, OpenCode, or Google Antigravity.
 - Confirm the target directory is the one your tool reads.
 - Re-run with `--force` if older files should be replaced.
 
 If helper resources are missing:
 
-- Run `sdd-jc doctor --tool <target>` without `--commands-only` or `--skills-only`.
-- Re-run `sdd-jc install --tool <target> --force`.
+- Run `akili doctor --tool <target>` without `--commands-only` or `--skills-only`.
+- Re-run `akili install --tool <target> --force`.

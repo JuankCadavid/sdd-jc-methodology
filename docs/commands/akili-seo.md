@@ -1,18 +1,18 @@
-# `/sdd-seo`
+# `/akili-seo`
 
 Provision Google Search Console ownership for a domain, run a technical SEO audit, and write reports under a spec path.
 
 ## Usage
 
 ```text
-/sdd-seo <site-domain>
+/akili-seo <site-domain>
 ```
 
 Examples:
 
 ```text
-/sdd-seo example.com
-/sdd-seo seo/example.com
+/akili-seo example.com
+/akili-seo seo/example.com
 ```
 
 ## Path Rules

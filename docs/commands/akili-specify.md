@@ -1,19 +1,19 @@
-# `/sdd-specify`
+# `/akili-specify`
 
 Generate the requirements, design, and task plan for one bounded feature, bugfix, enhancement, or module.
 
 ## Usage
 
 ```text
-/sdd-specify <spec-path>
+/akili-specify <spec-path>
 ```
 
 Examples:
 
 ```text
-/sdd-specify loan
-/sdd-specify enhancements/renewals
-/sdd-specify admin/user-management
+/akili-specify loan
+/akili-specify enhancements/renewals
+/akili-specify admin/user-management
 ```
 
 ## Use When
@@ -65,5 +65,5 @@ docs/specs/<spec-path>/tasks.md
 After approval:
 
 ```text
-/sdd-execute <spec-path>
+/akili-execute <spec-path>
 ```

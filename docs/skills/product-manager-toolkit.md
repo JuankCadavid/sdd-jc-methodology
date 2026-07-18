@@ -13,9 +13,9 @@ Supports product management work, including PRDs, customer interview analysis, R
 
 ## Best Paired Commands
 
-- `/sdd-constitution` for project PRD baseline.
-- `/sdd-propose` for intent and scope.
-- `/sdd-specify` for behavior requirements.
+- `/akili-constitution` for project PRD baseline.
+- `/akili-propose` for intent and scope.
+- `/akili-specify` for behavior requirements.
 
 ## Source
 

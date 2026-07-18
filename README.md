@@ -9,15 +9,15 @@
  ╚════╝  ╚═════╝╚══════╝╚═╝     ╚══════╝ ╚═════╝╚══════╝
 </pre>
 
-# JCSPECS
+# AKILI
 
 ### Supercharge Claude Code, OpenCode, and Google Antigravity with constitution-first spec intelligence
 
 **Durable product context · traceable requirements · governed releases · 100% local methodology files**
 
 <p>
-  <a href="https://www.npmjs.com/package/sdd-jc-methodology"><img alt="npm version" src="https://img.shields.io/npm/v/sdd-jc-methodology?style=for-the-badge&label=npm"></a>
-  <img alt="License MIT" src="https://img.shields.io/npm/l/sdd-jc-methodology?style=for-the-badge&label=license&color=cfb600">
+  <a href="https://www.npmjs.com/package/akili-methodology"><img alt="npm version" src="https://img.shields.io/npm/v/akili-methodology?style=for-the-badge&label=npm"></a>
+  <img alt="License MIT" src="https://img.shields.io/npm/l/akili-methodology?style=for-the-badge&label=license&color=cfb600">
   <img alt="Node.js 18+" src="https://img.shields.io/badge/Node.js-18%2B-91c714?style=for-the-badge">
 </p>
 
@@ -36,24 +36,24 @@
 
 </div>
 
-Portable Claude Code, OpenCode, and Google Antigravity configuration for the SDD JC methodology.
+Portable Claude Code, OpenCode, and Google Antigravity configuration for the AKILI-SPECS methodology.
 
-SDD JC is a constitution-first, spec-driven methodology for AI-assisted development. It keeps product intent, UX direction, technical design, implementation tasks, tests, and validation evidence in repository documentation so humans and agents can work from the same durable context.
+AKILI-SPECS is a constitution-first, spec-driven methodology for AI-assisted development. It keeps product intent, UX direction, technical design, implementation tasks, tests, and validation evidence in repository documentation so humans and agents can work from the same durable context.
 
 ## Docs
 
-→ **[Documentation Hub](docs/README.md)**: full JCSPECS documentation<br>
+→ **[Documentation Hub](docs/README.md)**: full AKILI documentation<br>
 → **[Flow](docs/flow.md)**: constitution-to-archive lifecycle<br>
-→ **[Model Routing](docs/model-routing.md)**: capability-tier model selection per SDD phase (Claude Code + OpenCode)<br>
+→ **[Model Routing](docs/model-routing.md)**: capability-tier model selection per AKILI-SPECS phase (Claude Code + OpenCode)<br>
 → **[Commands](docs/commands/README.md)**: slash command reference<br>
 → **[Skills](docs/skills/README.md)**: packaged skill reference<br>
-→ **[CLI](docs/cli.md)**: `sdd-jc` install/update/list/doctor reference<br>
-→ **[OpenSpec Comparison](docs/openspec-comparison.md)**: what JCSPECS borrows and how it differs<br>
+→ **[CLI](docs/cli.md)**: `akili` install/update/list/doctor reference<br>
+→ **[OpenSpec Comparison](docs/openspec-comparison.md)**: what AKILI borrows and how it differs<br>
 → **[Release Checklist](docs/release-checklist.md)**: controlled npm release process
 
 ## Repository Structure
 
-- `.claude/commands/` — custom SDD command prompts
+- `.claude/commands/` — custom AKILI-SPECS command prompts
 - `.claude/skills/` — required and preferred skills used by the methodology
 - `.claude/templates/` — default Leader, Implementer, and Reviewer personas used by the multi-agent harness (deployed into project `.agents/`)
 - `docs/` — human-facing documentation for the flow, CLI, commands, skills, and release process
@@ -64,14 +64,14 @@ SDD JC is a constitution-first, spec-driven methodology for AI-assisted developm
 ## Contents
 
 - `.claude/commands/`
-  - `sdd-constitution.md`
-  - `sdd-propose.md`
-  - `sdd-specify.md`
-  - `sdd-execute.md`
-  - `sdd-test.md`
-  - `sdd-validate.md`
-  - `sdd-archive.md`
-  - `sdd-seo.md`
+  - `akili-constitution.md`
+  - `akili-propose.md`
+  - `akili-specify.md`
+  - `akili-execute.md`
+  - `akili-test.md`
+  - `akili-validate.md`
+  - `akili-archive.md`
+  - `akili-seo.md`
 - `.claude/skills/`
   - `angular-developer`
   - `api-design-principles`
@@ -133,37 +133,37 @@ Install the methodology with the bundled CLI. The installer can target Claude, O
 Install for Claude:
 
 ```bash
-pnpm dlx sdd-jc-methodology install --tool claude
+pnpm dlx akili-methodology install --tool claude
 ```
 
 Install for OpenCode:
 
 ```bash
-pnpm dlx sdd-jc-methodology install --tool opencode
+pnpm dlx akili-methodology install --tool opencode
 ```
 
 Install for Antigravity:
 
 ```bash
-pnpm dlx sdd-jc-methodology install --tool antigravity
+pnpm dlx akili-methodology install --tool antigravity
 ```
 
 Install for both Claude and OpenCode:
 
 ```bash
-pnpm dlx sdd-jc-methodology install --tool both
+pnpm dlx akili-methodology install --tool both
 ```
 
 Install for all three:
 
 ```bash
-pnpm dlx sdd-jc-methodology install --tool all
+pnpm dlx akili-methodology install --tool all
 ```
 
 Claude is the default, so this is equivalent to `--tool claude`:
 
 ```bash
-pnpm dlx sdd-jc-methodology install
+pnpm dlx akili-methodology install
 ```
 
 ### Step 3: Verify The Installation
@@ -171,25 +171,25 @@ pnpm dlx sdd-jc-methodology install
 Check Claude installation:
 
 ```bash
-pnpm dlx sdd-jc-methodology doctor --tool claude
+pnpm dlx akili-methodology doctor --tool claude
 ```
 
 Check OpenCode installation:
 
 ```bash
-pnpm dlx sdd-jc-methodology doctor --tool opencode
+pnpm dlx akili-methodology doctor --tool opencode
 ```
 
 Check Antigravity installation:
 
 ```bash
-pnpm dlx sdd-jc-methodology doctor --tool antigravity
+pnpm dlx akili-methodology doctor --tool antigravity
 ```
 
 Check all:
 
 ```bash
-pnpm dlx sdd-jc-methodology doctor --tool all
+pnpm dlx akili-methodology doctor --tool all
 ```
 
 Expected result: every command, skill, and helper resource shows `OK`.
@@ -200,29 +200,29 @@ Restart Claude Code, OpenCode, or Antigravity after installation. Running sessio
 
 ### Step 5: Confirm Commands Are Available
 
-In your tool of choice, confirm JCSPECS commands are available (either as slash commands or workflows):
+In your tool of choice, confirm AKILI commands are available (either as slash commands or workflows):
 
 ```text
-/sdd-constitution
-/sdd-propose
-/sdd-specify
-/sdd-execute
-/sdd-test
-/sdd-validate
-/sdd-archive
-/sdd-seo
+/akili-constitution
+/akili-propose
+/akili-specify
+/akili-execute
+/akili-test
+/akili-validate
+/akili-archive
+/akili-seo
 ```
 
 Then start a project with:
 
 ```text
-/sdd-constitution
+/akili-constitution
 ```
 
 Or, if the project already has a strong baseline:
 
 ```text
-/sdd-propose add-my-feature
+/akili-propose add-my-feature
 ```
 
 ### Local Checkout Install
@@ -230,15 +230,15 @@ Or, if the project already has a strong baseline:
 If you are installing from this repository before publishing to npm, run:
 
 ```bash
-node bin/sdd-jc.js install
-node bin/sdd-jc.js install --tool opencode
-node bin/sdd-jc.js install --tool both
+node bin/akili.js install
+node bin/akili.js install --tool opencode
+node bin/akili.js install --tool both
 ```
 
 Verify local checkout install:
 
 ```bash
-node bin/sdd-jc.js doctor --tool both
+node bin/akili.js doctor --tool both
 ```
 
 ### Global Install
@@ -246,10 +246,10 @@ node bin/sdd-jc.js doctor --tool both
 If you prefer a persistent global CLI:
 
 ```bash
-pnpm add -g sdd-jc-methodology
-sdd-jc install
-sdd-jc install --tool opencode
-sdd-jc doctor --tool opencode
+pnpm add -g akili-methodology
+akili install
+akili install --tool opencode
+akili doctor --tool opencode
 ```
 
 ### Install Paths
@@ -266,9 +266,9 @@ For Claude, the installer writes:
 ```text
 ~/.claude/commands/
 ~/.claude/skills/
-~/.claude/sdd-jc/scripts/
-~/.claude/sdd-jc/templates/      (leader, implementer, reviewer personas used by /sdd-constitution)
-~/.claude/sdd-jc/.mcp.json.example
+~/.claude/akili/scripts/
+~/.claude/akili/templates/      (leader, implementer, reviewer personas used by /akili-constitution)
+~/.claude/akili/.mcp.json.example
 ```
 
 For OpenCode, the installer writes:
@@ -276,9 +276,9 @@ For OpenCode, the installer writes:
 ```text
 ~/.config/opencode/commands/
 ~/.config/opencode/skills/
-~/.config/opencode/sdd-jc/scripts/
-~/.config/opencode/sdd-jc/templates/
-~/.config/opencode/sdd-jc/.mcp.json.example
+~/.config/opencode/akili/scripts/
+~/.config/opencode/akili/templates/
+~/.config/opencode/akili/.mcp.json.example
 ```
 
 OpenCode loads global command markdown files from `~/.config/opencode/commands/` and skills from `~/.config/opencode/skills/`. Restart OpenCode after install or update so it loads the new files.
@@ -288,19 +288,19 @@ OpenCode loads global command markdown files from `~/.config/opencode/commands/`
 Update Claude:
 
 ```bash
-pnpm dlx sdd-jc-methodology update --tool claude --force
+pnpm dlx akili-methodology update --tool claude --force
 ```
 
 Update OpenCode:
 
 ```bash
-pnpm dlx sdd-jc-methodology update --tool opencode --force
+pnpm dlx akili-methodology update --tool opencode --force
 ```
 
 Update both:
 
 ```bash
-pnpm dlx sdd-jc-methodology update --tool both --force
+pnpm dlx akili-methodology update --tool both --force
 ```
 
 Use `--force` when you want packaged files to replace older installed files. Without `--force`, existing files are skipped.
@@ -360,9 +360,9 @@ npm publish --access public --registry=https://registry.npmjs.org/
 After publish, smoke test:
 
 ```bash
-pnpm dlx sdd-jc-methodology@X.Y.Z list
-pnpm dlx sdd-jc-methodology@X.Y.Z install --tool both --dry-run
-npm view sdd-jc-methodology version --registry=https://registry.npmjs.org/
+pnpm dlx akili-methodology@X.Y.Z list
+pnpm dlx akili-methodology@X.Y.Z install --tool both --dry-run
+npm view akili-methodology version --registry=https://registry.npmjs.org/
 npm run release:status
 ```
 
@@ -372,22 +372,22 @@ See the full [CLI Reference](docs/cli.md) for options, install paths, examples, 
 
 | Command | Purpose |
 |---|---|
-| `sdd-jc install` | Install commands, skills, and helper resources |
-| `sdd-jc update` | Reinstall packaged commands, skills, and helper resources |
-| `sdd-jc list` | Show packaged commands, skills, and helper resources |
-| `sdd-jc doctor` | Check whether expected files are installed |
+| `akili install` | Install commands, skills, and helper resources |
+| `akili update` | Reinstall packaged commands, skills, and helper resources |
+| `akili list` | Show packaged commands, skills, and helper resources |
+| `akili doctor` | Check whether expected files are installed |
 
 Useful options:
 
 ```bash
-sdd-jc install --dry-run
-sdd-jc install --tool claude --target ./.claude
-sdd-jc install --tool opencode --target ./.config/opencode
-sdd-jc install --tool both --claude-target ./.claude --opencode-target ./.config/opencode
-sdd-jc update --force
-sdd-jc update --tool both --force
-sdd-jc doctor --commands-only
-sdd-jc doctor --tool opencode --skills-only
+akili install --dry-run
+akili install --tool claude --target ./.claude
+akili install --tool opencode --target ./.config/opencode
+akili install --tool both --claude-target ./.claude --opencode-target ./.config/opencode
+akili update --force
+akili update --tool both --force
+akili doctor --commands-only
+akili doctor --tool opencode --skills-only
 ```
 
 Installer safety rules:
@@ -399,13 +399,13 @@ Installer safety rules:
 - use `--target <path>` to install a single selected tool somewhere custom
 - use `--claude-target <path>` and `--opencode-target <path>` with `--tool both`
 
-The helper resources under the target `sdd-jc/` folder support commands such as `/sdd-seo`, including the bundled Google Search Console verification helper.
+The helper resources under the target `akili/` folder support commands such as `/akili-seo`, including the bundled Google Search Console verification helper.
 
 ### Troubleshooting
 
 If commands do not appear:
 
-- run `sdd-jc doctor --tool <claude|opencode|both>`
+- run `akili doctor --tool <claude|opencode|both>`
 - restart Claude Code or OpenCode
 - confirm you installed into the expected target path
 - rerun install with `--force` if old files should be replaced
@@ -413,7 +413,7 @@ If commands do not appear:
 If you want to preview installation without writing files:
 
 ```bash
-sdd-jc install --tool both --dry-run
+akili install --tool both --dry-run
 ```
 
 ### Manual Install
@@ -477,27 +477,27 @@ See the full [Flow documentation](docs/flow.md) for artifacts, review gates, pro
 
 Use this flow for normal feature work:
 
-1. `/sdd-constitution` - create or strengthen the project baseline.
-2. `/sdd-propose <change-name-or-spec-path>` - capture intent, scope, and reviewable direction.
-3. `/sdd-specify <spec-path>` - define one feature, module, bugfix, or enhancement.
-4. `/sdd-execute <spec-path>` - implement the next approved task.
-5. `/sdd-test <spec-path>` - prove the behavior with tests and traceability.
-6. `/sdd-validate <spec-path>` - audit conformance before calling the work done.
-7. `/sdd-archive <spec-path>` - preserve completed work and remove it from active specs.
+1. `/akili-constitution` - create or strengthen the project baseline.
+2. `/akili-propose <change-name-or-spec-path>` - capture intent, scope, and reviewable direction.
+3. `/akili-specify <spec-path>` - define one feature, module, bugfix, or enhancement.
+4. `/akili-execute <spec-path>` - implement the next approved task.
+5. `/akili-test <spec-path>` - prove the behavior with tests and traceability.
+6. `/akili-validate <spec-path>` - audit conformance before calling the work done.
+7. `/akili-archive <spec-path>` - preserve completed work and remove it from active specs.
 
-Run `/sdd-constitution` first in a new repository, after a major product pivot, or when the baseline docs are missing. For an established repository with a good baseline, start at `/sdd-propose <change-name>` or `/sdd-specify <spec-path>`.
+Run `/akili-constitution` first in a new repository, after a major product pivot, or when the baseline docs are missing. For an established repository with a good baseline, start at `/akili-propose <change-name>` or `/akili-specify <spec-path>`.
 
-`/sdd-constitution` classifies the repository into one of three project modes:
+`/akili-constitution` classifies the repository into one of three project modes:
 
 - **Brand-new (Seed Setup):** little or no code or durable docs. Creates the baseline from user intent, chosen stack, assumptions, and open questions, and copies default `.agents/` personas verbatim.
-- **Legacy (Discovery Setup):** real code exists but the SDD baseline does not. Inspects code, docs, architecture, tests, package manifests, and routes before drafting baseline docs, and customizes `.agents/` personas to the detected stack and design tokens.
-- **Active SDD (Safe Update):** the SDD baseline and possibly customized `.agents/` already exist. Upgrades weak sections, fills missing files, and extends `.agents/` non-destructively — never overwrites custom persona rules.
+- **Legacy (Discovery Setup):** real code exists but the AKILI-SPECS baseline does not. Inspects code, docs, architecture, tests, package manifests, and routes before drafting baseline docs, and customizes `.agents/` personas to the detected stack and design tokens.
+- **Active AKILI-SPECS (Safe Update):** the AKILI-SPECS baseline and possibly customized `.agents/` already exist. Upgrades weak sections, fills missing files, and extends `.agents/` non-destructively — never overwrites custom persona rules.
 
-For all three modes, `/sdd-constitution` creates or enhances root `CLAUDE.md` and root `AGENTS.md` so Claude Code, OpenCode, and Google Antigravity receive the same project guidance.
+For all three modes, `/akili-constitution` creates or enhances root `CLAUDE.md` and root `AGENTS.md` so Claude Code, OpenCode, and Google Antigravity receive the same project guidance.
 
 For existing projects, CodeGraph is an optional acceleration path. If `.codegraph/` exists, agents should use it for semantic code exploration, symbol lookup, callers/callees, and impact checks. If `.codegraph/` is missing and the `codegraph` CLI is available, the agent should ask whether to run `codegraph init -i`. If CodeGraph is unavailable or declined, the methodology continues with normal `Glob`, `Grep`, and file reads.
 
-Use `/sdd-propose` when the change needs review before full specification. For very small, obvious work, you may start directly with `/sdd-specify <spec-path>`.
+Use `/akili-propose` when the change needs review before full specification. For very small, obvious work, you may start directly with `/akili-specify <spec-path>`.
 
 ## Command Map
 
@@ -505,14 +505,14 @@ See the full [Command Reference](docs/commands/README.md) for detailed pages per
 
 | Command | Use When | Main Output |
 |---|---|---|
-| `/sdd-constitution` | Starting a repo or repairing weak project context | `docs/prd.md`, UX/UI design, TRD, `docs/infrastructure.md`, general spec templates, `CLAUDE.md`, `AGENTS.md` guidance |
-| `/sdd-propose <change-name-or-spec-path>` | Aligning on intent before full specification (supports Figma/Jira MCP context) | `proposal.md` under `docs/specs/<spec-path>/` |
-| `/sdd-specify <spec-path>` | Planning one bounded change before code | `requirements.md`, `design.md`, `tasks.md` under `docs/specs/<spec-path>/` (includes Design Impact injection, LOC estimation and HITL menus) |
-| `/sdd-execute <spec-path>` | Implementing approved tasks via the Leader → Implementer → Reviewer harness | Code changes, updated `tasks.md`, `execution.md` with full PASS/FAIL audit trail |
-| `/sdd-test <spec-path>` | Adding or running test evidence | `test-report.md` with requirement-to-test traceability |
-| `/sdd-validate <spec-path>` | Checking implementation against the spec | `validation-report.md` with pass, warning, failure, and remediation items |
-| `/sdd-archive <spec-path>` | Closing completed work after validation | Archived spec folder under `docs/specs/archive/` with `archive-summary.md`, synced agent guides, CodeGraph re-index reminder |
-| `/sdd-seo <site-domain>` | Auditing deployed SEO and Search Console state | `seo-setup-report.md`, `seo-audit-report.md` |
+| `/akili-constitution` | Starting a repo or repairing weak project context | `docs/prd.md`, UX/UI design, TRD, `docs/infrastructure.md`, general spec templates, `CLAUDE.md`, `AGENTS.md` guidance |
+| `/akili-propose <change-name-or-spec-path>` | Aligning on intent before full specification (supports Figma/Jira MCP context) | `proposal.md` under `docs/specs/<spec-path>/` |
+| `/akili-specify <spec-path>` | Planning one bounded change before code | `requirements.md`, `design.md`, `tasks.md` under `docs/specs/<spec-path>/` (includes Design Impact injection, LOC estimation and HITL menus) |
+| `/akili-execute <spec-path>` | Implementing approved tasks via the Leader → Implementer → Reviewer harness | Code changes, updated `tasks.md`, `execution.md` with full PASS/FAIL audit trail |
+| `/akili-test <spec-path>` | Adding or running test evidence | `test-report.md` with requirement-to-test traceability |
+| `/akili-validate <spec-path>` | Checking implementation against the spec | `validation-report.md` with pass, warning, failure, and remediation items |
+| `/akili-archive <spec-path>` | Closing completed work after validation | Archived spec folder under `docs/specs/archive/` with `archive-summary.md`, synced agent guides, CodeGraph re-index reminder |
+| `/akili-seo <site-domain>` | Auditing deployed SEO and Search Console state | `seo-setup-report.md`, `seo-audit-report.md` |
 
 ## How To Choose The Right Depth
 
@@ -539,7 +539,7 @@ Lite mode does not skip rigor. It keeps the documents short, but every requireme
 | Design | The technical and UX approach for satisfying requirements |
 | Task | A small executable unit linked to requirements and design sections |
 | Report | Evidence that the implementation was tested and validated |
-| Archive | Completed SDD history moved under `docs/specs/archive/` |
+| Archive | Completed AKILI-SPECS history moved under `docs/specs/archive/` |
 
 ## Spec Folder Shape
 
@@ -547,14 +547,14 @@ Each feature or change should live in one folder:
 
 ```text
 docs/specs/<spec-path>/
-├── proposal.md           # created by /sdd-propose, optional but recommended
+├── proposal.md           # created by /akili-propose, optional but recommended
 ├── requirements.md
 ├── design.md
 ├── tasks.md
-├── execution.md          # created by /sdd-execute
-├── test-report.md        # created by /sdd-test
-├── validation-report.md  # created by /sdd-validate
-└── archive-summary.md    # created by /sdd-archive before moving
+├── execution.md          # created by /akili-execute
+├── test-report.md        # created by /akili-test
+├── validation-report.md  # created by /akili-validate
+└── archive-summary.md    # created by /akili-archive before moving
 ```
 
 Choose paths that describe the domain and intent:
@@ -567,7 +567,7 @@ docs/specs/bugfix/login-redirect/
 docs/specs/changes/add-remember-me/
 ```
 
-When `/sdd-propose add-remember-me` receives a bare change name, it defaults to `docs/specs/changes/add-remember-me/`. When it receives a nested path such as `bugfix/login-redirect`, it uses that path directly.
+When `/akili-propose add-remember-me` receives a bare change name, it defaults to `docs/specs/changes/add-remember-me/`. When it receives a nested path such as `bugfix/login-redirect`, it uses that path directly.
 
 ## Requirement Delta Preview
 
@@ -589,7 +589,7 @@ Proposals can include a lightweight delta preview. This makes reviews faster for
 - Legacy session persistence behavior is removed after migration.
 ```
 
-During `/sdd-specify`, these previews become full requirements, scenarios, design decisions, and tasks.
+During `/akili-specify`, these previews become full requirements, scenarios, design decisions, and tasks.
 
 ## Writing Good Requirements
 
@@ -643,41 +643,41 @@ Before completion, review:
 For a new admin user-management feature:
 
 ```text
-/sdd-constitution
-/sdd-propose admin/user-management
-/sdd-specify admin/user-management
-/sdd-execute admin/user-management
-/sdd-test admin/user-management
-/sdd-validate admin/user-management
-/sdd-archive admin/user-management
+/akili-constitution
+/akili-propose admin/user-management
+/akili-specify admin/user-management
+/akili-execute admin/user-management
+/akili-test admin/user-management
+/akili-validate admin/user-management
+/akili-archive admin/user-management
 ```
 
 For a small login redirect bugfix in an established repo:
 
 ```text
-/sdd-specify bugfix/login-redirect
-/sdd-execute bugfix/login-redirect
-/sdd-test bugfix/login-redirect
-/sdd-validate bugfix/login-redirect
-/sdd-archive bugfix/login-redirect
+/akili-specify bugfix/login-redirect
+/akili-execute bugfix/login-redirect
+/akili-test bugfix/login-redirect
+/akili-validate bugfix/login-redirect
+/akili-archive bugfix/login-redirect
 ```
 
 For a reviewable named change using the default `changes/` path:
 
 ```text
-/sdd-propose add-remember-me
-/sdd-specify changes/add-remember-me
-/sdd-execute changes/add-remember-me
-/sdd-test changes/add-remember-me
-/sdd-validate changes/add-remember-me
-/sdd-archive changes/add-remember-me
+/akili-propose add-remember-me
+/akili-specify changes/add-remember-me
+/akili-execute changes/add-remember-me
+/akili-test changes/add-remember-me
+/akili-validate changes/add-remember-me
+/akili-archive changes/add-remember-me
 ```
 
 ## Planned Improvements Inspired By OpenSpec
 
-OpenSpec has useful ideas that fit this methodology well. Some are now supported through `/sdd-propose` and `/sdd-archive`. Remaining planned improvements:
+OpenSpec has useful ideas that fit this methodology well. Some are now supported through `/akili-propose` and `/akili-archive`. Remaining planned improvements:
 
-See [OpenSpec Comparison](docs/openspec-comparison.md) for the current JCSPECS comparison and documentation-pattern notes.
+See [OpenSpec Comparison](docs/openspec-comparison.md) for the current AKILI comparison and documentation-pattern notes.
 
 - automated sync lifecycle for completed specs
 - schema-style workflow templates for feature, bugfix, migration, SEO, and research-first work
@@ -685,7 +685,7 @@ See [OpenSpec Comparison](docs/openspec-comparison.md) for the current JCSPECS c
 
 ### Auxiliary commands
 
-- `/sdd-seo <site-domain>` — SEO setup & audit via Google Search Console. Verifies a domain through DNS TXT using a service account, adds the property to GSC, then audits index coverage, sitemaps, structured data, search analytics, server-side render, internal linking, and on-page SEO (titles, metas, headings, canonicals, hreflang) using the packaged `seo-audit` skill. Produces `seo-setup-report.md` and `seo-audit-report.md` under `docs/specs/seo/<domain>/`, including a copy-paste implementation prompt for fixing every High-severity finding.
+- `/akili-seo <site-domain>` — SEO setup & audit via Google Search Console. Verifies a domain through DNS TXT using a service account, adds the property to GSC, then audits index coverage, sitemaps, structured data, search analytics, server-side render, internal linking, and on-page SEO (titles, metas, headings, canonicals, hreflang) using the packaged `seo-audit` skill. Produces `seo-setup-report.md` and `seo-audit-report.md` under `docs/specs/seo/<domain>/`, including a copy-paste implementation prompt for fixing every High-severity finding.
 
   Dependencies bundled with this repo:
 
@@ -719,21 +719,21 @@ Fallback rule:
 
 ## Methodology Contract
 
-- **User-Facing Summaries:** All major commands (`/sdd-propose`, `/sdd-specify`, `/sdd-execute`, `/sdd-validate`, `/sdd-test`, `/sdd-constitution`) generate a short, digestible summary on the screen before proceeding to the next step, ensuring developers always understand what the agent just did.
-- `/sdd-constitution` establishes the project baseline docs (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/infrastructure.md`) and `docs/specs/general-setup/` templates, and scaffolds the project `.agents/` harness (Leader, Implementer, Reviewer).
-- `/sdd-propose` creates a lightweight proposal before full specification. Evaluates massive instructions for **Scope Chunking** to split work into manageable modules. Integrates with **Figma MCP** and **Jira MCP** to extract visual context, requirements, and user stories.
-- `/sdd-specify` must follow those templates when generating module specs. Enforces **Human-in-the-loop (HITL)** approval pauses after Requirements, Design, and Tasks. Promotes rigorous BDD scenarios (`BUT it must NOT`, `AND IT MUST`), allows blind adversarial design reviews via the `judgment-day` skill, outputs a final **Lines of Code (LOC) estimate** to recommend a safe Pull Request strategy, and explicitly injects **Design Impact** rules (from Figma contexts) into UI tasks and components.
-- `/sdd-execute` orchestrates a Leader → Implementer → Reviewer rework loop (max 3 retries) to implement tasks from an approved spec path.
-- `/sdd-test` validates requirement-to-test traceability, explicitly checking for negative constraints and strict boundaries.
-- `/sdd-validate` audits implementation conformance against the spec (including rigorous boundary validations) and constitutional baseline.
-- `/sdd-archive` preserves completed specs under `docs/specs/archive/` after validation, syncs agent guides (child `CLAUDE.md`/`AGENTS.md` + the parent `## Module Guides` index) from the spec's `## Constitution Impact` notes, and recommends a CodeGraph re-index.
-- `/sdd-seo` operates outside the main spec lifecycle: it provisions Google Search Console ownership for a domain and produces a standalone SEO audit under `docs/specs/seo/<domain>/`. Run it any time after deployment; rerun after major content or schema changes.
+- **User-Facing Summaries:** All major commands (`/akili-propose`, `/akili-specify`, `/akili-execute`, `/akili-validate`, `/akili-test`, `/akili-constitution`) generate a short, digestible summary on the screen before proceeding to the next step, ensuring developers always understand what the agent just did.
+- `/akili-constitution` establishes the project baseline docs (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/infrastructure.md`) and `docs/specs/general-setup/` templates, and scaffolds the project `.agents/` harness (Leader, Implementer, Reviewer).
+- `/akili-propose` creates a lightweight proposal before full specification. Evaluates massive instructions for **Scope Chunking** to split work into manageable modules. Integrates with **Figma MCP** and **Jira MCP** to extract visual context, requirements, and user stories.
+- `/akili-specify` must follow those templates when generating module specs. Enforces **Human-in-the-loop (HITL)** approval pauses after Requirements, Design, and Tasks. Promotes rigorous BDD scenarios (`BUT it must NOT`, `AND IT MUST`), allows blind adversarial design reviews via the `judgment-day` skill, outputs a final **Lines of Code (LOC) estimate** to recommend a safe Pull Request strategy, and explicitly injects **Design Impact** rules (from Figma contexts) into UI tasks and components.
+- `/akili-execute` orchestrates a Leader → Implementer → Reviewer rework loop (max 3 retries) to implement tasks from an approved spec path.
+- `/akili-test` validates requirement-to-test traceability, explicitly checking for negative constraints and strict boundaries.
+- `/akili-validate` audits implementation conformance against the spec (including rigorous boundary validations) and constitutional baseline.
+- `/akili-archive` preserves completed specs under `docs/specs/archive/` after validation, syncs agent guides (child `CLAUDE.md`/`AGENTS.md` + the parent `## Module Guides` index) from the spec's `## Constitution Impact` notes, and recommends a CodeGraph re-index.
+- `/akili-seo` operates outside the main spec lifecycle: it provisions Google Search Console ownership for a domain and produces a standalone SEO audit under `docs/specs/seo/<domain>/`. Run it any time after deployment; rerun after major content or schema changes.
 
 ## Multi-Agent Harness Engineering
 
-`/sdd-execute` is not a single-agent script. It is a coordinated triad of specialized roles that share the same spec, the same constitution, and the same audit trail. The harness exists to remove confirmation bias from review (an independent auditor instead of the same agent that wrote the code), to keep each role's context window small and focused, and to enforce design-token and constitutional discipline through a hard PASS/FAIL gate.
+`/akili-execute` is not a single-agent script. It is a coordinated triad of specialized roles that share the same spec, the same constitution, and the same audit trail. The harness exists to remove confirmation bias from review (an independent auditor instead of the same agent that wrote the code), to keep each role's context window small and focused, and to enforce design-token and constitutional discipline through a hard PASS/FAIL gate.
 
-Roles live in the project's `.agents/` directory (scaffolded by `/sdd-constitution`):
+Roles live in the project's `.agents/` directory (scaffolded by `/akili-constitution`):
 
 | Role | File | Responsibilities |
 |---|---|---|
@@ -761,29 +761,29 @@ if 3 consecutive FAILs → HALT, mark task [~], present full audit trail for hum
 - **Pivot protocol.** If discovery proves the spec itself is wrong (not the implementation), the loop stops immediately and a `## Pivot Record` is opened in `execution.md` for user sign-off — rework retries are not consumed on a broken spec.
 - **Cross-tool.** `.agents/` is pure Markdown + YAML frontmatter and is resolved relative to the active workspace, so the same harness runs under Claude Code, OpenCode, and Google Antigravity (the latter invokes `invoke_subagent` using the same persona files).
 
-`/sdd-constitution` classifies the repository into one of three modes and seeds `.agents/` accordingly:
+`/akili-constitution` classifies the repository into one of three modes and seeds `.agents/` accordingly:
 
 | Mode | When | `.agents/` Behavior |
 |---|---|---|
 | Brand-new | No code, no docs | Copies the default Leader/Implementer/Reviewer templates verbatim |
-| Legacy | Real code, no SDD baseline | Copies defaults and customizes them with detected stack, design tokens, lint and test commands |
-| Active SDD | Baseline already exists | Preserves customized `.agents/` files in place and only upgrades or fills gaps non-destructively |
+| Legacy | Real code, no AKILI-SPECS baseline | Copies defaults and customizes them with detected stack, design tokens, lint and test commands |
+| Active AKILI-SPECS | Baseline already exists | Preserves customized `.agents/` files in place and only upgrades or fills gaps non-destructively |
 
 ## Capability-Tier Model Routing
 
-Not every model is best at every job. JCSPECS routes each SDD phase to the model matched to its
+Not every model is best at every job. AKILI routes each AKILI-SPECS phase to the model matched to its
 dominant demand using six **capability tiers** — Architect, Coder, Auditor, Context-Ingest,
 Fast-Cheap, and Multimodal. A single editable **registry** binds each tier to a concrete model
 **per tool**, so model upgrades are a one-line edit rather than a rewrite.
 
 This is **guidance-first and model-agnostic**: no `model:` frontmatter is added to commands and the
 installer injects nothing. You switch models yourself (Claude Code `/model`, OpenCode model
-selector), and `/sdd-constitution` scaffolds a `## Model Routing` registry into each project's
+selector), and `/akili-constitution` scaffolds a `## Model Routing` registry into each project's
 `AGENTS.md` / `CLAUDE.md`.
 
 Key principles: **ARCHITECT = BUILDER** (the model that designs also builds), **author ≠ auditor**
 (the Reviewer runs on a different model than the Implementer), reserve deep-reasoning models for
-`/sdd-propose` and `/sdd-validate`, and use fast/cheap models for the tasks split and `/sdd-archive`.
+`/akili-propose` and `/akili-validate`, and use fast/cheap models for the tasks split and `/akili-archive`.
 
 See **[docs/model-routing.md](docs/model-routing.md)** for the tiers, the full phase→tier mapping,
 and the default registry for Claude Code (PRO) and OpenCode Go.

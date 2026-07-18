@@ -13,10 +13,10 @@ Guides distinctive, production-grade frontend interfaces with intentional aesthe
 
 ## Best Paired Commands
 
-- `/sdd-constitution` for the UX/UI design baseline.
-- `/sdd-specify` for UI requirements and design.
-- `/sdd-execute` for frontend implementation.
-- `/sdd-test` and `/sdd-validate` for UX checks.
+- `/akili-constitution` for the UX/UI design baseline.
+- `/akili-specify` for UI requirements and design.
+- `/akili-execute` for frontend implementation.
+- `/akili-test` and `/akili-validate` for UX checks.
 
 ## Source
 

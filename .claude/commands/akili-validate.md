@@ -2,9 +2,9 @@
 description: Validate that the implemented feature strictly matches all requirements, design tokens, and user flows.
 ---
 
-# Validate SDD Implementation
+# Validate AKILI-SPECS Implementation
 
-Validate that a spec path's implementation matches its SDD documents. Produce `validation-report.md` with pass, warning, fail, and remediation details.
+Validate that a spec path's implementation matches its AKILI-SPECS documents. Produce `validation-report.md` with pass, warning, fail, and remediation details.
 
 Validation is the final conformance audit. It checks whether the implementation still matches the approved requirements, scenarios, design decisions, tasks, tests, and constitutional baseline.
 
@@ -13,13 +13,13 @@ Validation is the final conformance audit. It checks whether the implementation 
 ## Usage
 
 ```
-/sdd-validate <spec-path>
+/akili-validate <spec-path>
 ```
 
 **Examples:**
 
-- `/sdd-validate loan`
-- `/sdd-validate enhancements/renewals`
+- `/akili-validate loan`
+- `/akili-validate enhancements/renewals`
 
 ## Arguments
 
@@ -29,7 +29,7 @@ Validation is the final conformance audit. It checks whether the implementation 
 
 Create or update `docs/specs/$ARGUMENTS/validation-report.md`.
 
-Validation should produce a clear recommendation for whether the spec can be archived with `/sdd-archive $ARGUMENTS`.
+Validation should produce a clear recommendation for whether the spec can be archived with `/akili-archive $ARGUMENTS`.
 
 Use these result levels consistently:
 
@@ -148,14 +148,14 @@ The report title must be `# Validation Report — {Spec Name}`.
 Generate a short, easy-to-understand summary (summary facil de entender de lo que se hizo) of the overall status, key findings, remediation count, and archive readiness. If issues exist, ask whether to fix all, fix critical only, or keep only the report. If the work is archive-ready, show the exact next command:
 
 ```text
-/sdd-archive $ARGUMENTS
+/akili-archive $ARGUMENTS
 ```
 
 ---
 
 ## Error Handling
 
-- If SDD documents are missing, report the missing files and stop.
+- If AKILI-SPECS documents are missing, report the missing files and stop.
 - If build fails, continue other checks when possible.
 - If a skill is unavailable, fall back to the next documented skill and note it in the report.
 - If no tasks are complete, still allow partial validation but make the incompleteness explicit.
@@ -172,5 +172,5 @@ The work is ready to consider complete when:
 - no FAIL findings remain unresolved
 - WARN findings are accepted or have follow-up tasks
 - tests cover the key requirements and scenarios
-- implementation drift is reflected in the SDD docs or execution notes
+- implementation drift is reflected in the AKILI-SPECS docs or execution notes
 - the user has reviewed the validation summary

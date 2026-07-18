@@ -9,14 +9,14 @@ Provision Google Search Console access for a domain via a Google Cloud service a
 ## Usage
 
 ```
-/sdd-seo <site-domain>
+/akili-seo <site-domain>
 ```
 
 **Examples:**
 
-- `/sdd-seo calismiledesign.com`
-- `/sdd-seo seo/calismiledesign.com`
-- `/sdd-seo agrosmartco.com`
+- `/akili-seo calismiledesign.com`
+- `/akili-seo seo/calismiledesign.com`
+- `/akili-seo agrosmartco.com`
 
 ## Arguments
 
@@ -43,7 +43,7 @@ The user must provide (or confirm) once per Google Cloud project:
    }
    ```
    If `GSC_SITE_URL` is set, prefer the `sc-domain:` form (e.g. `sc-domain:example.com`) over the URL-prefix form.
-5. A local helper for the Site Verification API. The `gsc` MCP does **not** expose Site Verification endpoints (no `getToken`, no `verify`) — it only wraps the Search Console API. Use the bundled `scripts/gsc_verify.py` from `sdd-jc-methodology` (depends on `google-auth` and `google-api-python-client`). Invoke it as:
+5. A local helper for the Site Verification API. The `gsc` MCP does **not** expose Site Verification endpoints (no `getToken`, no `verify`) — it only wraps the Search Console API. Use the bundled `scripts/gsc_verify.py` from `akili-methodology` (depends on `google-auth` and `google-api-python-client`). Invoke it as:
 
    ```bash
    GSC_KEY_PATH=/abs/path/to/key.json python3 scripts/gsc_verify.py get <domain>
@@ -73,7 +73,7 @@ If any prerequisite is missing, stop and report exactly what is missing and how 
 
 1. Resolve the spec path. If `$ARGUMENTS` is a bare domain, set `SPEC_PATH = seo/<domain>`. Otherwise treat `$ARGUMENTS` as the literal spec path.
 2. Create directory `docs/specs/$SPEC_PATH/` if it does not exist.
-3. Read the constitutional templates and project context as defined in `sdd-specify`:
+3. Read the constitutional templates and project context as defined in `akili-specify`:
    - `docs/specs/general-setup/`
    - `docs/prd.md`
    - `docs/ux-ui/design.md` (legacy: `docs/system-design/design.md` or `docs/system-design.md`)
@@ -223,7 +223,7 @@ Required sections:
 8. Internal Linking Findings
 9. On-Page SEO Findings — Step 2.7 results, each in the `seo-audit` Issue / Impact / Evidence / Fix / Priority format.
 10. Remediation Plan — prioritized (High / Medium / Low) actionable items, each scoped enough that an implementer can execute it without further discovery.
-11. Re-audit Schedule — when to run `/sdd-seo <domain>` again.
+11. Re-audit Schedule — when to run `/akili-seo <domain>` again.
 
 The report title must be `# SEO Audit Report — <domain>`.
 

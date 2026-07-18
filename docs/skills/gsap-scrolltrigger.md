@@ -12,9 +12,9 @@ Guides GSAP ScrollTrigger for scroll-linked animations, triggers, pinning, scrub
 
 ## Best Paired Commands
 
-- `/sdd-specify` for scroll animation behavior and accessibility notes.
-- `/sdd-execute` for implementation.
-- `/sdd-validate` for motion and performance review.
+- `/akili-specify` for scroll animation behavior and accessibility notes.
+- `/akili-execute` for implementation.
+- `/akili-validate` for motion and performance review.
 
 ## Source
 

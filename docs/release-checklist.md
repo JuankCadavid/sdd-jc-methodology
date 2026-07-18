@@ -1,6 +1,6 @@
 # Release Checklist
 
-Use this checklist before publishing `sdd-jc-methodology`.
+Use this checklist before publishing `akili-methodology`.
 
 ## Preflight
 
@@ -11,7 +11,7 @@ Use this checklist before publishing `sdd-jc-methodology`.
 - [ ] Confirm `CHANGELOG.md` has a dated section for the release.
 - [ ] Confirm `releases/vX.Y.Z.md` exists.
 - [ ] Confirm npm authentication with `npm whoami --registry=https://registry.npmjs.org/`.
-- [ ] Confirm the current npm user is a maintainer for `sdd-jc-methodology`.
+- [ ] Confirm the current npm user is a maintainer for `akili-methodology`.
 - [ ] Confirm package name is available or configured for the intended registry.
 - [ ] Confirm license and publishing policy.
 - [ ] Confirm no secrets, service account keys, or local config files are included.
@@ -41,7 +41,7 @@ Then verify:
 
 ```bash
 npm run verify:cli
-node bin/sdd-jc.js install --tool both --dry-run
+node bin/akili.js install --tool both --dry-run
 npm run pack:dry-run
 npm run release:status
 git diff --check
@@ -51,9 +51,9 @@ git diff --check
 
 ```bash
 npm pack
-npm install -g ./sdd-jc-methodology-<version>.tgz
-sdd-jc install --tool both --dry-run
-sdd-jc doctor --tool claude
+npm install -g ./akili-methodology-<version>.tgz
+akili install --tool both --dry-run
+akili doctor --tool claude
 ```
 
 Remove the generated tarball after testing unless it is being attached to a release.
@@ -78,9 +78,9 @@ For private registry publishing, configure the registry first and publish using 
 ## Post-Publish Smoke Test
 
 ```bash
-pnpm dlx sdd-jc-methodology@<version> list
-pnpm dlx sdd-jc-methodology@<version> install --tool both --dry-run
-npm view sdd-jc-methodology version --registry=https://registry.npmjs.org/
+pnpm dlx akili-methodology@<version> list
+pnpm dlx akili-methodology@<version> install --tool both --dry-run
+npm view akili-methodology version --registry=https://registry.npmjs.org/
 npm run release:status
 ```
 

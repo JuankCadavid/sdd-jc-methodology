@@ -2,7 +2,7 @@
 description: Draft detailed requirements, UI/UX designs, and technical tasks for a proposed feature.
 ---
 
-# Generate SDD for Module
+# Generate AKILI-SPECS for Module
 
 Generate a clear Spec-Driven Development document set for one bounded module, feature, bugfix, or enhancement inside `docs/specs/`.
 
@@ -13,14 +13,14 @@ If `proposal.md` already exists for the same spec path, treat it as the approved
 ## Usage
 
 ```
-/sdd-specify <spec-path>
+/akili-specify <spec-path>
 ```
 
 **Examples:**
 
-- `/sdd-specify loan`
-- `/sdd-specify enhancements/renewals`
-- `/sdd-specify admin/user-management`
+- `/akili-specify loan`
+- `/akili-specify enhancements/renewals`
+- `/akili-specify admin/user-management`
 
 ## Arguments
 
@@ -30,7 +30,7 @@ If `proposal.md` already exists for the same spec path, treat it as the approved
 
 Create or update these files under `docs/specs/$ARGUMENTS/`:
 
-- `proposal.md` — optional prior intent document created by `/sdd-propose`
+- `proposal.md` — optional prior intent document created by `/akili-propose`
 - `requirements.md` — what behavior must exist and why it matters
 - `design.md` — how the behavior will be implemented within the current architecture
 - `tasks.md` — small executable tasks linked to requirements and design sections

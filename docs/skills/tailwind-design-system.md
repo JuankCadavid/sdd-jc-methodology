@@ -13,10 +13,10 @@ Guides scalable design systems with Tailwind CSS v4, design tokens, component li
 
 ## Best Paired Commands
 
-- `/sdd-constitution` for the UX/UI design baseline.
-- `/sdd-specify` for Tailwind component architecture.
-- `/sdd-execute` for implementation.
-- `/sdd-validate` for design-system compliance.
+- `/akili-constitution` for the UX/UI design baseline.
+- `/akili-specify` for Tailwind component architecture.
+- `/akili-execute` for implementation.
+- `/akili-validate` for design-system compliance.
 
 ## Source
 

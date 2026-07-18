@@ -13,9 +13,9 @@ Guides resilient error handling across languages, including exceptions, Result t
 
 ## Best Paired Commands
 
-- `/sdd-specify` for error contracts in requirements and design.
-- `/sdd-execute` for implementation.
-- `/sdd-validate` for quality and resilience review.
+- `/akili-specify` for error contracts in requirements and design.
+- `/akili-execute` for implementation.
+- `/akili-validate` for quality and resilience review.
 
 ## Source
 

@@ -1,8 +1,8 @@
-# JCSPECS Flow
+# AKILI Flow
 
-JCSPECS keeps durable product, design, implementation, test, and validation context in repository files so agents do not have to infer the same project reality every session.
+AKILI keeps durable product, design, implementation, test, and validation context in repository files so agents do not have to infer the same project reality every session.
 
-The workflow is inspired by OpenSpec's artifact-guided pattern, but JCSPECS adds a project constitution step, Claude/OpenCode skills, and explicit validation evidence before archive.
+The workflow is inspired by OpenSpec's artifact-guided pattern, but AKILI adds a project constitution step, Claude/OpenCode skills, and explicit validation evidence before archive.
 
 ## Philosophy
 
@@ -17,7 +17,7 @@ The workflow is inspired by OpenSpec's artifact-guided pattern, but JCSPECS adds
 ## Primary Lifecycle
 
 ```text
-You: /sdd-constitution
+You: /akili-constitution
 AI:  Creates or strengthens the project baseline:
      ✓ docs/prd.md
      ✓ docs/ux-ui/design.md
@@ -25,20 +25,20 @@ AI:  Creates or strengthens the project baseline:
      ✓ docs/specs/general-setup/
      ✓ CLAUDE.md and AGENTS.md
 
-You: /sdd-propose add-remember-me
+You: /akili-propose add-remember-me
 AI:  Creates docs/specs/changes/add-remember-me/proposal.md
      ✓ problem, scope, non-goals
      ✓ affected systems
      ✓ requirement delta preview
      ✓ approach options and recommendation
 
-You: /sdd-specify changes/add-remember-me
+You: /akili-specify changes/add-remember-me
 AI:  Creates or updates:
      ✓ requirements.md
      ✓ design.md
      ✓ tasks.md
 
-You: /sdd-execute changes/add-remember-me
+You: /akili-execute changes/add-remember-me
 AI:  Runs the Leader → Implementer → Reviewer harness on the next approved task
      ✓ Implementer writes code and runs verification
      ✓ Reviewer audits the diff and emits STATUS: PASS or STATUS: FAIL
@@ -47,53 +47,53 @@ AI:  Runs the Leader → Implementer → Reviewer harness on the next approved t
      ✓ appends execution.md with full PASS/FAIL audit trail
      ✓ commits with [SPEC:<spec-path>] and records verification evidence
 
-You: /sdd-test changes/add-remember-me
+You: /akili-test changes/add-remember-me
 AI:  Creates test-report.md with requirement-to-test traceability (supports automated parsing via `scripts/parse_tests.js`)
 
-You: /sdd-validate changes/add-remember-me
+You: /akili-validate changes/add-remember-me
 AI:  Creates validation-report.md with PASS/WARN/FAIL/BLOCKED findings
 
-You: /sdd-archive changes/add-remember-me
+You: /akili-archive changes/add-remember-me
 AI:  Moves completed work into docs/specs/archive/ and refreshes CodeGraph
 
 Independent Auditing:
-You: /sdd-audit
+You: /akili-audit
 AI:  Scans codebase and detects drift against baselines, generating docs/specs/drift-report.md
 ```
 
 ## Project Modes
 
-`/sdd-constitution` begins by classifying the repository into one of three modes. Each mode adjusts how aggressively the constitution drafts, scans, or preserves existing material — and how the project `.agents/` harness is scaffolded.
+`/akili-constitution` begins by classifying the repository into one of three modes. Each mode adjusts how aggressively the constitution drafts, scans, or preserves existing material — and how the project `.agents/` harness is scaffolded.
 
 | Mode | Meaning | Constitution Behavior | `.agents/` Behavior |
 |---|---|---|---|
-| Brand-new (Seed Setup) | Little or no application code, no SDD docs, starting from scratch | Draft baseline from user intent, chosen stack, assumptions, and open questions | Copy default Leader / Implementer / Reviewer personas verbatim |
-| Legacy (Discovery Setup) | Real code, package manifests, routes, tests exist; SDD baseline missing or skeletal | Inspect repository reality (CodeGraph preferred) before drafting; synthesize baseline from evidence | Copy defaults then customize with detected stack, design tokens, lint and test commands |
-| Active SDD (Safe Update) | SDD baseline and possibly customized `.agents/` already in place | Upgrade weak sections, fill missing files, preserve custom rules | Never overwrite existing personas — append only the minimal upgrade blocks needed |
+| Brand-new (Seed Setup) | Little or no application code, no AKILI-SPECS docs, starting from scratch | Draft baseline from user intent, chosen stack, assumptions, and open questions | Copy default Leader / Implementer / Reviewer personas verbatim |
+| Legacy (Discovery Setup) | Real code, package manifests, routes, tests exist; AKILI-SPECS baseline missing or skeletal | Inspect repository reality (CodeGraph preferred) before drafting; synthesize baseline from evidence | Copy defaults then customize with detected stack, design tokens, lint and test commands |
+| Active AKILI-SPECS (Safe Update) | AKILI-SPECS baseline and possibly customized `.agents/` already in place | Upgrade weak sections, fill missing files, preserve custom rules | Never overwrite existing personas — append only the minimal upgrade blocks needed |
 
-For Legacy and Active-SDD modes, CodeGraph is preferred when `.codegraph/` exists. If CodeGraph is missing but the CLI is available, the agent should ask before running `codegraph init -i`. If CodeGraph is unavailable or declined, normal file and content searches are used.
+For Legacy and Active-AKILI-SPECS modes, CodeGraph is preferred when `.codegraph/` exists. If CodeGraph is missing but the CLI is available, the agent should ask before running `codegraph init -i`. If CodeGraph is unavailable or declined, normal file and content searches are used.
 
 ## Artifacts
 
 | Artifact | Created By | Purpose |
 |---|---|---|
-| `docs/prd.md` | `/sdd-constitution` | Product purpose, personas, goals, scope, success metrics |
-| `docs/ux-ui/design.md` | `/sdd-constitution` | UX system, flows, screen inventory, tokens, accessibility expectations |
-| `docs/trd/trd.md` | `/sdd-constitution` | Technical architecture, modules, data, APIs, integrations, testing strategy |
-| `docs/specs/general-setup/` | `/sdd-constitution` | Project-specific templates for future specs |
-| `docs/specs/<spec-path>/proposal.md` | `/sdd-propose` | Reviewable intent, scope, options, and risks |
-| `docs/specs/<spec-path>/requirements.md` | `/sdd-specify` | Behavior contracts and scenarios |
-| `docs/specs/<spec-path>/design.md` | `/sdd-specify` | Implementation approach and trade-offs |
-| `docs/specs/<spec-path>/tasks.md` | `/sdd-specify` | Small executable tasks with verification |
-| `docs/specs/<spec-path>/execution.md` | `/sdd-execute` | Task execution history and evidence |
-| `docs/specs/<spec-path>/test-report.md` | `/sdd-test` | Requirement-to-test matrix and coverage gaps |
-| `docs/specs/<spec-path>/validation-report.md` | `/sdd-validate` | Final conformance audit |
-| `docs/specs/drift-report.md` | `/sdd-audit` | Conformance auditing of documentation vs. codebase reality |
-| `docs/specs/archive/.../archive-summary.md` | `/sdd-archive` | Historical closure record |
+| `docs/prd.md` | `/akili-constitution` | Product purpose, personas, goals, scope, success metrics |
+| `docs/ux-ui/design.md` | `/akili-constitution` | UX system, flows, screen inventory, tokens, accessibility expectations |
+| `docs/trd/trd.md` | `/akili-constitution` | Technical architecture, modules, data, APIs, integrations, testing strategy |
+| `docs/specs/general-setup/` | `/akili-constitution` | Project-specific templates for future specs |
+| `docs/specs/<spec-path>/proposal.md` | `/akili-propose` | Reviewable intent, scope, options, and risks |
+| `docs/specs/<spec-path>/requirements.md` | `/akili-specify` | Behavior contracts and scenarios |
+| `docs/specs/<spec-path>/design.md` | `/akili-specify` | Implementation approach and trade-offs |
+| `docs/specs/<spec-path>/tasks.md` | `/akili-specify` | Small executable tasks with verification |
+| `docs/specs/<spec-path>/execution.md` | `/akili-execute` | Task execution history and evidence |
+| `docs/specs/<spec-path>/test-report.md` | `/akili-test` | Requirement-to-test matrix and coverage gaps |
+| `docs/specs/<spec-path>/validation-report.md` | `/akili-validate` | Final conformance audit |
+| `docs/specs/drift-report.md` | `/akili-audit` | Conformance auditing of documentation vs. codebase reality |
+| `docs/specs/archive/.../archive-summary.md` | `/akili-archive` | Historical closure record |
 
 ## Review Gates
 
-JCSPECS keeps humans in control at each important transition.
+AKILI keeps humans in control at each important transition.
 
 | Gate | Before Moving On, Confirm |
 |---|---|
@@ -145,52 +145,52 @@ docs/specs/seo/example.com/
 
 ## Shortcut Paths
 
-For a small, obvious change in a repository with a strong baseline, you may start at `/sdd-specify <spec-path>`.
+For a small, obvious change in a repository with a strong baseline, you may start at `/akili-specify <spec-path>`.
 
-For unclear, risky, cross-functional, or stakeholder-sensitive work, start at `/sdd-propose <change-name-or-spec-path>`.
+For unclear, risky, cross-functional, or stakeholder-sensitive work, start at `/akili-propose <change-name-or-spec-path>`.
 
-For a new repository, stale documentation, or a major product pivot, start at `/sdd-constitution`.
+For a new repository, stale documentation, or a major product pivot, start at `/akili-constitution`.
 
 ---
 
 ## Advanced Engineering Capabilities
 
-To support robust, long-term development cycles, JCSPECS includes the following specialized workflows:
+To support robust, long-term development cycles, AKILI includes the following specialized workflows:
 
 ### 1. Spec-to-Code Traceability (Git & Comments)
 To establish high-traceability between spec files and source code:
-* **Commit Messages:** Every commit made during `/sdd-execute` must be prefixed with `[SPEC:<spec-path>]` (e.g. `git commit -m "[SPEC:changes/add-remember-me] implement secure cookie storage"`).
-* **Comment Tracing:** For complex algorithms, API entry points, or core models, developers/agents should place a reference comment: `// @sdd-spec <spec-path>`.
+* **Commit Messages:** Every commit made during `/akili-execute` must be prefixed with `[SPEC:<spec-path>]` (e.g. `git commit -m "[SPEC:changes/add-remember-me] implement secure cookie storage"`).
+* **Comment Tracing:** For complex algorithms, API entry points, or core models, developers/agents should place a reference comment: `// @akili-spec <spec-path>`.
 
-### 2. Specification Drift Auditing (`/sdd-audit`)
-Run `/sdd-audit` independently to verify that the active codebase reflects active documentation. The command produces `docs/specs/drift-report.md` detailing:
+### 2. Specification Drift Auditing (`/akili-audit`)
+Run `/akili-audit` independently to verify that the active codebase reflects active documentation. The command produces `docs/specs/drift-report.md` detailing:
 * **Stale Specifications:** Documented endpoints/modules missing from code.
 * **Undocumented Code:** Active code additions completely missing from the PRD, UX/UI design, or TRD docs.
 * **Styling/Architecture Violations:** Active code violating styling tokens or engineering guidelines.
 * **Agent Guide Drift:** Modules lacking a needed child `CLAUDE.md`/`AGENTS.md`, child guides missing from the parent's `## Module Guides` index, or root-guide structure descriptions that no longer match the codebase.
 
 ### 3. The Pivot Protocol
-If discovery during `/sdd-execute` invalidates requirements or design rules:
+If discovery during `/akili-execute` invalidates requirements or design rules:
 1. Mark the current task in `tasks.md` as `[~]` (blocked).
 2. Append a `## Pivot Record: <Task ID>` under `execution.md` explaining the conflict, technical constraints, and proposed options.
 3. Update `requirements.md`, `design.md`, and/or `tasks.md` in the spec folder.
 4. Obtain user sign-off on the pivot before resuming execution.
 
 ### 4. CodeGraph Refresh Trigger
-When compiling the `archive-summary.md` and moving folders to the archive via `/sdd-archive`:
+When compiling the `archive-summary.md` and moving folders to the archive via `/akili-archive`:
 * The agent detects if `.codegraph/` configuration folders are present.
 * The agent reminds or executes the re-indexing command (e.g., `codegraph index`) to guarantee semantic search utilities remain highly functional for subsequent sessions.
 
 ### 5. Automated Test Reporting (`scripts/parse_tests.js`)
-Rather than manually compiling assertion results during `/sdd-test`:
+Rather than manually compiling assertion results during `/akili-test`:
 1. Execute tests outputting to JSON (e.g. `jest --json --outputFile=jest-results.json` or `vitest --reporter=json`).
-2. Run `node <path-to-sdd-jc>/scripts/parse_tests.js jest-results.json` to generate the JCSPECS matrix table automatically for inclusion inside `test-report.md`.
+2. Run `node <path-to-akili>/scripts/parse_tests.js jest-results.json` to generate the AKILI matrix table automatically for inclusion inside `test-report.md`.
 
-### 6. Multi-Agent Harness (`/sdd-execute` Triad)
+### 6. Multi-Agent Harness (`/akili-execute` Triad)
 
-`/sdd-execute` is implemented as a multi-agent orchestration rather than a single-agent script. The Leader role does not write production code; it delegates implementation and audit to two subordinate roles, then enforces a strict PASS/FAIL gate before the task advances.
+`/akili-execute` is implemented as a multi-agent orchestration rather than a single-agent script. The Leader role does not write production code; it delegates implementation and audit to two subordinate roles, then enforces a strict PASS/FAIL gate before the task advances.
 
-**Roles** — all three live in the project's `.agents/` directory, scaffolded by `/sdd-constitution`:
+**Roles** — all three live in the project's `.agents/` directory, scaffolded by `/akili-constitution`:
 
 | Role | File | Responsibilities |
 |---|---|---|
@@ -232,24 +232,24 @@ The `.agents/` directory is pure Markdown + YAML frontmatter and is resolved rel
 
 ### 7. Capability-Tier Model Routing
 
-Each SDD phase has a different dominant demand, so JCSPECS routes phases to models by **capability
+Each AKILI-SPECS phase has a different dominant demand, so AKILI routes phases to models by **capability
 tier** rather than using one model everywhere. Six tiers — **T1 Architect, T2 Coder, T3 Auditor,
 T4 Context-Ingest, T5 Fast-Cheap, T6 Multimodal** — map to the phases:
 
 | Phase / Role | Tier |
 |---|---|
-| `/sdd-constitution` | T4 + T1 |
-| `/sdd-propose`, `/sdd-specify` (requirements/design) | T1 |
-| `/sdd-specify` (tasks) | T5 |
-| `/sdd-specify` (UX/UI design) | T6 |
-| `/sdd-execute` Leader / Implementer / Reviewer | T5 / T2 / T3 |
-| `/sdd-test` | T2 |
-| `/sdd-validate` | T3 |
-| `/sdd-audit` | T4 + T3 |
-| `/sdd-archive` | T5 |
+| `/akili-constitution` | T4 + T1 |
+| `/akili-propose`, `/akili-specify` (requirements/design) | T1 |
+| `/akili-specify` (tasks) | T5 |
+| `/akili-specify` (UX/UI design) | T6 |
+| `/akili-execute` Leader / Implementer / Reviewer | T5 / T2 / T3 |
+| `/akili-test` | T2 |
+| `/akili-validate` | T3 |
+| `/akili-audit` | T4 + T3 |
+| `/akili-archive` | T5 |
 
 A single editable registry binds each tier to a concrete model **per tool** (Claude Code and
-OpenCode). `/sdd-constitution` (Step 7C) scaffolds a `## Model Routing` copy of that registry into
+OpenCode). `/akili-constitution` (Step 7C) scaffolds a `## Model Routing` copy of that registry into
 the project's `AGENTS.md` / `CLAUDE.md`. It is **guidance only** — no `model:` frontmatter, no
 installer changes — and it enforces **author ≠ auditor** (Reviewer model ≠ Implementer model). See
 [model-routing.md](model-routing.md) for the tiers, principles, and the default registry.

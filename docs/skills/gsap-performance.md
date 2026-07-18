@@ -13,8 +13,8 @@ Optimizes GSAP animation performance by preferring transforms, avoiding layout t
 
 ## Best Paired Commands
 
-- `/sdd-execute` for animation implementation.
-- `/sdd-validate` for animation performance review.
+- `/akili-execute` for animation implementation.
+- `/akili-validate` for animation performance review.
 
 ## Source
 

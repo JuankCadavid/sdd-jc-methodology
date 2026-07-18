@@ -1,6 +1,6 @@
 # Claude Guidance
 
-This repository packages the SDD JC methodology for reuse in Claude Code and OpenCode.
+This repository packages the AKILI-SPECS methodology for reuse in Claude Code and OpenCode.
 
 ## Start Here
 
@@ -12,12 +12,12 @@ This repository packages the SDD JC methodology for reuse in Claude Code and Ope
 
 - Commands live in `.claude/commands/`.
 - Skills live in `.claude/skills/`.
-- The installer lives in `bin/sdd-jc.js`.
+- The installer lives in `bin/akili.js`.
 - Helper scripts live in `scripts/`.
 
 ## Skill Usage
 
-When working on tasks in this repository or when using the installed SDD JC methodology, load and apply the relevant available skills before implementation.
+When working on tasks in this repository or when using the installed AKILI-SPECS methodology, load and apply the relevant available skills before implementation.
 
 Use the packaged skills in `.claude/skills/` as the source of truth. Examples:
 
@@ -27,7 +27,7 @@ Use the packaged skills in `.claude/skills/` as the source of truth. Examples:
 - Use `react-doctor` and `vercel-react-best-practices` for React/Next.js changes.
 - Use `angular-developer` for Angular projects, components, services, routing, forms, signals, SSR, accessibility, styling, animations, testing, and CLI tooling.
 - Use domain skills such as `nestjs-expert`, `aws-serverless`, `api-design-principles`, or `product-manager-toolkit` when the task matches.
-- Use `seo-audit` for SEO audits and diagnosis; `/sdd-seo` loads it in its audit phase.
+- Use `seo-audit` for SEO audits and diagnosis; `/akili-seo` loads it in its audit phase.
 
 If a task document lists required or recommended skills, follow that list first.
 

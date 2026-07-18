@@ -1,5 +1,5 @@
 {
-  "//": "Reference MCP server configuration for /sdd-seo. Copy the `gsc` entry into your global ~/.claude.json or a project-local .mcp.json. Replace the GSC_SERVICE_ACCOUNT_KEY_PATH with the absolute path to your service account JSON key. Do NOT commit the key file itself — only the path reference.",
+  "//": "Reference MCP server configuration for /akili-seo. Copy the `gsc` entry into your global ~/.claude.json or a project-local .mcp.json. Replace the GSC_SERVICE_ACCOUNT_KEY_PATH with the absolute path to your service account JSON key. Do NOT commit the key file itself — only the path reference.",
   "mcpServers": {
     "gsc": {
       "command": "npx",

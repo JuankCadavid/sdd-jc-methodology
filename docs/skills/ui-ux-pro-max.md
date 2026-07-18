@@ -14,11 +14,11 @@ Provides broad UI/UX design intelligence, including styles, palettes, font pairi
 
 ## Best Paired Commands
 
-- `/sdd-constitution` for the UX/UI design baseline.
-- `/sdd-specify` for UI requirements and design.
-- `/sdd-execute` for implementation guidance.
-- `/sdd-test` for UX checks.
-- `/sdd-validate` for UI conformance.
+- `/akili-constitution` for the UX/UI design baseline.
+- `/akili-specify` for UI requirements and design.
+- `/akili-execute` for implementation guidance.
+- `/akili-test` for UX checks.
+- `/akili-validate` for UI conformance.
 
 ## Source
 

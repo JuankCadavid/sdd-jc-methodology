@@ -1,15 +1,15 @@
 ---
-description: Establish or strengthen the project-wide SDD foundation and baseline docs (PRD, UX/UI Design, TRD).
+description: Establish or strengthen the project-wide AKILI-SPECS foundation and baseline docs (PRD, UX/UI Design, TRD).
 ---
 
-# Establish SDD Constitution
+# Establish AKILI-SPECS Constitution
 
-Establish or strengthen the project-wide SDD foundation. This command creates the documentation baseline that all later module-level SDD work depends on.
+Establish or strengthen the project-wide AKILI-SPECS foundation. This command creates the documentation baseline that all later module-level AKILI-SPECS work depends on.
 
 ## Usage
 
 ```
-/sdd-constitution
+/akili-constitution
 ```
 
 ## Behavior
@@ -20,9 +20,9 @@ Before classifying the repository, use the `brainstorming` skill to ask the user
 
 Based on the response, classify the repository into one of three modes. The classification is non-destructive — it controls how aggressively the constitution drafts, scans, or preserves existing material.
 
-- **Brand-new project (Seed Setup):** The user is starting from scratch. Prepare the project from 0. There is little or no application code, no stable project documentation, and no prior SDD artifacts.
-- **Legacy codebase (Discovery Setup):** The user indicates an existing project structure. Analyze the existing project and explicitly prompt to install CodeGraph (`codegraph init -i`) before proceeding. Meaningful application code, package manifests, infrastructure, tests, routes, components, or prior non-SDD docs exist, but the JCSPECS SDD baseline (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/specs/general-setup/`) is missing or skeletal.
-- **Active SDD project (Safe Update):** the SDD baseline already exists, prior specs live under `docs/specs/`, and an `.agents/` directory may already contain customized personas. The constitution must upgrade weak sections without overwriting customizations.
+- **Brand-new project (Seed Setup):** The user is starting from scratch. Prepare the project from 0. There is little or no application code, no stable project documentation, and no prior AKILI-SPECS artifacts.
+- **Legacy codebase (Discovery Setup):** The user indicates an existing project structure. Analyze the existing project and explicitly prompt to install CodeGraph (`codegraph init -i`) before proceeding. Meaningful application code, package manifests, infrastructure, tests, routes, components, or prior non-AKILI-SPECS docs exist, but the AKILI AKILI-SPECS baseline (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/specs/general-setup/`) is missing or skeletal.
+- **Active AKILI-SPECS project (Safe Update):** the AKILI-SPECS baseline already exists, prior specs live under `docs/specs/`, and an `.agents/` directory may already contain customized personas. The constitution must upgrade weak sections without overwriting customizations.
 
 For all three modes:
 
@@ -53,15 +53,15 @@ The constitutional baseline must cover these files:
 
 - **Brand-new:** prompt the user for a seed intent (product idea, target users, stack preference), then draft baselines and `.agents/` from the default templates plus that intent.
 - **Legacy:** do not draft the baseline until repository reality has been inspected and summarized. Use CodeGraph or `Grep` to extract components, API surfaces, styling tokens, and module boundaries; synthesize the baseline from that evidence; tailor `.agents/` personas to the detected stack (frameworks, test runner, design tokens).
-- **Active SDD:** read existing files and any custom subagent rules. **Do not overwrite them.** Upgrade only weak sections, fill in missing files, and extend `.agents/` to support the multi-agent loop while preserving custom instructions.
+- **Active AKILI-SPECS:** read existing files and any custom subagent rules. **Do not overwrite them.** Upgrade only weak sections, fill in missing files, and extend `.agents/` to support the multi-agent loop while preserving custom instructions.
 
 **Legacy path migration (pre-TRD naming):**
 
-Older SDD baselines used `docs/system-design/design.md` for the UX/UI blueprint and `docs/detailed-design/detailed-design.md` for the technical blueprint. When those legacy paths exist:
+Older AKILI-SPECS baselines used `docs/system-design/design.md` for the UX/UI blueprint and `docs/detailed-design/detailed-design.md` for the technical blueprint. When those legacy paths exist:
 
 1. Treat them as the existing UX/UI Design document and TRD — never draft duplicates alongside them.
-2. In Active SDD mode, propose migrating them with `git mv` to `docs/ux-ui/design.md` and `docs/trd/trd.md`, then update every reference in `CLAUDE.md`, `AGENTS.md`, `.agents/*.md`, and `docs/specs/` to the new paths.
-3. If the user declines migration, keep the legacy paths and note the mapping in `CLAUDE.md` so later SDD commands resolve them correctly.
+2. In Active AKILI-SPECS mode, propose migrating them with `git mv` to `docs/ux-ui/design.md` and `docs/trd/trd.md`, then update every reference in `CLAUDE.md`, `AGENTS.md`, `.agents/*.md`, and `docs/specs/` to the new paths.
+3. If the user declines migration, keep the legacy paths and note the mapping in `CLAUDE.md` so later AKILI-SPECS commands resolve them correctly.
 
 ---
 
@@ -250,7 +250,7 @@ If this information is missing during the initial setup or discovery phase, expl
 
 Create or enhance the canonical templates under `docs/specs/general-setup/`.
 
-These files define the format that `/sdd-specify` must follow later:
+These files define the format that `/akili-specify` must follow later:
 
 1. `requirements.md` — requirement numbering, structure, and writing standards
 2. `design.md` — architecture, data model, API, frontend, and decision-record structure
@@ -280,11 +280,11 @@ The update should explain briefly:
 
 - What each document is for
 - When Claude should consult each one
-- That these documents form the constitutional baseline for future SDD work
+- That these documents form the constitutional baseline for future AKILI-SPECS work
 - How module specs should be organized under `docs/specs/`
 - Which skills should be used for common work in the project
 - Whether CodeGraph is initialized and how agents should use it for existing-project analysis
-- Which model to switch to per SDD phase (the `## Model Routing` registry added in Step 7C)
+- Which model to switch to per AKILI-SPECS phase (the `## Model Routing` registry added in Step 7C)
 
 Preserve the repository's existing `CLAUDE.md` and `AGENTS.md` conventions and extend them.
 
@@ -295,7 +295,7 @@ Root guides are the parent; major modules or packages may carry child guides. Es
 1. A module/package gets a child `CLAUDE.md` and/or `AGENTS.md` **only when its conventions genuinely diverge from the root** (different stack, test runner, boundaries, or domain rules). Do not scaffold empty child guides for every folder.
 2. Child guides stay thin and module-specific. They must never duplicate root rules — inheritance means the root guide always applies and children only add or narrow.
 3. The root guides must carry a `## Module Guides` index: one line per child guide (`- <path> — <one-line scope>`). A child guide that is not referenced from the parent index is considered drift.
-4. **Legacy mode:** create child guides only where the codebase scan shows divergent conventions, and build the parent index from what exists. **Active SDD mode:** preserve existing child guides, add missing parent index entries, and never overwrite customized children.
+4. **Legacy mode:** create child guides only where the codebase scan shows divergent conventions, and build the parent index from what exists. **Active AKILI-SPECS mode:** preserve existing child guides, add missing parent index entries, and never overwrite customized children.
 
 This index is what keeps agent context inheritance working: agents load the root guide plus the child guide of the module they are touching.
 
@@ -303,7 +303,7 @@ This index is what keeps agent context inheritance working: agents load the root
 
 ### Step 8B: Scaffold the `.agents/` Triad
 
-Establish or upgrade the project-level `.agents/` directory that powers the JCSPECS multi-agent execution loop (Leader → Implementer → Reviewer used by `/sdd-execute`).
+Establish or upgrade the project-level `.agents/` directory that powers the AKILI multi-agent execution loop (Leader → Implementer → Reviewer used by `/akili-execute`).
 
 Target layout:
 
@@ -317,23 +317,23 @@ Target layout:
 
 **Source of truth for templates:**
 
-The packaged methodology ships default personas under `sdd-jc/templates/` inside the active tool's config directory:
+The packaged methodology ships default personas under `akili/templates/` inside the active tool's config directory:
 
-- Claude Code: `~/.claude/sdd-jc/templates/{leader,implementer,reviewer}.md`
-- OpenCode: `~/.config/opencode/sdd-jc/templates/{leader,implementer,reviewer}.md`
-- Antigravity: `~/.gemini/config/sdd-jc/templates/{leader,implementer,reviewer}.md`
+- Claude Code: `~/.claude/akili/templates/{leader,implementer,reviewer}.md`
+- OpenCode: `~/.config/opencode/akili/templates/{leader,implementer,reviewer}.md`
+- Antigravity: `~/.gemini/config/akili/templates/{leader,implementer,reviewer}.md`
 
-If the packaged templates are available, prefer copying them as the seed; otherwise draft equivalent personas inline using the structure documented in this command and the `/sdd-execute` command.
+If the packaged templates are available, prefer copying them as the seed; otherwise draft equivalent personas inline using the structure documented in this command and the `/akili-execute` command.
 
 **Mode-specific scaffolding policy:**
 
 - **Brand-new (Seed Setup):** copy the three default templates verbatim into `.agents/`. Tailor only the project name and detected stack if known.
 - **Legacy (Discovery Setup):** copy the three default templates, then customize them based on the codebase scan — inject detected design-token paths, the test command, the lint command, framework conventions, and any directory boundaries discovered. The Reviewer persona in particular should know which `design.md` and `trd.md` paths to cite.
-- **Active SDD (Safe Update):** **do not overwrite** existing `.agents/*.md` files. For each missing file, install the default template (customized to the detected stack). For each existing file, read it, identify gaps versus the current packaged template (e.g. missing rework-loop instructions, missing PASS/FAIL output contract, missing JCSPECS commit standard), and append a minimal upgrade block that preserves all existing custom instructions.
+- **Active AKILI-SPECS (Safe Update):** **do not overwrite** existing `.agents/*.md` files. For each missing file, install the default template (customized to the detected stack). For each existing file, read it, identify gaps versus the current packaged template (e.g. missing rework-loop instructions, missing PASS/FAIL output contract, missing AKILI commit standard), and append a minimal upgrade block that preserves all existing custom instructions.
 
 **Required content per persona:**
 
-- **`leader.md`** — orchestration sequence, rework loop with 3-attempt ceiling, structured FAIL handoff to the next Implementer spawn, `execution.md` audit-trail format, `tasks.md` status transitions, JCSPECS commit standard, Pivot Protocol escalation.
+- **`leader.md`** — orchestration sequence, rework loop with 3-attempt ceiling, structured FAIL handoff to the next Implementer spawn, `execution.md` audit-trail format, `tasks.md` status transitions, AKILI commit standard, Pivot Protocol escalation.
 - **`implementer.md`** — strict context alignment to constitution + spec, incremental focus (no scope creep), aesthetics and design-token compliance from `docs/ux-ui/design.md`, verification rigor (must run the task's verification command before reporting), structured completion report.
 - **`reviewer.md`** — read-only role, audit checklist (requirement conformance, design-token compliance, technical compliance, stability), structured PASS/FAIL output where every FAIL item lists *Discovered Issue*, *Violated Rule*, and *Remediation Suggestion*.
 
@@ -342,7 +342,7 @@ If the packaged templates are available, prefer copying them as the seed; otherw
 The `.agents/` directory must be tool-agnostic:
 
 - Pure Markdown + YAML frontmatter, natively compatible with Antigravity, Claude Code, and OpenCode.
-- All JCSPECS commands resolve the `.agents/` path relative to the active terminal's current working directory, binding it strictly to the current workspace (no global agents directory).
+- All AKILI commands resolve the `.agents/` path relative to the active terminal's current working directory, binding it strictly to the current workspace (no global agents directory).
 - Antigravity invokes `invoke_subagent` using prompts read from `.agents/`; Claude Code and OpenCode delegate via sub-prompt contexts seeded with the persona content.
 
 ---
@@ -365,7 +365,7 @@ project guides so the project does not depend on the package's `docs/` after ins
    propose/verify; fast & cheap for tasks/archive).
 2. The six capability tiers (T1 Architect, T2 Coder, T3 Auditor, T4 Context-Ingest, T5 Fast-Cheap,
    T6 Multimodal) with one-line definitions.
-3. The phase→tier mapping for the real JCSPECS phases, with the `/sdd-execute` triad split into
+3. The phase→tier mapping for the real AKILI phases, with the `/akili-execute` triad split into
    Leader (T5), Implementer (T2), and Reviewer (T3), and an explicit note that the Reviewer model
    must differ from the Implementer model.
 4. The editable model registry table with columns `Tier | Claude Code | OpenCode | Fallback`.
@@ -380,7 +380,7 @@ project guides so the project does not depend on the package's `docs/` after ins
 - **Brand-new (Seed Setup):** insert the full `## Model Routing` section using the packaged defaults.
 - **Legacy (Discovery Setup):** insert the section and, where detected, annotate the registry with
   the project's actual tooling (e.g. note if the team already standardizes on a specific model).
-- **Active SDD (Safe Update):** **do not overwrite** an existing customized registry. If the section
+- **Active AKILI-SPECS (Safe Update):** **do not overwrite** an existing customized registry. If the section
   is missing, add it; if it exists, only fill gaps (missing tiers, missing author ≠ auditor note)
   without changing the user's pinned models.
 
@@ -394,7 +394,7 @@ Claude Code (and their plan's rate limits) and which models their OpenCode roste
 After drafting or enhancing the documents, generate a short, easy-to-understand summary (summary facil de entender de lo que se hizo) covering:
 
 - What was created vs enhanced
-- Which of the three modes was applied (Brand-new / Legacy / Active SDD) and why
+- Which of the three modes was applied (Brand-new / Legacy / Active AKILI-SPECS) and why
 - Whether CodeGraph was used, initialized, declined, or unavailable
 - The chosen spec taxonomy under `docs/specs/`
 - The main problem statement and personas captured in the PRD
@@ -410,4 +410,4 @@ Ask the user whether to approve or request changes. If changes are requested, re
 
 ## Outcome
 
-At the end of `/sdd-constitution`, the repository should have a project-level baseline that future `/sdd-specify`, `/sdd-execute`, `/sdd-validate`, and `/sdd-test` work can rely on without guessing the structure or conventions. The `.agents/` triad must be in place so that `/sdd-execute` can run the Leader → Implementer → Reviewer rework loop without falling back to inline personas. The root guides must also carry a `## Model Routing` registry (Step 8C) so each phase runs on a model matched to its demand, with the Reviewer on a different model than the Implementer.
+At the end of `/akili-constitution`, the repository should have a project-level baseline that future `/akili-specify`, `/akili-execute`, `/akili-validate`, and `/akili-test` work can rely on without guessing the structure or conventions. The `.agents/` triad must be in place so that `/akili-execute` can run the Leader → Implementer → Reviewer rework loop without falling back to inline personas. The root guides must also carry a `## Model Routing` registry (Step 8C) so each phase runs on a model matched to its demand, with the Reviewer on a different model than the Implementer.

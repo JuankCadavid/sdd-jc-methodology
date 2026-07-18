@@ -1,23 +1,23 @@
 ---
-description: Execute approved specs systematically following the SDD methodology with spec-to-code traceability.
+description: Execute approved specs systematically following the AKILI-SPECS methodology with spec-to-code traceability.
 ---
 
-# Execute SDD Tasks
+# Execute AKILI-SPECS Tasks
 
-Execute implementation tasks from an approved SDD spec path using the JCSPECS **Leader → Implementer → Reviewer** multi-agent triad. Read `tasks.md`, choose the next eligible task, delegate implementation, audit the diff, retry on failure (max 3 attempts), update task status, and record the full audit trail in `execution.md`.
+Execute implementation tasks from an approved AKILI-SPECS spec path using the AKILI **Leader → Implementer → Reviewer** multi-agent triad. Read `tasks.md`, choose the next eligible task, delegate implementation, audit the diff, retry on failure (max 3 attempts), update task status, and record the full audit trail in `execution.md`.
 
 Execution should be incremental. Do not turn one approved task into a broader refactor unless the spec explicitly requires it or the user approves the scope change.
 
 ## Usage
 
 ```
-/sdd-execute <spec-path>
+/akili-execute <spec-path>
 ```
 
 **Examples:**
 
-- `/sdd-execute loan`
-- `/sdd-execute enhancements/renewals`
+- `/akili-execute loan`
+- `/akili-execute enhancements/renewals`
 
 ## Arguments
 
@@ -45,7 +45,7 @@ In this command you act as the **Leader** (Orchestrator). You delegate concrete 
 - `.agents/implementer.md` — the persona used when delegating implementation.
 - `.agents/reviewer.md` — the persona used when delegating spec-conformance audit.
 
-If `.agents/` is missing, run `/sdd-constitution` first to scaffold it. Do not invent personas inline — the constitution is the source of truth.
+If `.agents/` is missing, run `/akili-constitution` first to scaffold it. Do not invent personas inline — the constitution is the source of truth.
 
 **Delegation mechanism by tool:**
 
@@ -70,7 +70,7 @@ The Leader does not write production code itself unless the rework loop is exhau
    - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
    - `docs/specs/general-setup/`
    - Package-level `CLAUDE.md` and `AGENTS.md` files if they exist
-2. Read the SDD documents for the spec path:
+2. Read the AKILI-SPECS documents for the spec path:
    - `docs/specs/$ARGUMENTS/requirements.md`
    - `docs/specs/$ARGUMENTS/design.md`
    - `docs/specs/$ARGUMENTS/tasks.md`
@@ -171,14 +171,14 @@ Only after a Reviewer `PASS`:
 
 1. Update `tasks.md` from `[ ]` (or `[~]`) to `[x]`.
 2. Append a structured entry to `execution.md` (see log format below) covering every attempt in this task's loop.
-3. **Git Commit Staging:** Always follow the **JCSPECS Spec Reference** commit standard. Prefix the commit message with `[SPEC:<spec-path>]` (e.g. `git commit -m "[SPEC:changes/add-remember-me] implement secure cookie storage"`).
-4. **Code Traceability:** Add file-level or block-level comment spec references (`// @sdd-spec <spec-path>`) in critical or complex codebase additions to assist future audits.
+3. **Git Commit Staging:** Always follow the **AKILI Spec Reference** commit standard. Prefix the commit message with `[SPEC:<spec-path>]` (e.g. `git commit -m "[SPEC:changes/add-remember-me] implement secure cookie storage"`).
+4. **Code Traceability:** Add file-level or block-level comment spec references (`// @akili-spec <spec-path>`) in critical or complex codebase additions to assist future audits.
 5. **Constitution Impact Check:** If the task created a new module/package, moved a module boundary, or changed a module's public surface, append a `## Constitution Impact: <Task ID>` block to `execution.md` recording:
    - which module was created or reshaped
    - whether a child `CLAUDE.md`/`AGENTS.md` is needed for it (or an existing child guide became stale)
    - which parent guide's `## Module Guides` index needs a new or updated reference
    - that a CodeGraph re-index is pending
-   These notes are consumed by `/sdd-archive` (Constitution & Graph Sync). If skipping the sync until archive would leave the root guides actively misleading (e.g. a new top-level package agents keep guessing about), update the affected guides immediately in the same task commit instead of deferring.
+   These notes are consumed by `/akili-archive` (Constitution & Graph Sync). If skipping the sync until archive would leave the root guides actively misleading (e.g. a new top-level package agents keep guessing about), update the affected guides immediately in the same task commit instead of deferring.
 
 ### Step 4: HALT on Rework Limit
 
@@ -228,8 +228,8 @@ A minimal PASS-on-first-attempt entry can be compact; a HALT or rework entry mus
 
 ## Error Handling & Pivot Protocol
 
-- If required SDD files are missing, stop and report what is missing.
-- If `.agents/` is missing, stop and direct the user to run `/sdd-constitution`.
+- If required AKILI-SPECS files are missing, stop and report what is missing.
+- If `.agents/` is missing, stop and direct the user to run `/akili-constitution`.
 - If the design is ambiguous, the Leader asks the user before spawning the Implementer — do not pass an ambiguous task into the loop.
 - If verification fails inside the Implementer, the Implementer must fix it before reporting completion; if it cannot, it reports back the failure and the Leader treats that as an implicit FAIL.
 - If a task is blocked, report the blocker and move to the next eligible task only if appropriate.

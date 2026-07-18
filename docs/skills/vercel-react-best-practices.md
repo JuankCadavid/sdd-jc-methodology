@@ -12,10 +12,10 @@ Guides React and Next.js performance, rendering, bundle, async, server/client, a
 
 ## Best Paired Commands
 
-- `/sdd-specify` for React/Next.js design decisions.
-- `/sdd-execute` for implementation.
-- `/sdd-test` for performance-sensitive verification.
-- `/sdd-validate` for conformance review.
+- `/akili-specify` for React/Next.js design decisions.
+- `/akili-execute` for implementation.
+- `/akili-test` for performance-sensitive verification.
+- `/akili-validate` for conformance review.
 
 ## Source
 

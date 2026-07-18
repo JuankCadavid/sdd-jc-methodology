@@ -1,11 +1,11 @@
-# `/sdd-validate`
+# `/akili-validate`
 
 Audit whether implementation matches the approved spec and constitutional baseline.
 
 ## Usage
 
 ```text
-/sdd-validate <spec-path>
+/akili-validate <spec-path>
 ```
 
 ## Use When
@@ -58,7 +58,7 @@ docs/specs/<spec-path>/validation-report.md
 If archive-ready:
 
 ```text
-/sdd-archive <spec-path>
+/akili-archive <spec-path>
 ```
 
 If not archive-ready, fix the critical findings or update the spec with accepted drift before archiving.

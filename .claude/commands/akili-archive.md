@@ -2,9 +2,9 @@
 description: Archive a completed spec task, sync agent guides and CodeGraph, and keep the TRD current.
 ---
 
-# Archive SDD Spec
+# Archive AKILI-SPECS Spec
 
-Archive a completed SDD spec path after implementation, testing, and validation are done.
+Archive a completed AKILI-SPECS spec path after implementation, testing, and validation are done.
 
 Archiving preserves the full decision trail. It keeps active `docs/specs/` easier to scan while retaining proposal, requirements, design, tasks, execution notes, test evidence, and validation evidence for future review.
 
@@ -13,14 +13,14 @@ Archiving preserves the full decision trail. It keeps active `docs/specs/` easie
 ## Usage
 
 ```
-/sdd-archive <spec-path>
+/akili-archive <spec-path>
 ```
 
 **Examples:**
 
-- `/sdd-archive changes/add-remember-me`
-- `/sdd-archive bugfix/login-redirect`
-- `/sdd-archive enhancements/renewals`
+- `/akili-archive changes/add-remember-me`
+- `/akili-archive bugfix/login-redirect`
+- `/akili-archive enhancements/renewals`
 
 ## Arguments
 
@@ -82,7 +82,7 @@ Verify the spec is ready to archive:
 - `validation-report.md` exists, or the absence is explicitly accepted
 - no unresolved FAIL findings remain in `validation-report.md`
 - WARN findings are either accepted or assigned to follow-up tasks
-- implementation drift is reflected in the SDD docs or execution notes
+- implementation drift is reflected in the AKILI-SPECS docs or execution notes
 
 If readiness is unclear, stop and ask the user whether to proceed, validate first, or keep the spec active.
 
@@ -116,7 +116,7 @@ Before moving the folder, sync the project constitution with what the spec actua
    - Create or update the child `CLAUDE.md`/`AGENTS.md` when the module's conventions diverge from the root (thin, module-specific, never duplicating root rules).
    - Add or refresh the child's entry in the parent guides' `## Module Guides` index.
    - Update any root-guide statements the change made stale (structure descriptions, module lists, key commands).
-   - Follow the inheritance convention from `/sdd-constitution` Step 7 — if the project has no `## Module Guides` index yet, add it rather than inventing a parallel structure.
+   - Follow the inheritance convention from `/akili-constitution` Step 7 — if the project has no `## Module Guides` index yet, add it rather than inventing a parallel structure.
 3. **CodeGraph Refresh Hook:** Check if `.codegraph/` exists in the repository root. If it does, recommend that the user or environment runs a fresh CodeGraph indexing/update (e.g. running `codegraph index` or equivalent) so the graph reflects the new or reshaped modules.
 
 ### Step 4: Move Folder

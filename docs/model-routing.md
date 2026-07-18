@@ -1,7 +1,7 @@
 # Capability-Tier Model Routing
 
-JCSPECS is model-agnostic: no command, skill, or persona hardcodes a model. This document is the
-**human-facing guidance** for choosing which model runs which SDD phase, so each phase runs on a
+AKILI is model-agnostic: no command, skill, or persona hardcodes a model. This document is the
+**human-facing guidance** for choosing which model runs which AKILI-SPECS phase, so each phase runs on a
 model matched to its dominant computational demand rather than one model doing everything.
 
 It is **guidance-first**: you switch models yourself per tool (Claude Code `/model`, OpenCode
@@ -10,7 +10,7 @@ model selector). Nothing here is injected into command frontmatter or the instal
 
 ## Philosophy: criteria first, model second
 
-Each SDD phase declares **what it needs** (deep reasoning, coding throughput, independent
+Each AKILI-SPECS phase declares **what it needs** (deep reasoning, coding throughput, independent
 judgment, large context, speed/cost, or vision) before anyone picks a model. The model is derived
 from the need, not the reverse. The registry lists a principal model plus a fallback per tier.
 
@@ -19,19 +19,19 @@ from the need, not the reverse. The registry lists a principal model plus a fall
 - **Match the dominant demand.** Route by the single most important demand of the phase, not by
   "use the smartest model everywhere."
 - **ARCHITECT = BUILDER.** The model family that reasons about the design should also implement it
-  (`/sdd-propose` and the `/sdd-execute` Implementer share the workhorse family). Less information
+  (`/akili-propose` and the `/akili-execute` Implementer share the workhorse family). Less information
   is lost between design and code.
 - **author ≠ auditor.** The Reviewer / validator MUST run on a **different model** than the
   Implementer. An independent auditor catches what the author rationalized away.
 - **Reserve deep-reasoning for propose & verify.** The most expensive reasoning models earn their
-  cost on architecture (`/sdd-propose`) and final audit (`/sdd-validate`, Reviewer), not on
+  cost on architecture (`/akili-propose`) and final audit (`/akili-validate`, Reviewer), not on
   bookkeeping.
 - **Fast & cheap for tasks & archive.** Partitioning a spec into tickets and summarizing closed
   work are format-following jobs — speed and cost dominate; raw intelligence adds little.
 
 ## Capability tiers
 
-Six tiers cover the genuinely distinct demands across the SDD pipeline without proliferating one
+Six tiers cover the genuinely distinct demands across the AKILI-SPECS pipeline without proliferating one
 tier per phase (which would defeat the abstraction and churn on every model release).
 
 | Tier | Definition |
@@ -45,25 +45,25 @@ tier per phase (which would defeat the abstraction and churn on every model rele
 
 ## Phase → tier mapping
 
-The `/sdd-execute` triad is split because each role has a different demand — and because
+The `/akili-execute` triad is split because each role has a different demand — and because
 author ≠ auditor makes the Implementer/Reviewer split a **correctness constraint**, not a
 preference.
 
 | Phase / Role | Tier(s) | Why |
 |---|---|---|
-| `/sdd-constitution` | T4 + T1 | Ingest legacy code (long context), then reason to synthesize the baseline. |
-| `/sdd-propose` | T1 | Architecture and trade-offs — reserve the deep reasoner. |
-| `/sdd-specify` → requirements.md / design.md | T1 | Heavy reasoning + technical writing. |
-| `/sdd-specify` → tasks.md | T5 | Fast structured partitioning into tickets. |
-| `/sdd-specify` → UX/UI design | T6 | Only when visual design is in scope. |
-| `/sdd-execute` → **Leader** | T5 | Orchestration / instruction-following — writes no code. |
-| `/sdd-execute` → **Implementer** | T2 | Maximum coding. Shares the workhorse family with propose (ARCHITECT = BUILDER). |
-| `/sdd-execute` → **Reviewer** | T3 | Independent audit. **MUST resolve to a different model than the Implementer.** |
-| `/sdd-test` | T2 | Test authoring + verification. |
-| `/sdd-validate` | T3 | Deep conformance audit. |
-| `/sdd-audit` | T4 + T3 | Drift detection over large context, judged critically. |
-| `/sdd-archive` | T5 | Cheap, fast summarization of closed work. |
-| `/sdd-seo` | T3 + T5 | Audit findings (T3) plus setup/formatting steps (T5). |
+| `/akili-constitution` | T4 + T1 | Ingest legacy code (long context), then reason to synthesize the baseline. |
+| `/akili-propose` | T1 | Architecture and trade-offs — reserve the deep reasoner. |
+| `/akili-specify` → requirements.md / design.md | T1 | Heavy reasoning + technical writing. |
+| `/akili-specify` → tasks.md | T5 | Fast structured partitioning into tickets. |
+| `/akili-specify` → UX/UI design | T6 | Only when visual design is in scope. |
+| `/akili-execute` → **Leader** | T5 | Orchestration / instruction-following — writes no code. |
+| `/akili-execute` → **Implementer** | T2 | Maximum coding. Shares the workhorse family with propose (ARCHITECT = BUILDER). |
+| `/akili-execute` → **Reviewer** | T3 | Independent audit. **MUST resolve to a different model than the Implementer.** |
+| `/akili-test` | T2 | Test authoring + verification. |
+| `/akili-validate` | T3 | Deep conformance audit. |
+| `/akili-audit` | T4 + T3 | Drift detection over large context, judged critically. |
+| `/akili-archive` | T5 | Cheap, fast summarization of closed work. |
+| `/akili-seo` | T3 + T5 | Audit findings (T3) plus setup/formatting steps (T5). |
 
 **author ≠ auditor enforcement.** In the registry, T2 (Coder) and T3 (Auditor) must resolve to
 **different concrete models**. If they ever collapse to the same model, escalate the Reviewer one
@@ -100,9 +100,9 @@ exhausting it during execution-heavy work.
   preferred.
 - **Kimi K2.6 → T1 Architect.** One of the best open models (58.6% SWE-Pro, tied with GPT-5.5); its
   Agent Swarm is built for multi-step decomposition — ideal for architectural trade-off reasoning
-  and `/sdd-explore`-style impact analysis.
+  and `/akili-explore`-style impact analysis.
 - **DeepSeek V4 Pro → T3 Auditor.** 1M context + a "Think Max" reasoning mode, and crucially a
-  *different* model than the GLM-5.1 coder — satisfying author ≠ auditor for `/sdd-validate` and the
+  *different* model than the GLM-5.1 coder — satisfying author ≠ auditor for `/akili-validate` and the
   Reviewer.
 - **DeepSeek V4 Flash → T4 / T5.** 1M context, fastest and cheapest, highest rate limit — right for
   bulk ingestion and high-frequency formatting.
@@ -115,8 +115,8 @@ Confirm them against your own OpenCode configuration and adjust if your roster d
 ## How to apply per tool
 
 - **Claude Code (PRO):** switch with `/model` before running a phase — e.g. `/model opus` for
-  `/sdd-propose` and `/sdd-validate`, `/model sonnet` for `/sdd-execute` and `/sdd-test`,
-  `/model haiku` for the tasks split and `/sdd-archive`. For the `/sdd-execute` triad, run the
+  `/akili-propose` and `/akili-validate`, `/model sonnet` for `/akili-execute` and `/akili-test`,
+  `/model haiku` for the tasks split and `/akili-archive`. For the `/akili-execute` triad, run the
   Implementer on Sonnet and the Reviewer on Opus so author ≠ auditor holds.
 - **OpenCode:** select the `opencode-go/...` model for each phase per the registry. Keep the
   Reviewer/validator on a different model (`deepseek-v4-pro`) than the Implementer (`glm-5.1`).
@@ -126,7 +126,7 @@ Confirm them against your own OpenCode configuration and adjust if your roster d
 - **No `model:` frontmatter.** Command prompts stay `description:`-only. A single frontmatter value
   cannot serve both tools anyway (Claude Code expects `opus`/`sonnet`/`haiku`; OpenCode expects
   `provider/model`), so model choice stays out of the prompts.
-- **No installer changes.** Nothing here is force-injected. `/sdd-constitution` scaffolds a project
+- **No installer changes.** Nothing here is force-injected. `/akili-constitution` scaffolds a project
   copy of this registry into `AGENTS.md` / `CLAUDE.md` as plain Markdown — identical handling across
   Claude Code, OpenCode, and Google Antigravity.
 - **Per-project override.** Edit the registry inside your project's `AGENTS.md` / `CLAUDE.md` to

@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 function printHelp() {
-  console.log(`JCSPECS Test Report Parser
+  console.log(`AKILI Test Report Parser
 
 Usage:
   node parse_tests.js <input-results.json> [output-report.md]

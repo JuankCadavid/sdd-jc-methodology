@@ -13,10 +13,10 @@ Provides Angular architecture and implementation guidance for projects, componen
 
 ## Best Paired Commands
 
-- `/sdd-specify` for Angular design and task planning.
-- `/sdd-execute` for implementation.
-- `/sdd-test` for Angular unit, harness, router, or E2E tests.
-- `/sdd-validate` for architecture and quality checks.
+- `/akili-specify` for Angular design and task planning.
+- `/akili-execute` for implementation.
+- `/akili-test` for Angular unit, harness, router, or E2E tests.
+- `/akili-validate` for architecture and quality checks.
 
 ## Source
 

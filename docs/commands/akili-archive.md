@@ -1,19 +1,19 @@
-# `/sdd-archive`
+# `/akili-archive`
 
 Move a completed spec into historical archive after implementation, testing, and validation.
 
 ## Usage
 
 ```text
-/sdd-archive <spec-path>
+/akili-archive <spec-path>
 ```
 
 Examples:
 
 ```text
-/sdd-archive changes/add-remember-me
-/sdd-archive bugfix/login-redirect
-/sdd-archive enhancements/renewals
+/akili-archive changes/add-remember-me
+/akili-archive bugfix/login-redirect
+/akili-archive enhancements/renewals
 ```
 
 ## Use When
@@ -51,7 +51,7 @@ The summary captures delivered requirements, files changed, test evidence, valid
 
 ## Constitution & Graph Sync
 
-Before moving the folder, the command consumes the `## Constitution Impact` notes recorded in `execution.md` during `/sdd-execute`:
+Before moving the folder, the command consumes the `## Constitution Impact` notes recorded in `execution.md` during `/akili-execute`:
 
 - creates or updates child `CLAUDE.md`/`AGENTS.md` guides for new or reshaped modules (thin, module-specific, never duplicating root rules)
 - adds or refreshes the child entries in the parent guides' `## Module Guides` index

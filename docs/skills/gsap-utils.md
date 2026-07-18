@@ -13,8 +13,8 @@ Guides `gsap.utils` helpers such as `clamp`, `mapRange`, `normalize`, `interpola
 
 ## Best Paired Commands
 
-- `/sdd-execute` for implementation.
-- `/sdd-validate` for simplifying or reviewing animation utilities.
+- `/akili-execute` for implementation.
+- `/akili-validate` for simplifying or reviewing animation utilities.
 
 ## Source
 

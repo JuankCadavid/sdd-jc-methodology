@@ -1,11 +1,11 @@
-# `/sdd-test`
+# `/akili-test`
 
 Run or create tests for a spec path and produce requirement-level evidence.
 
 ## Usage
 
 ```text
-/sdd-test <spec-path>
+/akili-test <spec-path>
 ```
 
 ## Use When
@@ -61,5 +61,5 @@ Testing must prove the behavior promised in `requirements.md`, not only increase
 After test evidence is recorded:
 
 ```text
-/sdd-validate <spec-path>
+/akili-validate <spec-path>
 ```

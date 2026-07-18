@@ -17,10 +17,10 @@ No fixes without root-cause investigation first.
 
 ## Best Paired Commands
 
-- `/sdd-execute` when implementation hits failures.
-- `/sdd-test` when tests fail or coverage is unclear.
-- `/sdd-validate` when conformance checks fail.
-- `/sdd-seo` when GSC or index data is inconsistent.
+- `/akili-execute` when implementation hits failures.
+- `/akili-test` when tests fail or coverage is unclear.
+- `/akili-validate` when conformance checks fail.
+- `/akili-seo` when GSC or index data is inconsistent.
 
 ## Source
 

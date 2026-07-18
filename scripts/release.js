@@ -76,7 +76,7 @@ function writeReleaseNotes(version, date, unreleased) {
   const releasePath = path.join(RELEASES_DIR, `v${version}.md`);
   if (fs.existsSync(releasePath)) fail(`${releasePath} already exists.`);
 
-  const body = `# v${version} - SDD JC methodology update\n\nRelease date: ${date}\n\n${unreleased.content}\n\n## Verification\n\nBefore publishing, run:\n\n\`\`\`bash\nnpm run verify:cli\nnpm run pack:dry-run\n\`\`\`\n\n## Publish\n\n\`\`\`bash\nnpm publish --access public --registry=https://registry.npmjs.org/\n\`\`\`\n`;
+  const body = `# v${version} - AKILI-SPECS methodology update\n\nRelease date: ${date}\n\n${unreleased.content}\n\n## Verification\n\nBefore publishing, run:\n\n\`\`\`bash\nnpm run verify:cli\nnpm run pack:dry-run\n\`\`\`\n\n## Publish\n\n\`\`\`bash\nnpm publish --access public --registry=https://registry.npmjs.org/\n\`\`\`\n`;
   fs.writeFileSync(releasePath, body);
 }
 

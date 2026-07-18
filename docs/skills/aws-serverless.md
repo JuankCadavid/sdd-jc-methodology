@@ -13,9 +13,9 @@ Guides production-ready serverless applications on AWS, including Lambda, API Ga
 
 ## Best Paired Commands
 
-- `/sdd-constitution` for serverless architecture baseline.
-- `/sdd-specify` for AWS-backed feature design.
-- `/sdd-execute` for implementation tasks.
+- `/akili-constitution` for serverless architecture baseline.
+- `/akili-specify` for AWS-backed feature design.
+- `/akili-execute` for implementation tasks.
 
 ## Source
 

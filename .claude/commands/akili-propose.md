@@ -2,9 +2,9 @@
 description: Propose new features or changes by initiating a new detailed technical spec process.
 ---
 
-# Propose SDD Change
+# Propose AKILI-SPECS Change
 
-Create a lightweight proposal for one bounded change before generating full SDD documents.
+Create a lightweight proposal for one bounded change before generating full AKILI-SPECS documents.
 
 The proposal is the reviewable intent layer. It should help the user decide whether the change is worth specifying before time is spent on requirements, design, tasks, or implementation.
 
@@ -13,14 +13,14 @@ The proposal is the reviewable intent layer. It should help the user decide whet
 ## Usage
 
 ```
-/sdd-propose <change-name-or-spec-path>
+/akili-propose <change-name-or-spec-path>
 ```
 
 **Examples:**
 
-- `/sdd-propose add-remember-me`
-- `/sdd-propose bugfix/login-redirect`
-- `/sdd-propose enhancements/renewals`
+- `/akili-propose add-remember-me`
+- `/akili-propose bugfix/login-redirect`
+- `/akili-propose enhancements/renewals`
 
 ## Arguments
 
@@ -46,7 +46,7 @@ Create or update:
 docs/specs/$SPEC_PATH/proposal.md
 ```
 
-Do not create `requirements.md`, `design.md`, or `tasks.md` in this command unless the user explicitly asks. Those belong to `/sdd-specify`.
+Do not create `requirements.md`, `design.md`, or `tasks.md` in this command unless the user explicitly asks. Those belong to `/akili-specify`.
 
 ## Behavior
 
@@ -129,7 +129,7 @@ When the change affects existing behavior, include a lightweight preview using t
 - Existing behavior that will be deprecated or deleted.
 ```
 
-This preview is not the final spec. `/sdd-specify` converts approved intent into full requirements, scenarios, design, and tasks.
+This preview is not the final spec. `/akili-specify` converts approved intent into full requirements, scenarios, design, and tasks.
 
 ### Approach Options
 
@@ -140,7 +140,7 @@ For non-trivial work, include 2 or 3 options with trade-offs. Recommend one opti
 End the proposal with the exact next command:
 
 ```text
-/sdd-specify $SPEC_PATH
+/akili-specify $SPEC_PATH
 ```
 
 ## Review Checklist

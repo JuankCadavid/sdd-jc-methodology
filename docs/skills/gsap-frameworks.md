@@ -12,8 +12,8 @@ Guides GSAP usage in Vue, Nuxt, Svelte, SvelteKit, and other non-React framework
 
 ## Best Paired Commands
 
-- `/sdd-specify` for framework-specific animation design.
-- `/sdd-execute` for implementation.
+- `/akili-specify` for framework-specific animation design.
+- `/akili-execute` for implementation.
 
 ## Source
 

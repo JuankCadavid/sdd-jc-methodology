@@ -1,17 +1,17 @@
-# `/sdd-execute`
+# `/akili-execute`
 
-Implement the next eligible task from an approved spec path using the JCSPECS **Leader → Implementer → Reviewer** multi-agent harness.
+Implement the next eligible task from an approved spec path using the AKILI **Leader → Implementer → Reviewer** multi-agent harness.
 
 ## Usage
 
 ```text
-/sdd-execute <spec-path>
+/akili-execute <spec-path>
 ```
 
 ## Use When
 
 - `requirements.md`, `design.md`, and `tasks.md` are approved.
-- `.agents/` is in place (scaffolded by `/sdd-constitution`).
+- `.agents/` is in place (scaffolded by `/akili-constitution`).
 - You want incremental, audited execution instead of broad untracked implementation.
 - A previous task is marked `[~]` and should be resumed.
 
@@ -29,7 +29,7 @@ Reads:
 
 ## Behavior
 
-`/sdd-execute` runs each task through a bounded rework loop. The caller acts as the **Leader** and delegates to two subordinate roles:
+`/akili-execute` runs each task through a bounded rework loop. The caller acts as the **Leader** and delegates to two subordinate roles:
 
 | Role | File | Responsibilities |
 |---|---|---|
@@ -52,7 +52,7 @@ if FAIL  → log issues; if attempts < 3, respawn Implementer with the unchanged
 if 3 consecutive FAILs → HALT, mark task [~], present full audit trail
 ```
 
-On PASS, if the task created a new module/package or moved a module boundary, the Leader also appends a `## Constitution Impact: <Task ID>` block to `execution.md` (child guide needed, parent `## Module Guides` index entry, pending CodeGraph re-index). `/sdd-archive` consumes these notes during Constitution & Graph Sync.
+On PASS, if the task created a new module/package or moved a module boundary, the Leader also appends a `## Constitution Impact: <Task ID>` block to `execution.md` (child guide needed, parent `## Module Guides` index entry, pending CodeGraph re-index). `/akili-archive` consumes these notes during Constitution & Graph Sync.
 
 ### Reviewer output contract
 
@@ -89,5 +89,5 @@ The `.agents/` directory is pure Markdown + YAML frontmatter and is resolved rel
 Continue executing tasks until implementation is complete, then run:
 
 ```text
-/sdd-test <spec-path>
+/akili-test <spec-path>
 ```

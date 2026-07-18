@@ -13,9 +13,9 @@ Guides shadcn/ui setup and implementation, including accessible React components
 
 ## Best Paired Commands
 
-- `/sdd-specify` for component and form design.
-- `/sdd-execute` for implementation.
-- `/sdd-validate` for accessibility and design-system review.
+- `/akili-specify` for component and form design.
+- `/akili-execute` for implementation.
+- `/akili-validate` for accessibility and design-system review.
 
 ## Source
 

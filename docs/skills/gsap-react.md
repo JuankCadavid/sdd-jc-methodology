@@ -13,9 +13,9 @@ Guides GSAP in React and Next.js, including `useGSAP`, refs, `gsap.context()`, s
 
 ## Best Paired Commands
 
-- `/sdd-specify` for React animation design.
-- `/sdd-execute` for implementation.
-- `/sdd-validate` for cleanup and performance review.
+- `/akili-specify` for React animation design.
+- `/akili-execute` for implementation.
+- `/akili-validate` for cleanup and performance review.
 
 ## Source
 
