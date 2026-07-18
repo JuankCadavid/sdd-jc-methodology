@@ -6,13 +6,18 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [2.0.0] - 2026-07-18
+
 ### Changed
 - **Massive Rebranding:** The methodology and CLI have been officially rebranded to **AKILI** and **AKILI-SPECS** (formerly JCSPECS / SDD JC) in honor of Dante 🐶.
 - **CLI Rename:** The command line tool is now invoked as `akili` (e.g., `akili install`, `akili doctor`).
 - **Command Rename:** All slash commands have been renamed from `/sdd-*` to `/akili-*` (e.g., `/akili-propose`, `/akili-execute`).
 - **NPM Package:** The package name is now `akili-specs`.
 - Updated all internal documentation, templates, and references to reflect the new brand and CLI instructions.
-
 ## [1.0.0] - 2026-07-16
 
 ### Added
