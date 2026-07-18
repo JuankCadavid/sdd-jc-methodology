@@ -21,7 +21,7 @@ Before classifying the repository, use the `brainstorming` skill to ask the user
 Based on the response, classify the repository into one of three modes. The classification is non-destructive — it controls how aggressively the constitution drafts, scans, or preserves existing material.
 
 - **Brand-new project (Seed Setup):** The user is starting from scratch. Prepare the project from 0. There is little or no application code, no stable project documentation, and no prior AKILI-SPECS artifacts.
-- **Legacy codebase (Discovery Setup):** The user indicates an existing project structure. Analyze the existing project and explicitly prompt to install CodeGraph (`codegraph init -i`) before proceeding. Meaningful application code, package manifests, infrastructure, tests, routes, components, or prior non-AKILI-SPECS docs exist, but the AKILI AKILI-SPECS baseline (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/specs/general-setup/`) is missing or skeletal.
+- **Legacy codebase (Discovery Setup):** The user indicates an existing project structure. Analyze the existing project and explicitly prompt to install CodeGraph (`codegraph init -i`) before proceeding. Meaningful application code, package manifests, infrastructure, tests, routes, components, or prior non-AKILI-SPECS docs exist, but the AKILI-SPECS baseline (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/specs/general-setup/`) is missing or skeletal.
 - **Active AKILI-SPECS project (Safe Update):** the AKILI-SPECS baseline already exists, prior specs live under `docs/specs/`, and an `.agents/` directory may already contain customized personas. The constitution must upgrade weak sections without overwriting customizations.
 
 For all three modes:

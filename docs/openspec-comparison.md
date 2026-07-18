@@ -20,7 +20,7 @@ This repository borrows useful documentation and workflow ideas from OpenSpec wh
 
 | Area | OpenSpec | AKILI |
 |---|---|---|
-| Scope | General-purpose AKILI-SPECS framework across many tools | Methodology package for Claude Code and OpenCode |
+| Scope | General-purpose SDD framework across many tools | Methodology package for Claude Code and OpenCode |
 | Initialization | CLI initializes OpenSpec workspace files | `/akili-constitution` creates or strengthens project baseline docs |
 | Baseline | Change/spec artifacts are central | Constitution is central before feature specs |
 | Skills | Uses slash commands and agent instructions | Ships Claude/OpenCode skills alongside commands |
@@ -31,7 +31,7 @@ This repository borrows useful documentation and workflow ideas from OpenSpec wh
 
 ## Practical Takeaway
 
-Use OpenSpec if you want a mature, general AKILI-SPECS framework that targets a wide range of tools and workflow profiles.
+Use OpenSpec if you want a mature, general SDD framework that targets a wide range of tools and workflow profiles.
 
 Use AKILI if you want this opinionated Claude/OpenCode workflow:
 
