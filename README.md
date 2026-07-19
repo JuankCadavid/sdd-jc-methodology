@@ -239,7 +239,7 @@ node bin/akili.js doctor --tool both
 If you prefer a persistent global CLI:
 
 ```bash
-pnpm add -g akili-specs
+npm install -g akili-specs
 akili install
 akili install --tool opencode
 akili doctor --tool opencode

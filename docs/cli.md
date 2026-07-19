@@ -35,7 +35,7 @@ npx akili-specs install
 Use a persistent global install if preferred:
 
 ```bash
-pnpm add -g akili-specs
+npm install -g akili-specs
 akili install --tool all
 ```
 
