@@ -6,11 +6,11 @@ The `akili` CLI installs the AKILI command prompts, skills, and helper resources
 
 ### Interactive Mode (Recommended)
 
-Run the CLI without arguments or use the `init` command to launch an interactive wizard. It will guide you through selecting the target tools and choosing between global or local installation:
+Run the `init` command to launch an interactive wizard. It will guide you through selecting the target tools and choosing between global or local installation:
 
 ```bash
-npx akili-specs
-# or
+npx akili-specs init
+# or, if installed globally
 akili init
 ```
 

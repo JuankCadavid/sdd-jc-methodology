@@ -7,8 +7,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 ## [Unreleased]
 
 ### Fixed
-- Replaced `pnpm add -g` with the classic `npm install -g` in the global installation documentation to prevent the `ERR_PNPM_NO_GLOBAL_BIN_DIR` error that occurs in environments without a pre-configured PNPM home directory.
+- Changed the CLI behavior so that running `akili` with no arguments defaults to showing the `help` menu instead of launching the interactive `init` wizard. The wizard must now be explicitly invoked via `akili init` (or `npx akili-specs init`).
 
+## [2.2.2] - 2026-07-19
+
+### Fixed
+- Replaced `pnpm add -g` with the classic `npm install -g` in the global installation documentation to prevent the `ERR_PNPM_NO_GLOBAL_BIN_DIR` error that occurs in environments without a pre-configured PNPM home directory.
 ## [2.2.1] - 2026-07-19
 
 ### Fixed

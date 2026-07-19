@@ -131,11 +131,9 @@ Install the methodology with the bundled CLI. The installer can target Claude, O
 ### Step 2: Install
 
 **Interactive Installation (Recommended):**
-Simply run the CLI without arguments to launch the interactive setup wizard, which will ask you about the tool and whether you want a global or local installation:
+Run the `init` command to launch the interactive setup wizard, which will ask you about the tool and whether you want a global or local installation:
 
 ```bash
-npx akili-specs
-# or
 npx akili-specs init
 ```
 

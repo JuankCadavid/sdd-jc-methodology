@@ -593,7 +593,7 @@ async function main() {
     printBanner();
   }
 
-  if (process.argv.length === 2 || args.command === "init") {
+  if (args.command === "init") {
     printBanner();
     await runInteractiveInit();
     return;
