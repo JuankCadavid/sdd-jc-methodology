@@ -522,6 +522,59 @@ function runDoctor(args) {
 }
 
 const readline = require("readline/promises");
+const https = require("https");
+const { version: currentVersion } = require("../package.json");
+
+function checkForUpdates() {
+  return new Promise((resolve) => {
+    const req = https.get("https://registry.npmjs.org/-/package/akili-specs/dist-tags", { timeout: 1500 }, (res) => {
+      if (res.statusCode !== 200) return resolve();
+      let data = "";
+      res.on("data", (chunk) => (data += chunk));
+      res.on("end", () => {
+        try {
+          const tags = JSON.parse(data);
+          const latestVersion = tags.latest;
+          if (latestVersion && latestVersion !== currentVersion) {
+            // simple semver check
+            const isNewer = latestVersion.localeCompare(currentVersion, undefined, { numeric: true, sensitivity: 'base' }) > 0;
+            if (isNewer) {
+              const border = `╭─────────────────────────────────────────────────────────────╮`;
+              const emptyLine = `│                                                             │`;
+              const msgLine1 = `│   ${colors.yellow}Update available!${colors.reset} ${colors.red}${currentVersion}${colors.reset} → ${colors.green}${latestVersion}${colors.reset}`;
+              const msgLine2 = `│   Run ${colors.cyan}npm install -g akili-specs${colors.reset} to update.`;
+              
+              // Pad to keep the box neat (very rudimentary padding, assumes specific length of colors)
+              // Just manually aligning for aesthetic since console length with escape codes is tricky
+              console.log(`\n${colors.yellow}${border}`);
+              console.log(`${emptyLine}`);
+              // 61 total chars inside. 
+              // "Update available! x.x.x -> y.y.y"
+              const rawStr1 = `   Update available! ${currentVersion} -> ${latestVersion}`;
+              const pad1 = " ".repeat(Math.max(0, 61 - rawStr1.length));
+              console.log(`│   ${colors.yellow}Update available!${colors.reset} ${colors.red}${currentVersion}${colors.reset} → ${colors.green}${latestVersion}${colors.reset}${pad1}│`);
+              
+              const rawStr2 = `   Run npm install -g akili-specs to update.`;
+              const pad2 = " ".repeat(Math.max(0, 61 - rawStr2.length));
+              console.log(`│   Run ${colors.cyan}npm install -g akili-specs${colors.reset} to update.${pad2}│`);
+              console.log(`${emptyLine}`);
+              console.log(`╰─────────────────────────────────────────────────────────────╯${colors.reset}\n`);
+            }
+          }
+          resolve();
+        } catch (e) {
+          resolve();
+        }
+      });
+    });
+
+    req.on("error", () => resolve());
+    req.on("timeout", () => {
+      req.destroy();
+      resolve();
+    });
+  });
+}
 
 async function runInteractiveInit() {
   const rl = readline.createInterface({
@@ -587,6 +640,8 @@ async function runInteractiveInit() {
 }
 
 async function main() {
+  await checkForUpdates();
+  
   const args = getArgs();
   
   if (args.command !== "help" && args.command !== "list" && args.command !== "init") {
