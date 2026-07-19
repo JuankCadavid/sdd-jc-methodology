@@ -6,9 +6,14 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [2.4.2] - 2026-07-19
+
 ### Changed
 - **Update banner now suggests `akili update`:** The auto-update checker banner now recommends running `akili update` instead of `npm install -g akili-specs`, since `akili update` handles both the npm package update and file reinstallation.
-
 ## [2.4.1] - 2026-07-19
 
 ### Fixed
