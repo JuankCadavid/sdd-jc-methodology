@@ -6,6 +6,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [2.5.0] - 2026-07-19
+
 ### Added
 - **Request classification & Bug Track in `/akili-propose`:** `/akili-propose` is now the single entry point that classifies each request as **Bug**, **Change**, or **Trivial** (inferring from the request, asking one question when ambiguous) and routes it — no new per-type command. Bugs follow a diagnosis-first **Bug Track**: the proposal captures the observed symptom, reproduction steps, and a **confirmed root cause** (via `systematic-debugging`) in a new **Bug Diagnosis** section instead of the Requirement Delta Preview, and records `Type:` in Document Control.
 - **`/akili-specify` Bug Mode:** when a spec is a bug, specify frames requirements around the corrected behavior and **requires a regression test** as a mandatory task — red before the fix, green after — so a bug is provably fixed and stays fixed.
@@ -19,7 +25,6 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 - **`/akili-validate` reuses test evidence and new context:** Validation now reads `test-report.md` and **reuses its requirement-to-test matrix and `PASS`/`FAIL`/`PRODUCT_BUG` verdicts** as primary coverage evidence instead of re-deriving it (a token saving that closes the test→validate loop); an unresolved `PRODUCT_BUG` forces a FAIL. Validation also audits UI against the proposal's **Visual Reference** (Figma or generated mockup) and adds a lightweight **Agent Guide / Constitution Impact** check that flags stale child guides / `## Module Guides` index as WARN for `/akili-archive`.
 - **Model routing for `/akili-test` split into Leader (T5) and Tester(s) (T2)**, with a note to prefer a Tester model different from the Implementer (author ≠ tester). Updated `docs/model-routing.md`, `/akili-constitution` scaffolding, and the docs hub accordingly.
 - **`/akili-constitution` now scaffolds four `.agents/` personas** (`leader`, `implementer`, `reviewer`, `tester`) and the installer deploys `tester.md` alongside the existing templates.
-
 ## [2.4.2] - 2026-07-19
 
 ### Changed
