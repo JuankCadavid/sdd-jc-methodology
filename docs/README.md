@@ -47,6 +47,6 @@ Use `/akili-seo <site-domain>` independently when you need Google Search Console
 
 - Command implementation prompts: `.claude/commands/*.md`
 - Skill implementation prompts: `.claude/skills/*/SKILL.md`
-- Multi-agent harness templates: `.claude/templates/{leader,implementer,reviewer}.md` (deployed into each project's `.agents/` by `/akili-constitution`)
+- Multi-agent harness templates: `.claude/templates/{leader,implementer,reviewer,tester}.md` (deployed into each project's `.agents/` by `/akili-constitution`)
 - CLI implementation: `bin/akili.js`
 - Release automation: `scripts/release.js` and `scripts/release-status.js`

@@ -58,6 +58,8 @@ docs/specs/<spec-path>/tasks.md
 - Key requirements include Given/When/Then scenarios.
 - Design extends the current architecture instead of replacing it.
 - Tasks reference requirements, design sections, dependencies, done criteria, verification, and relevant skills.
+- Any visual design context in the proposal — a Figma link, an agent-generated mockup under `docs/specs/<spec-path>/mockup/`, or a `.stitch/DESIGN.md` reference — is treated as approved input and drives the `Design Impact` guidance across requirements, design, and tasks.
+- **Bug Mode:** when the spec is a bug (`Type: Bug`, a `bugfix/*` path, or framed as a defect), specify frames requirements around the corrected behavior from the confirmed root cause and **requires a regression test** — at least one task adds a test that is red before the fix and green after. The root cause is confirmed with `systematic-debugging` if no proposal diagnosis exists.
 - The user approves requirements, design, and tasks before implementation begins.
 
 ## Next Step

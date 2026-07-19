@@ -1,6 +1,6 @@
 # `/akili-test`
 
-Run or create tests for a spec path and produce requirement-level evidence.
+Run or create tests for a spec path and produce requirement-level evidence, using the AKILI **Leader → Tester(s)** multi-agent harness.
 
 ## Usage
 
@@ -14,6 +14,17 @@ Run or create tests for a spec path and produce requirement-level evidence.
 - You need a requirement-to-test matrix.
 - Manual gaps must be documented explicitly.
 
+## Multi-Agent Harness
+
+The main session acts as the **Leader** (orchestrator). It partitions testing into suites (backend unit, frontend unit, integration, E2E) and delegates each to a focused **Tester** subagent defined in `.agents/tester.md`, then aggregates the structured reports.
+
+- **Deployment Rule (token-aware):** Lite depth or a single trivial suite runs **inline** (no spawn); Standard/Full or multiple independent suites get **one Tester per suite**, spawned **in parallel** when they touch different files. Suites that share files run sequentially. The Leader picks the fewest spawns that keep each context small.
+- **Thin context per Tester:** each Tester gets only its suite's requirements, scenarios, and test command — never the full spec set — and its context is discarded on completion, so per-suite contexts never accumulate.
+- **Author ≠ tester:** Testers prefer a different model than the Implementer that wrote the code, reducing confirmation bias.
+- Each Tester reports one status — `PASS`, `FAIL`, or `PRODUCT_BUG` — plus a per-scenario coverage slice. A `PRODUCT_BUG` keeps a correct test red instead of rewriting it to pass.
+
+If `.agents/tester.md` is missing, run `/akili-constitution` first to scaffold it.
+
 ## Inputs
 
 Reads:
@@ -21,6 +32,7 @@ Reads:
 - `docs/specs/<spec-path>/requirements.md`
 - `docs/specs/<spec-path>/design.md`
 - `docs/specs/<spec-path>/tasks.md`
+- `.agents/tester.md`
 - project-level constitution docs and agent guidance
 
 ## Outputs

@@ -45,6 +45,15 @@ Use the lightest useful depth:
 
 Lite mode still requires testable requirements, scenarios, and done criteria.
 
+### Bug Mode
+
+When the spec is a **bug** — the proposal's Document Control says `Type: Bug`, the spec path is `bugfix/*`, or the user frames it as a defect — specify runs in **Bug Mode** on top of the chosen depth (usually Lite):
+
+- Treat the proposal's **Bug Diagnosis** (confirmed root cause + reproduction) as the source of truth. If no proposal exists, first confirm the root cause with the `systematic-debugging` skill before writing the fix plan — do not specify a fix for a guessed cause.
+- Frame requirements around the **corrected behavior**, with a scenario that encodes the exact failing case from the reproduction steps.
+- **A regression test is mandatory.** At least one task must add a test that reproduces the bug — **red before the fix, green after** — and the requirement's scenario must map to it. This is non-negotiable evidence that the bug is actually fixed and stays fixed.
+- Keep the fix scoped to the root cause; do not fold unrelated cleanup into a bugfix.
+
 ## Behavior
 
 ### Step 0: Setup
@@ -60,7 +69,10 @@ Lite mode still requires testable requirements, scenarios, and done criteria.
    - `docs/trd/trd.md` (legacy fallback: `docs/detailed-design/detailed-design.md`)
    - The constitutional templates in `docs/specs/general-setup/` (`requirements.md`, `design.md`, `task.md`)
    - Package-level `CLAUDE.md` files if they exist
-3. Read `docs/specs/$ARGUMENTS/proposal.md` if it exists.
+3. Read `docs/specs/$ARGUMENTS/proposal.md` if it exists. If it has a **Visual Reference** section, treat the referenced source as approved visual design context and load it:
+   - A Figma URL → use the Figma MCP when available.
+   - A generated mockup under `docs/specs/$ARGUMENTS/mockup/`, `.stitch/designs`, or a `.stitch/DESIGN.md` reference → read those artifacts (screens, HTML, design tokens) and use `stitch-design` to interpret them.
+   - Any mockup produced during `/akili-propose` counts as visual design context for the `Design Impact` steps below, exactly like a Figma link.
 4. Read nearby or dependent specs under `docs/specs/` that overlap with the requested path.
 5. Respect the repository's current package layout and naming conventions instead of assuming a fixed stack.
 6. **CodeGraph over full reads:** If `.codegraph/` exists, use `codegraph_search` and `codegraph_context` to inspect relevant code paths instead of reading full source files or using generic `grep`/`glob`. This drastically reduces input tokens.
@@ -108,7 +120,7 @@ Guidelines:
 - use measurable, testable language
 - separate goals from requirements
 - write behavior contracts, not implementation plans
-- **Design Impact:** IF the proposal includes Figma or visual design context, ensure UI states (loading, error, empty, success) and responsive behaviors are captured as explicit requirements.
+- **Design Impact:** IF the proposal includes any visual design context (Figma, an agent-generated mockup, or a `.stitch/DESIGN.md` reference), ensure UI states (loading, error, empty, success) and responsive behaviors are captured as explicit requirements.
 - include concrete scenarios for key requirements using `GIVEN`, `WHEN`, `THEN`, and optional `AND`
 - make requirement strength explicit with `SHALL`, `MUST`, `SHOULD`, or `MAY` where useful
 
@@ -197,7 +209,7 @@ Guidelines:
 - extend existing architecture rather than replacing it
 - use current repo paths and package names
 - include UI/UX decisions when the feature affects screens, flows, or components
-- **Design Impact:** IF the proposal includes Figma or visual design context, break down the visual design into a clear Frontend Component Architecture (e.g., atomic components) and define the necessary Design Tokens (colors, typography).
+- **Design Impact:** IF the proposal includes any visual design context (Figma, an agent-generated mockup, or a `.stitch/DESIGN.md` reference), break down the visual design into a clear Frontend Component Architecture (e.g., atomic components) and define the necessary Design Tokens (colors, typography). When the source is a generated mockup, derive the tokens from its artifacts (HTML/screens or `.stitch/DESIGN.md`).
 - tie design sections back to requirements explicitly
 - record meaningful trade-offs and rejected alternatives for non-trivial decisions
 - call out data, API, security, error-handling, observability, and rollback concerns when relevant
@@ -260,7 +272,8 @@ Task quality rules:
 - every task must reference the requirements it satisfies
 - every task must include a concrete verification command or manual check
 - tasks should explicitly address the negative constraints (`BUT it must NOT`) and strict validations (`AND IT MUST`) defined in their respective requirement scenarios
-- **Design Impact:** IF the proposal includes Figma or visual design context, ensure frontend tasks are atomic, focusing on specific UI components, layouts, styling, and states extracted from the design.
+- **Bug Mode:** IF this is a bug, one task MUST add a regression test that reproduces the defect (red before the fix, green after) and reference the corrected-behavior requirement. Its verification is that the test fails on current code and passes after the fix.
+- **Design Impact:** IF the proposal includes any visual design context (Figma, an agent-generated mockup, or a `.stitch/DESIGN.md` reference), ensure frontend tasks are atomic, focusing on specific UI components, layouts, styling, and states extracted from the design or mockup artifacts.
 - tasks should avoid broad instructions like "implement feature" without scoped subtasks
 - tasks may be grouped by phase, but dependencies must remain explicit
 
@@ -300,6 +313,7 @@ After all three documents are approved, verify:
 - [ ] Every task references requirements and design sections
 - [ ] Every task has clear done criteria and verification guidance that accounts for the negative scenarios
 - [ ] The task dependency graph has no circular dependencies
+- [ ] For a bug (Bug Mode): the root cause is reflected in the requirements and at least one task adds a regression test (red before, green after)
 - [ ] The spec path matches the repo's chosen taxonomy under `docs/specs/`
 - [ ] Only real, available skills are referenced in tasks
 

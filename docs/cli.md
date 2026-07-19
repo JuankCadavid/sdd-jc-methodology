@@ -94,7 +94,7 @@ Claude install layout:
 ~/.claude/commands/
 ~/.claude/skills/
 ~/.claude/akili/scripts/
-~/.claude/akili/templates/      (leader.md, implementer.md, reviewer.md — used by /akili-constitution to scaffold project .agents/)
+~/.claude/akili/templates/      (leader.md, implementer.md, reviewer.md, tester.md — used by /akili-constitution to scaffold project .agents/)
 ~/.claude/akili/.mcp.json.example
 ```
 
@@ -114,7 +114,7 @@ Antigravity install layout:
 ~/.gemini/antigravity/global_workflows/  (custom commands mapped as global workflows)
 ~/.gemini/config/skills/                 (skills mapped as global skills)
 ~/.gemini/config/akili/scripts/         (scripts mapped as config resources)
-~/.gemini/config/akili/templates/       (multi-agent harness templates: leader, implementer, reviewer)
+~/.gemini/config/akili/templates/       (multi-agent harness templates: leader, implementer, reviewer, tester)
 ~/.gemini/config/akili/.mcp.json.example
 ```
 
@@ -170,6 +170,7 @@ The CLI installs helper resources under the target `akili/` directory:
 | `templates/leader.md` | Default Leader (Orchestrator) persona for the multi-agent harness — copied into project `.agents/` by `/akili-constitution` |
 | `templates/implementer.md` | Default Implementer persona for the multi-agent harness |
 | `templates/reviewer.md` | Default Reviewer persona for the multi-agent harness |
+| `templates/tester.md` | Default Tester persona for the `/akili-test` Leader → Tester(s) harness — copied into project `.agents/` by `/akili-constitution` |
 | `.mcp.json.example` | Example MCP config for the Google Search Console MCP server |
 
 ## Troubleshooting

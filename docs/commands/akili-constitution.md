@@ -43,6 +43,7 @@ Creates or enhances:
 - `.agents/leader.md`
 - `.agents/implementer.md`
 - `.agents/reviewer.md`
+- `.agents/tester.md`
 
 Projects created before the TRD naming may still have `docs/system-design/design.md` (UX/UI blueprint) and `docs/detailed-design/detailed-design.md` (technical blueprint). The constitution treats those as the existing UX/UI Design document and TRD, and in Active-AKILI-SPECS mode offers to migrate them to `docs/ux-ui/design.md` and `docs/trd/trd.md`.
 
@@ -50,11 +51,11 @@ The root guides also carry a `## Module Guides` index: modules whose conventions
 
 ## Multi-Agent Harness Scaffolding
 
-`.agents/` is the source of truth for the multi-agent loop that `/akili-execute` runs (Leader → Implementer → Reviewer). The constitution seeds it from the packaged defaults shipped by the installer:
+`.agents/` is the source of truth for the multi-agent harness: the loop that `/akili-execute` runs (Leader → Implementer → Reviewer) and the Leader → Tester(s) harness that `/akili-test` runs. The constitution seeds it from the packaged defaults shipped by the installer:
 
-- Claude Code: `~/.claude/akili/templates/{leader,implementer,reviewer}.md`
-- OpenCode: `~/.config/opencode/akili/templates/{leader,implementer,reviewer}.md`
-- Antigravity: `~/.gemini/config/akili/templates/{leader,implementer,reviewer}.md`
+- Claude Code: `~/.claude/akili/templates/{leader,implementer,reviewer,tester}.md`
+- OpenCode: `~/.config/opencode/akili/templates/{leader,implementer,reviewer,tester}.md`
+- Antigravity: `~/.gemini/config/akili/templates/{leader,implementer,reviewer,tester}.md`
 
 If packaged templates are not available, the constitution drafts equivalent personas inline using the structure documented in `/akili-execute` (rework loop, PASS/FAIL output contract, AKILI commit standard, Pivot Protocol).
 

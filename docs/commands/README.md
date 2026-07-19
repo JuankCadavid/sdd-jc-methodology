@@ -8,9 +8,10 @@ AKILI commands are installed as slash-command prompts for Claude Code and OpenCo
 |---|---|---|
 | [`/akili-constitution`](akili-constitution.md) | Starting a repo or repairing weak project context | Project baseline docs, `CLAUDE.md`, `AGENTS.md`, general spec templates, and the `.agents/` multi-agent harness |
 | [`/akili-propose <change-name-or-spec-path>`](akili-propose.md) | Aligning on intent before full specification | `proposal.md` under `docs/specs/<spec-path>/` |
+| [`/akili-quick <change-name>`](akili-quick.md) | Making a genuinely trivial, low-risk change (copy edit, color/text tweak) fast | The edit + a one-line entry in `docs/specs/quick/quick-log.md` and a `[SPEC:quick/<name>]` commit |
 | [`/akili-specify <spec-path>`](akili-specify.md) | Planning one bounded change before code | `requirements.md`, `design.md`, `tasks.md` |
 | [`/akili-execute <spec-path>`](akili-execute.md) | Implementing approved tasks via the Leader → Implementer → Reviewer harness | Code/docs changes, updated `tasks.md`, `execution.md` with full PASS/FAIL audit trail |
-| [`/akili-test <spec-path>`](akili-test.md) | Proving behavior with test evidence | `test-report.md` |
+| [`/akili-test <spec-path>`](akili-test.md) | Proving behavior with test evidence via the Leader → Tester(s) harness | `test-report.md` |
 | [`/akili-validate <spec-path>`](akili-validate.md) | Auditing conformance before completion | `validation-report.md` |
 | [`/akili-archive <spec-path>`](akili-archive.md) | Closing completed work after validation | Archived spec folder with `archive-summary.md` |
 | [`/akili-audit`](akili-audit.md) | Detecting drift between specs and codebase reality | `docs/specs/drift-report.md` with conformance score and discrepancy matrix |
@@ -29,7 +30,7 @@ AKILI commands are installed as slash-command prompts for Claude Code and OpenCo
 /akili-archive <spec-path>
 ```
 
-You can skip `/akili-propose` for very small, obvious work. You should not skip validation before archiving unless the user explicitly accepts the risk.
+You can skip `/akili-propose` for very small, obvious work. For a genuinely trivial, low-risk change (a button color, a title's text, a small paragraph) use `/akili-quick <change-name>`, which makes the edit in one step with minimal traceability and auto-escalates to `/akili-specify` (Lite) or `/akili-propose` if the change turns out to be bigger than trivial. You should not skip validation before archiving unless the user explicitly accepts the risk.
 
 Run `/akili-audit` independently to detect drift between specs and codebase reality at any time.
 
@@ -39,6 +40,7 @@ Run `/akili-audit` independently to detect drift between specs and codebase real
 |---|---|
 | `/akili-constitution` | `.claude/commands/akili-constitution.md` |
 | `/akili-propose` | `.claude/commands/akili-propose.md` |
+| `/akili-quick` | `.claude/commands/akili-quick.md` |
 | `/akili-specify` | `.claude/commands/akili-specify.md` |
 | `/akili-execute` | `.claude/commands/akili-execute.md` |
 | `/akili-test` | `.claude/commands/akili-test.md` |

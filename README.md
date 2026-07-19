@@ -55,7 +55,7 @@ AKILI-SPECS is a constitution-first, spec-driven methodology for AI-assisted dev
 
 - `.claude/commands/` — custom AKILI-SPECS command prompts
 - `.claude/skills/` — required and preferred skills used by the methodology
-- `.claude/templates/` — default Leader, Implementer, and Reviewer personas used by the multi-agent harness (deployed into project `.agents/`)
+- `.claude/templates/` — default Leader, Implementer, Reviewer, and Tester personas used by the multi-agent harness (deployed into project `.agents/`)
 - `docs/` — human-facing documentation for the flow, CLI, commands, skills, and release process
 - `scripts/` — helper scripts referenced by commands (e.g. `gsc_verify.py`)
 - `.mcp.json.example` — reference MCP server configuration (e.g. `gsc`)
@@ -104,6 +104,7 @@ AKILI-SPECS is a constitution-first, spec-driven methodology for AI-assisted dev
   - `leader.md`
   - `implementer.md`
   - `reviewer.md`
+  - `tester.md`
 - `docs/`
   - `flow.md`
   - `cli.md`
@@ -261,7 +262,7 @@ For Claude, the installer writes:
 ~/.claude/commands/
 ~/.claude/skills/
 ~/.claude/akili/scripts/
-~/.claude/akili/templates/      (leader, implementer, reviewer personas used by /akili-constitution)
+~/.claude/akili/templates/      (leader, implementer, reviewer, tester personas used by /akili-constitution)
 ~/.claude/akili/.mcp.json.example
 ```
 
@@ -501,6 +502,7 @@ See the full [Command Reference](docs/commands/README.md) for detailed pages per
 |---|---|---|
 | `/akili-constitution` | Starting a repo or repairing weak project context | `docs/prd.md`, UX/UI design, TRD, `docs/infrastructure.md`, general spec templates, `CLAUDE.md`, `AGENTS.md` guidance |
 | `/akili-propose <change-name-or-spec-path>` | Aligning on intent before full specification (supports Figma/Jira MCP context) | `proposal.md` under `docs/specs/<spec-path>/` |
+| `/akili-quick <change-name>` | Making a genuinely trivial, low-risk change (button color, title text, small paragraph) fast | The edit + a one-line entry in `docs/specs/quick/quick-log.md` and a `[SPEC:quick/<name>]` commit |
 | `/akili-specify <spec-path>` | Planning one bounded change before code | `requirements.md`, `design.md`, `tasks.md` under `docs/specs/<spec-path>/` (includes Design Impact injection, LOC estimation and HITL menus) |
 | `/akili-execute <spec-path>` | Implementing approved tasks via the Leader → Implementer → Reviewer harness | Code changes, updated `tasks.md`, `execution.md` with full PASS/FAIL audit trail |
 | `/akili-test <spec-path>` | Adding or running test evidence | `test-report.md` with requirement-to-test traceability |
@@ -516,12 +518,13 @@ Use the lightest documentation that still makes the work clear and verifiable.
 
 | Work Type | Recommended Depth | What To Capture |
 |---|---|---|
+| Trivial cosmetic / copy tweak (button color, title text, small paragraph) | `/akili-quick` (no spec docs) | One-line log entry + `[SPEC:quick/<name>]` commit; auto-escalates if not actually trivial |
 | Small bugfix or UI tweak | Lite | Problem, affected requirement, scenario, focused task, verification command |
 | Normal feature | Standard | Requirements, scenarios, design decisions, task breakdown, tests |
 | High-risk change | Full | Business context, alternatives, data/API contracts, rollout, risks, observability, rollback |
 | Cross-cutting architecture | Full plus constitution review | Updates to project baseline docs and affected specs |
 
-Lite mode does not skip rigor. It keeps the documents short, but every requirement still needs a testable scenario and every task still needs a done criterion.
+Lite mode does not skip rigor. It keeps the documents short, but every requirement still needs a testable scenario and every task still needs a done criterion. `/akili-quick` is the one path that skips the spec documents entirely — reserved for genuinely trivial changes, with a strict gate that escalates anything bigger.
 
 ## Core Concepts
 
@@ -720,18 +723,18 @@ Fallback rule:
 ## Methodology Contract
 
 - **User-Facing Summaries:** All major commands (`/akili-propose`, `/akili-specify`, `/akili-execute`, `/akili-validate`, `/akili-test`, `/akili-constitution`) generate a short, digestible summary on the screen before proceeding to the next step, ensuring developers always understand what the agent just did.
-- `/akili-constitution` establishes the project baseline docs (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/infrastructure.md`) and `docs/specs/general-setup/` templates, and scaffolds the project `.agents/` harness (Leader, Implementer, Reviewer).
+- `/akili-constitution` establishes the project baseline docs (`docs/prd.md`, `docs/ux-ui/design.md`, `docs/trd/trd.md`, `docs/infrastructure.md`) and `docs/specs/general-setup/` templates, and scaffolds the project `.agents/` harness (Leader, Implementer, Reviewer, Tester).
 - `/akili-propose` creates a lightweight proposal before full specification. Evaluates massive instructions for **Scope Chunking** to split work into manageable modules. Integrates with **Figma MCP** and **Jira MCP** to extract visual context, requirements, and user stories.
 - `/akili-specify` must follow those templates when generating module specs. Enforces **Human-in-the-loop (HITL)** approval pauses after Requirements, Design, and Tasks. Promotes rigorous BDD scenarios (`BUT it must NOT`, `AND IT MUST`), allows blind adversarial design reviews via the `judgment-day` skill, outputs a final **Lines of Code (LOC) estimate** to recommend a safe Pull Request strategy, and explicitly injects **Design Impact** rules (from Figma contexts) into UI tasks and components.
 - `/akili-execute` orchestrates a Leader → Implementer → Reviewer rework loop (max 3 retries) to implement tasks from an approved spec path.
-- `/akili-test` validates requirement-to-test traceability, explicitly checking for negative constraints and strict boundaries.
+- `/akili-test` runs a Leader → Tester(s) harness: the Leader partitions testing into suites and delegates each to a Tester subagent (inline for trivial/Lite work; one Tester per independent suite, in parallel, otherwise). It validates requirement-to-test traceability, explicitly checking for negative constraints and strict boundaries.
 - `/akili-validate` audits implementation conformance against the spec (including rigorous boundary validations) and constitutional baseline.
 - `/akili-archive` preserves completed specs under `docs/specs/archive/` after validation, syncs agent guides (child `CLAUDE.md`/`AGENTS.md` + the parent `## Module Guides` index) from the spec's `## Constitution Impact` notes, and recommends a CodeGraph re-index.
 - `/akili-seo` operates outside the main spec lifecycle: it provisions Google Search Console ownership for a domain and produces a standalone SEO audit under `docs/specs/seo/<domain>/`. Run it any time after deployment; rerun after major content or schema changes.
 
 ## Multi-Agent Harness Engineering
 
-`/akili-execute` is not a single-agent script. It is a coordinated triad of specialized roles that share the same spec, the same constitution, and the same audit trail. The harness exists to remove confirmation bias from review (an independent auditor instead of the same agent that wrote the code), to keep each role's context window small and focused, and to enforce design-token and constitutional discipline through a hard PASS/FAIL gate.
+`/akili-execute` and `/akili-test` are not single-agent scripts. Each is a coordinated set of specialized roles that share the same spec, the same constitution, and the same audit trail. The harness exists to remove confirmation bias from review and testing (an independent auditor/tester instead of the same agent that wrote the code), to keep each role's context window small and focused, and to enforce design-token and constitutional discipline through a hard PASS/FAIL gate.
 
 Roles live in the project's `.agents/` directory (scaffolded by `/akili-constitution`):
 
@@ -740,6 +743,7 @@ Roles live in the project's `.agents/` directory (scaffolded by `/akili-constitu
 | Leader | `.agents/leader.md` | Orchestration. Picks the next eligible task, delegates, enforces the rework loop, updates `tasks.md` and `execution.md`, commits with `[SPEC:<spec-path>]`. |
 | Implementer | `.agents/implementer.md` | Writes and tests the code. Strictly task-scoped, must follow design tokens from `docs/ux-ui/design.md`, must run the verification command before reporting. |
 | Reviewer | `.agents/reviewer.md` | Read-only spec audit. Compares the diff against requirements, design tokens, the TRD, and stability. Outputs a structured PASS or FAIL with *Discovered Issue*, *Violated Rule*, and *Remediation Suggestion* for each finding. |
+| Tester | `.agents/tester.md` | Authors and runs **one** test suite (backend unit, frontend unit, integration, or E2E) from a thin per-suite context. Explicitly covers negative constraints and strict validations, runs a bounded 3-attempt self-correction inner loop, and emits `PASS`/`FAIL`/`PRODUCT_BUG` — keeping a correct test red on a real product defect instead of rewriting it. |
 
 The Leader runs each task through this loop:
 
@@ -761,11 +765,13 @@ if 3 consecutive FAILs → HALT, mark task [~], present full audit trail for hum
 - **Pivot protocol.** If discovery proves the spec itself is wrong (not the implementation), the loop stops immediately and a `## Pivot Record` is opened in `execution.md` for user sign-off — rework retries are not consumed on a broken spec.
 - **Cross-tool.** `.agents/` is pure Markdown + YAML frontmatter and is resolved relative to the active workspace, so the same harness runs under Claude Code, OpenCode, and Google Antigravity (the latter invokes `invoke_subagent` using the same persona files).
 
+**`/akili-test` — Leader → Tester(s):** The same Leader pattern drives testing, but delegation is token-aware. The Leader partitions the work into suites and applies a **Deployment Rule**: Lite depth or a single trivial suite runs **inline** (no subagent spawn — spawning would cost more tokens than it saves); Standard/Full depth or multiple **independent** suites get **one Tester per suite**, spawned **in parallel** when they touch different files, and sequentially when they share files/fixtures. Each Tester receives only its suite's requirements, scenarios, and test command — never the full spec set — and its context is discarded on completion, so per-suite contexts never accumulate. A Tester runs a bounded 3-attempt inner loop and distinguishes a **test defect** (fix the test) from a **product defect** (keep the test red, report `PRODUCT_BUG`). Ideally a Tester runs on a different model than the Implementer that wrote the code (author ≠ tester).
+
 `/akili-constitution` classifies the repository into one of three modes and seeds `.agents/` accordingly:
 
 | Mode | When | `.agents/` Behavior |
 |---|---|---|
-| Brand-new | No code, no docs | Copies the default Leader/Implementer/Reviewer templates verbatim |
+| Brand-new | No code, no docs | Copies the default Leader/Implementer/Reviewer/Tester templates verbatim |
 | Legacy | Real code, no AKILI-SPECS baseline | Copies defaults and customizes them with detected stack, design tokens, lint and test commands |
 | Active AKILI-SPECS | Baseline already exists | Preserves customized `.agents/` files in place and only upgrades or fills gaps non-destructively |
 

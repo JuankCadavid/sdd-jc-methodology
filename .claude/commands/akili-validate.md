@@ -57,11 +57,12 @@ Use these result levels consistently:
    - `docs/specs/general-setup/`
    - package-level `CLAUDE.md` files if they exist
 2. Read spec context:
-   - `docs/specs/$ARGUMENTS/proposal.md` if present
+   - `docs/specs/$ARGUMENTS/proposal.md` if present. If it has a **Visual Reference** section, note the design source (Figma, an agent-generated mockup under `docs/specs/$ARGUMENTS/mockup/`, or a `.stitch/DESIGN.md` reference) so UI conformance can be audited against it, not only `docs/ux-ui/design.md`.
    - `docs/specs/$ARGUMENTS/requirements.md`
    - `docs/specs/$ARGUMENTS/design.md`
    - `docs/specs/$ARGUMENTS/tasks.md`
-   - `docs/specs/$ARGUMENTS/execution.md` if present
+   - `docs/specs/$ARGUMENTS/execution.md` if present (including any `## Constitution Impact` notes)
+   - `docs/specs/$ARGUMENTS/test-report.md` if present. **Reuse its evidence** — the requirement-to-test matrix and each suite's `PASS` / `FAIL` / `PRODUCT_BUG` status — instead of re-deriving coverage from scratch. This is a deliberate token saving: validate audits and cross-checks the recorded evidence rather than re-running the whole test analysis.
 
 ### Phase 1: Task Completion Check
 
@@ -92,6 +93,12 @@ For every requirement in `requirements.md`, verify:
 5. negative constraints (`BUT it must NOT`) and strict validations (`AND IT MUST`) have been explicitly implemented and verified
 6. behavior matches the requirement intent, not only the task wording
 
+**Reuse `test-report.md` as the primary coverage evidence** when it exists. Cross-check its requirement-to-test matrix against `requirements.md` rather than re-deriving coverage, and carry its verdicts through:
+
+- A recorded `PRODUCT_BUG` (a correct test kept red on a real defect) is an unresolved failure → mark the affected requirement **FAIL**.
+- A `FAIL`, `GAP`, flaky, or `AUTOMATION_DEFERRED` entry without an accepted remediation → mark **WARN** (or FAIL if it covers a negative constraint or strict validation).
+- If `test-report.md` is missing or stale relative to the current code, note it and fall back to verifying coverage directly.
+
 ### Phase 5: Quality Audit
 
 Use skills as needed:
@@ -110,7 +117,7 @@ Check for:
 - API quality
 - frontend quality
 - design-system compliance
-- UX consistency with the UX/UI design document
+- UX consistency with the UX/UI design document, and with the proposal's **Visual Reference** (a Figma design or an agent-generated mockup) when the spec was designed against one
 - error handling and observability where relevant
 - accessibility and responsive behavior for UI work
 - security and authorization boundaries for protected flows
@@ -121,7 +128,9 @@ Compare the implementation against the module design and the constitutional docs
 
 If the implementation intentionally differs from the design, verify that the design or execution notes explain the change. Otherwise mark the drift as WARN or FAIL depending on risk.
 
-If `proposal.md` exists, also verify that final behavior remains aligned with the approved intent, scope, non-goals, and success criteria.
+If `proposal.md` exists, also verify that final behavior remains aligned with the approved intent, scope, non-goals, and success criteria. When the proposal has a **Visual Reference** (Figma or a generated mockup), confirm the delivered UI is consistent with it.
+
+**Agent Guide / Constitution Impact check (lightweight):** If `execution.md` contains `## Constitution Impact` notes (a task created or reshaped a module, moved a boundary, or changed a public surface), verify that the referenced child `CLAUDE.md`/`AGENTS.md` and the parent `## Module Guides` index are present and not stale. Do not perform a full guide-drift sweep here — that is `/akili-audit`'s job — but flag any unsynced guide as **WARN** and note it as pending work for `/akili-archive` (Constitution & Graph Sync).
 
 ### Phase 7: Generate Validation Report
 
@@ -138,8 +147,9 @@ The report must include:
 7. Linting & Code Quality
 8. Design Conformance
 9. Test Evidence Summary
-10. Remediation
-11. Archive Readiness Recommendation
+10. Agent Guide / Constitution Impact
+11. Remediation
+12. Archive Readiness Recommendation
 
 The report title must be `# Validation Report — {Spec Name}`.
 

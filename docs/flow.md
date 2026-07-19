@@ -61,6 +61,45 @@ You: /akili-audit
 AI:  Scans codebase and detects drift against baselines, generating docs/specs/drift-report.md
 ```
 
+## Fast-Track for Trivial Changes
+
+Not every change needs the full lifecycle. For a genuinely trivial, low-risk change — a button color, a title's text, a small paragraph — use `/akili-quick`:
+
+```text
+You: /akili-quick login-button-color use the brand accent token on the primary login button
+AI:  ✓ checks the triviality gate (cosmetic/copy-only, no behavior/data/API/auth change,
+       ≤ ~20 LOC in one component, design-token safe)
+     ✓ makes the edit directly
+     ✓ runs a light verification (lint / type-check / existing test / manual note)
+     ✓ appends a one-line entry to docs/specs/quick/quick-log.md
+     ✓ commits with [SPEC:quick/login-button-color]
+```
+
+If the change fails the gate (it has logic, touches data/API/auth, needs a new design token, or is bigger than a tweak), `/akili-quick` stops and escalates to `/akili-specify` (Lite) or `/akili-propose`. This keeps spec-to-code traceability intact while sparing small changes the full flow.
+
+## Handling Bugs
+
+Bugs are **not** treated exactly like normal changes — a bug starts from a *symptom*, not an *intent*, so the root cause must be understood before a fix is proposed. AKILI does this without a separate command: `/akili-propose` classifies the request and, when it detects a bug, follows the **Bug Track**.
+
+```text
+You: /akili-propose checkout-total-wrong the cart total is off by one item after removing a product
+AI:  ✓ classifies this as a Bug (records Type: Bug)
+     ✓ loads systematic-debugging
+     ✓ captures: observed symptom, reproduction steps, CONFIRMED root cause, impact/scope
+     ✓ recommends a fix strategy and the route
+
+You: /akili-specify bugfix/checkout-total-wrong
+AI:  runs in Bug Mode — frames requirements around the corrected behavior and REQUIRES a
+     regression test (red before the fix, green after) as a mandatory task
+```
+
+Routing by size:
+
+- **Cosmetic bug** (e.g. a visible typo, wrong static label) → `/akili-quick`.
+- **Bug with logic/behavior** → `/akili-propose` (diagnose) → `/akili-specify` Bug Mode (fix + regression test) → `/akili-execute` → `/akili-test` → `/akili-validate`.
+
+The regression test is the non-negotiable evidence that the bug is actually fixed and stays fixed. `/akili-validate` then carries any unresolved `PRODUCT_BUG` from the test evidence through as a FAIL.
+
 ## Project Modes
 
 `/akili-constitution` begins by classifying the repository into one of three modes. Each mode adjusts how aggressively the constitution drafts, scans, or preserves existing material — and how the project `.agents/` harness is scaffolded.
@@ -113,11 +152,12 @@ Use the lightest documentation that still makes the work clear and verifiable.
 
 | Depth | Use For | Capture |
 |---|---|---|
+| Quick (`/akili-quick`) | Genuinely trivial cosmetic/copy changes (button color, title text, small paragraph) | No spec docs — a one-line `quick-log.md` entry + `[SPEC:quick/<name>]` commit; escalates if not trivial |
 | Lite | Small bugfixes, copy updates, narrow UI tweaks | Problem, scenario, focused task, verification command |
 | Standard | Normal features and enhancements | Requirements, scenarios, design decisions, tasks, tests |
 | Full | Risky, cross-cutting, API, data, auth, migration, or SEO work | Alternatives, rollout, risks, observability, rollback, explicit traceability |
 
-Lite mode does not skip rigor. Requirements still need scenarios, tasks still need done criteria, and validation still needs evidence.
+Lite mode does not skip rigor. Requirements still need scenarios, tasks still need done criteria, and validation still needs evidence. `/akili-quick` is the only path that skips the spec documents — gated to genuinely trivial changes, and it auto-escalates anything larger to `/akili-specify` (Lite) or `/akili-propose`.
 
 ## Spec Folder Shape
 
@@ -186,7 +226,7 @@ Rather than manually compiling assertion results during `/akili-test`:
 1. Execute tests outputting to JSON (e.g. `jest --json --outputFile=jest-results.json` or `vitest --reporter=json`).
 2. Run `node <path-to-akili>/scripts/parse_tests.js jest-results.json` to generate the AKILI matrix table automatically for inclusion inside `test-report.md`.
 
-### 6. Multi-Agent Harness (`/akili-execute` Triad)
+### 6. Multi-Agent Harness (`/akili-execute` Triad and `/akili-test` Testers)
 
 `/akili-execute` is implemented as a multi-agent orchestration rather than a single-agent script. The Leader role does not write production code; it delegates implementation and audit to two subordinate roles, then enforces a strict PASS/FAIL gate before the task advances.
 
@@ -230,6 +270,19 @@ if 3 consecutive FAILs → HALT, mark task [~], present audit trail
 
 The `.agents/` directory is pure Markdown + YAML frontmatter and is resolved relative to the active workspace, so the harness runs under Claude Code, OpenCode, and Google Antigravity. Antigravity invokes `invoke_subagent` with prompts read from `.agents/`; Claude Code and OpenCode delegate via sub-prompt contexts seeded with the persona files.
 
+**`/akili-test` — Leader → Tester(s):**
+
+`/akili-test` uses the same Leader pattern with a fourth persona, `.agents/tester.md`, and a token-aware **Deployment Rule**. The Leader partitions testing into suites (backend unit, frontend unit, integration, E2E) and decides how many Testers to spawn:
+
+| Situation | Action |
+|---|---|
+| Lite depth or a single trivial suite | Run **inline** — no spawn (cheaper than delegating) |
+| Standard/Full with one substantial suite | One Tester |
+| Multiple **independent** suites | One Tester per suite, **in parallel** |
+| Suites sharing files/fixtures | Testers run sequentially |
+
+Each Tester gets only its suite's requirements, scenarios, and test command (never the full spec set), runs a bounded 3-attempt self-correction inner loop, and returns `STATUS: PASS`, `STATUS: FAIL`, or `STATUS: PRODUCT_BUG` — keeping a correct test red on a genuine product defect instead of rewriting it to pass. The Leader aggregates the per-suite coverage slices into the `test-report.md` requirement-to-test matrix. Ideally a Tester runs on a different model than the Implementer that wrote the code (author ≠ tester).
+
 ### 7. Capability-Tier Model Routing
 
 Each AKILI-SPECS phase has a different dominant demand, so AKILI routes phases to models by **capability
@@ -240,10 +293,11 @@ T4 Context-Ingest, T5 Fast-Cheap, T6 Multimodal** — map to the phases:
 |---|---|
 | `/akili-constitution` | T4 + T1 |
 | `/akili-propose`, `/akili-specify` (requirements/design) | T1 |
+| `/akili-quick` | T2 |
 | `/akili-specify` (tasks) | T5 |
 | `/akili-specify` (UX/UI design) | T6 |
 | `/akili-execute` Leader / Implementer / Reviewer | T5 / T2 / T3 |
-| `/akili-test` | T2 |
+| `/akili-test` Leader / Tester(s) | T5 / T2 |
 | `/akili-validate` | T3 |
 | `/akili-audit` | T4 + T3 |
 | `/akili-archive` | T5 |

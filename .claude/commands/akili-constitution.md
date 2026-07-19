@@ -31,7 +31,7 @@ For all three modes:
 3. Ensure `docs/specs/general-setup/` exists.
 4. Ensure root `CLAUDE.md` exists or is enhanced.
 5. Ensure root `AGENTS.md` exists or is enhanced.
-6. Ensure project-level `.agents/` exists with `leader.md`, `implementer.md`, and `reviewer.md` (see Step 7B).
+6. Ensure project-level `.agents/` exists with `leader.md`, `implementer.md`, `reviewer.md`, and `tester.md` (see Step 7B).
 7. Default behavior is to enhance existing project docs in place instead of creating parallel copies.
 
 The constitutional baseline must cover these files:
@@ -48,6 +48,7 @@ The constitutional baseline must cover these files:
 - `.agents/leader.md`
 - `.agents/implementer.md`
 - `.agents/reviewer.md`
+- `.agents/tester.md`
 
 **Mode-specific drafting policy:**
 
@@ -301,9 +302,9 @@ This index is what keeps agent context inheritance working: agents load the root
 
 ---
 
-### Step 8B: Scaffold the `.agents/` Triad
+### Step 8B: Scaffold the `.agents/` Personas
 
-Establish or upgrade the project-level `.agents/` directory that powers the AKILI multi-agent execution loop (Leader → Implementer → Reviewer used by `/akili-execute`).
+Establish or upgrade the project-level `.agents/` directory that powers the AKILI multi-agent harness: the Leader → Implementer → Reviewer loop used by `/akili-execute`, and the Leader → Tester(s) harness used by `/akili-test`.
 
 Target layout:
 
@@ -312,23 +313,24 @@ Target layout:
 ├── .agents/
 │   ├── leader.md        # Orchestration playbook, task tracking, .agents references
 │   ├── implementer.md   # Coding guidelines, testing standards, design-token discipline
-│   └── reviewer.md      # Spec conformance audit, design-token compliance, structured FAIL output
+│   ├── reviewer.md      # Spec conformance audit, design-token compliance, structured FAIL output
+│   └── tester.md        # Per-suite QA authoring/execution, bounded inner loop, PASS/FAIL/PRODUCT_BUG output
 ```
 
 **Source of truth for templates:**
 
 The packaged methodology ships default personas under `akili/templates/` inside the active tool's config directory:
 
-- Claude Code: `~/.claude/akili/templates/{leader,implementer,reviewer}.md`
-- OpenCode: `~/.config/opencode/akili/templates/{leader,implementer,reviewer}.md`
-- Antigravity: `~/.gemini/config/akili/templates/{leader,implementer,reviewer}.md`
+- Claude Code: `~/.claude/akili/templates/{leader,implementer,reviewer,tester}.md`
+- OpenCode: `~/.config/opencode/akili/templates/{leader,implementer,reviewer,tester}.md`
+- Antigravity: `~/.gemini/config/akili/templates/{leader,implementer,reviewer,tester}.md`
 
-If the packaged templates are available, prefer copying them as the seed; otherwise draft equivalent personas inline using the structure documented in this command and the `/akili-execute` command.
+If the packaged templates are available, prefer copying them as the seed; otherwise draft equivalent personas inline using the structure documented in this command and the `/akili-execute` and `/akili-test` commands.
 
 **Mode-specific scaffolding policy:**
 
-- **Brand-new (Seed Setup):** copy the three default templates verbatim into `.agents/`. Tailor only the project name and detected stack if known.
-- **Legacy (Discovery Setup):** copy the three default templates, then customize them based on the codebase scan — inject detected design-token paths, the test command, the lint command, framework conventions, and any directory boundaries discovered. The Reviewer persona in particular should know which `design.md` and `trd.md` paths to cite.
+- **Brand-new (Seed Setup):** copy the four default templates verbatim into `.agents/`. Tailor only the project name and detected stack if known.
+- **Legacy (Discovery Setup):** copy the four default templates, then customize them based on the codebase scan — inject detected design-token paths, the test command, the lint command, framework conventions, and any directory boundaries discovered. The Reviewer persona should know which `design.md` and `trd.md` paths to cite; the Tester persona should know the repo's real test runner and command.
 - **Active AKILI-SPECS (Safe Update):** **do not overwrite** existing `.agents/*.md` files. For each missing file, install the default template (customized to the detected stack). For each existing file, read it, identify gaps versus the current packaged template (e.g. missing rework-loop instructions, missing PASS/FAIL output contract, missing AKILI commit standard), and append a minimal upgrade block that preserves all existing custom instructions.
 
 **Required content per persona:**
@@ -336,6 +338,7 @@ If the packaged templates are available, prefer copying them as the seed; otherw
 - **`leader.md`** — orchestration sequence, rework loop with 3-attempt ceiling, structured FAIL handoff to the next Implementer spawn, `execution.md` audit-trail format, `tasks.md` status transitions, AKILI commit standard, Pivot Protocol escalation.
 - **`implementer.md`** — strict context alignment to constitution + spec, incremental focus (no scope creep), aesthetics and design-token compliance from `docs/ux-ui/design.md`, verification rigor (must run the task's verification command before reporting), structured completion report.
 - **`reviewer.md`** — read-only role, audit checklist (requirement conformance, design-token compliance, technical compliance, stability), structured PASS/FAIL output where every FAIL item lists *Discovered Issue*, *Violated Rule*, and *Remediation Suggestion*.
+- **`tester.md`** — single-suite scope (backend unit, frontend unit, integration, or E2E), thin per-suite context, explicit coverage of negative constraints (`BUT it must NOT`) and strict validations (`AND IT MUST`), bounded self-correction inner loop (max 3), distinction between a test defect (fix the test) and a product defect (keep the test red, report `PRODUCT_BUG`), and structured `PASS`/`FAIL`/`PRODUCT_BUG` output with a per-scenario coverage slice. Author ≠ tester: prefer a different model than the Implementer.
 
 **Cross-tool compatibility:**
 
@@ -367,7 +370,9 @@ project guides so the project does not depend on the package's `docs/` after ins
    T6 Multimodal) with one-line definitions.
 3. The phase→tier mapping for the real AKILI phases, with the `/akili-execute` triad split into
    Leader (T5), Implementer (T2), and Reviewer (T3), and an explicit note that the Reviewer model
-   must differ from the Implementer model.
+   must differ from the Implementer model. `/akili-test` is likewise split into its Leader (T5,
+   orchestration) and Tester(s) (T2, test authoring), with a note to prefer a Tester model different
+   from the Implementer (author ≠ tester).
 4. The editable model registry table with columns `Tier | Claude Code | OpenCode | Fallback`.
    Fill the Claude Code column for the user's plan (e.g. PRO: Opus reserved for T1/T3, Sonnet as the
    T2/T4/T6 workhorse, Haiku for T5). Fill the OpenCode column from the user's confirmed roster; if
@@ -410,4 +415,4 @@ Ask the user whether to approve or request changes. If changes are requested, re
 
 ## Outcome
 
-At the end of `/akili-constitution`, the repository should have a project-level baseline that future `/akili-specify`, `/akili-execute`, `/akili-validate`, and `/akili-test` work can rely on without guessing the structure or conventions. The `.agents/` triad must be in place so that `/akili-execute` can run the Leader → Implementer → Reviewer rework loop without falling back to inline personas. The root guides must also carry a `## Model Routing` registry (Step 8C) so each phase runs on a model matched to its demand, with the Reviewer on a different model than the Implementer.
+At the end of `/akili-constitution`, the repository should have a project-level baseline that future `/akili-specify`, `/akili-execute`, `/akili-validate`, and `/akili-test` work can rely on without guessing the structure or conventions. The `.agents/` personas must be in place so that `/akili-execute` can run the Leader → Implementer → Reviewer rework loop and `/akili-test` can run the Leader → Tester(s) harness without falling back to inline personas. The root guides must also carry a `## Model Routing` registry (Step 8C) so each phase runs on a model matched to its demand, with the Reviewer on a different model than the Implementer.

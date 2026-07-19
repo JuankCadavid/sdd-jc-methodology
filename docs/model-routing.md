@@ -47,19 +47,22 @@ tier per phase (which would defeat the abstraction and churn on every model rele
 
 The `/akili-execute` triad is split because each role has a different demand — and because
 author ≠ auditor makes the Implementer/Reviewer split a **correctness constraint**, not a
-preference.
+preference. `/akili-test` is split the same way: a cheap Leader orchestrates while T2 Testers author
+the suites, and a Tester ideally runs on a different model than the Implementer (author ≠ tester).
 
 | Phase / Role | Tier(s) | Why |
 |---|---|---|
 | `/akili-constitution` | T4 + T1 | Ingest legacy code (long context), then reason to synthesize the baseline. |
 | `/akili-propose` | T1 | Architecture and trade-offs — reserve the deep reasoner. |
+| `/akili-quick` | T2 | A small, direct edit + light verification — no deep reasoning needed. |
 | `/akili-specify` → requirements.md / design.md | T1 | Heavy reasoning + technical writing. |
 | `/akili-specify` → tasks.md | T5 | Fast structured partitioning into tickets. |
 | `/akili-specify` → UX/UI design | T6 | Only when visual design is in scope. |
 | `/akili-execute` → **Leader** | T5 | Orchestration / instruction-following — writes no code. |
 | `/akili-execute` → **Implementer** | T2 | Maximum coding. Shares the workhorse family with propose (ARCHITECT = BUILDER). |
 | `/akili-execute` → **Reviewer** | T3 | Independent audit. **MUST resolve to a different model than the Implementer.** |
-| `/akili-test` | T2 | Test authoring + verification. |
+| `/akili-test` → **Leader** | T5 | Orchestration — partitions suites and delegates; writes no tests. |
+| `/akili-test` → **Tester(s)** | T2 | Test authoring + verification per suite. Prefer a different model than the Implementer (author ≠ tester). |
 | `/akili-validate` | T3 | Deep conformance audit. |
 | `/akili-audit` | T4 + T3 | Drift detection over large context, judged critically. |
 | `/akili-archive` | T5 | Cheap, fast summarization of closed work. |

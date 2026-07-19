@@ -4,9 +4,11 @@ description: Write and execute comprehensive automated unit/integration tests fo
 
 # Test AKILI-SPECS Implementation
 
-Run automated and, when needed, manual tests against a spec path's implementation. Produce `test-report.md` with results, requirement coverage, scenario traceability, and failures.
+Run automated and, when needed, manual tests against a spec path's implementation using the AKILI **Leader → Tester(s)** multi-agent harness. Produce `test-report.md` with results, requirement coverage, scenario traceability, and failures.
 
-Testing should prove the behavior promised in `requirements.md`, not only increase test count.
+In this command you act as the **Leader** (Orchestrator). You partition testing into per-suite units, delegate each unit to a focused **Tester** subagent, aggregate their structured reports, and assemble the final `test-report.md`. Testing should prove the behavior promised in `requirements.md`, not only increase test count.
+
+> **Recommended model tier:** Leader on T5 Fast-Cheap (orchestration — writes no tests), each Tester on T2 Coder (test authoring + verification). See the `## Model Routing` registry in the project's `AGENTS.md` / `CLAUDE.md`. Prefer a Tester model that differs from the Implementer that wrote the code (author ≠ tester reduces confirmation bias).
 
 ## Usage
 
@@ -35,9 +37,41 @@ Create or update `docs/specs/$ARGUMENTS/test-report.md` with:
 
 ---
 
+## Multi-Agent Harness
+
+The Leader delegates concrete test authoring to the **Tester** persona defined in the project's `.agents/` directory:
+
+- `.agents/tester.md` — the persona used when delegating a single test suite (backend unit, frontend unit, integration, or E2E).
+
+If `.agents/tester.md` is missing, run `/akili-constitution` first to scaffold it. Do not invent the persona inline — the constitution is the source of truth.
+
+**Delegation mechanism by tool:**
+
+- **Claude Code / OpenCode:** spawn a focused subagent (or sub-prompt context) seeded with `tester.md` plus the suite's context slice.
+- **Google Antigravity:** invoke `invoke_subagent` (or the equivalent) using the prompt read from `.agents/tester.md`.
+
+**Token discipline — thin context per Tester (this is the core saving):**
+
+- Give each Tester **only its slice**: its assigned suite, the specific requirements + Given/When/Then scenarios that suite must prove, and the project's test command. Never hand a Tester the full `requirements.md`/`design.md`/`tasks.md` unless a scenario genuinely needs it.
+- Each Tester's context is discarded when it finishes, so per-suite contexts never accumulate in one growing window.
+- The Leader writes no tests itself unless the Deployment Rule below says to run inline, or a Tester exhausts its inner loop and the user approves a Leader fallback.
+
+**Deployment Rule (how many Testers to spawn):**
+
+| Situation | Action |
+|---|---|
+| Lite depth, or a single trivial suite (e.g. one bugfix test) | **Run inline** — the Leader authors it directly. Spawning a subagent would cost more tokens than the work saves. |
+| Standard / Full depth with one substantial suite | Spawn **one** Tester for that suite. |
+| Multiple suites that are **independent** (touch different domains/files — e.g. backend unit vs frontend unit vs E2E) | Spawn **one Tester per suite, in parallel**. |
+| Multiple suites that **share files or fixtures** | Spawn Testers **sequentially** (or a single Tester covering them) to avoid conflicting writes. |
+
+The Leader decides the count from the spec's depth and the independence of the suites — favor the fewest spawns that still keep each context small and each suite independent.
+
+---
+
 ## Behavior
 
-### Phase 0: Load Context
+### Phase 0: Load Context (Leader)
 
 **Token Optimization (Prompt Caching):** To maximize prompt caching, always read the constitutional baseline documents FIRST and in the exact same order across all sessions before reading task-specific files.
 
@@ -52,47 +86,44 @@ Create or update `docs/specs/$ARGUMENTS/test-report.md` with:
    - `docs/specs/$ARGUMENTS/requirements.md`
    - `docs/specs/$ARGUMENTS/design.md`
    - `docs/specs/$ARGUMENTS/tasks.md`
-3. Identify backend, frontend, and end-to-end scope from the design and tasks.
-4. Extract key requirements, Given/When/Then scenarios, negative constraints (`BUT it must NOT`), and strict validations (`AND IT MUST`) from `requirements.md`.
+3. Read the Tester persona `.agents/tester.md` (stop and direct the user to `/akili-constitution` if it is missing).
+4. Identify backend, frontend, and end-to-end scope from the design and tasks.
+5. Extract key requirements, Given/When/Then scenarios, negative constraints (`BUT it must NOT`), and strict validations (`AND IT MUST`) from `requirements.md`.
 
-### Phase 1: Unit Tests
+### Phase 1: Plan Suites & Delegation (Leader)
 
-- Create or improve backend unit tests where needed.
-- Create or improve frontend unit tests where needed.
-- Explicitly test negative constraints (`BUT it must NOT`) and strict boundary validations (`AND IT MUST`).
-- Map tests back to requirements and scenarios.
-- Prefer focused tests that prove one behavior clearly over broad tests with unclear intent.
+1. Partition the work into concrete **suites**: backend unit, frontend unit, integration, E2E — only those the spec actually needs.
+2. For each suite, assemble a **context slice**: the target requirements + scenarios, the negative/strict rules to assert, the repo test command, and the relevant skills.
+3. Apply the **Deployment Rule** to decide inline vs delegated, and parallel vs sequential.
+4. Assign skills per suite as needed:
+   - `nestjs-expert`, `systematic-debugging` — backend
+   - `vercel-react-best-practices`, `react-doctor` — frontend
+   - `ui-ux-pro-max` (fallback `frontend-design`) — UI-heavy E2E
 
-Use skills as needed:
+### Phase 2: Execute Suites (Tester per suite)
 
-- `nestjs-expert`
-- `systematic-debugging`
-- `vercel-react-best-practices`
-- `react-doctor`
+For each suite, the assigned Tester (or the Leader inline) must:
 
-### Phase 2: Integration Tests
+- Author focused tests that prove one behavior clearly.
+- **Explicitly** cover negative constraints (`BUT it must NOT`) and strict boundary validations (`AND IT MUST`).
+- Map every test back to its requirement and scenario.
+- Run the suite and apply the **bounded self-correction inner loop** (max 3 attempts):
+  - fix genuine **test defects** and re-run;
+  - keep a failing test that reveals a genuine **product defect** red, and report it as `STATUS: PRODUCT_BUG` instead of rewriting it to pass.
+- Prefer unit tests for internal logic, integration tests for cross-module/API behavior, and E2E only for critical user journeys — not every small component state.
 
-- Create or improve API integration tests where relevant.
-- Validate auth, request/response shape, and major flows.
-- Cover cross-module behavior that cannot be proven by unit tests alone.
+Each Tester concludes with exactly one status — `PASS`, `FAIL`, or `PRODUCT_BUG` — plus a per-scenario coverage slice, per `.agents/tester.md`.
 
-### Phase 3: End-to-End Tests
+### Phase 3: Aggregate & Traceability (Leader)
 
-- Create or improve E2E tests for user-visible workflows.
-- If the work is UI-heavy, prefer `ui-ux-pro-max` when available.
-- Otherwise use `frontend-design` and the UX/UI design doc as the UX reference.
-- Use E2E tests for critical user journeys, not every small component state.
-
-### Phase 4: Coverage & Traceability
-
-Create a requirement-to-test matrix so every key requirement has test evidence or an explicit gap. Ensure negative constraints and strict validations are mapped.
+Collect every Tester's coverage slice into one requirement-to-test matrix so every key requirement has test evidence or an explicit gap. Ensure negative constraints and strict validations are mapped. Carry through any `PRODUCT_BUG` findings as failures with remediation.
 
 Recommended matrix columns:
 
 | Requirement | Scenario | Test Type | Test File or Command | Result | Gap or Notes |
 |---|---|---|---|---|---|
 
-### Phase 5: Generate Test Report
+### Phase 4: Generate Test Report (Leader)
 
 Create `docs/specs/$ARGUMENTS/test-report.md`.
 
@@ -112,9 +143,11 @@ The report must include:
 8. Remediation
 9. Accepted Gaps, if any
 
-### Phase 6: Report to User
+When Testers were delegated, record in the Summary how many suites ran, how many Testers were spawned (and whether in parallel), and any suite run inline.
 
-Generate a short, easy-to-understand summary (summary facil de entender de lo que se hizo) of the overall test status, test counts, requirement coverage, scenario gaps, and top failures. If failures exist, ask whether to fix failures, add missing tests, fix all, or keep only the report.
+### Phase 5: Report to User (Leader)
+
+Generate a short, easy-to-understand summary (summary facil de entender de lo que se hizo) of the overall test status, test counts, requirement coverage, scenario gaps, product bugs found, and top failures. If failures exist, ask whether to fix failures, add missing tests, fix all, or keep only the report.
 
 ---
 
@@ -139,3 +172,5 @@ If `ui-ux-pro-max` is unavailable, use `frontend-design` plus the UX/UI design d
 - Prefer repository-specific test commands over hardcoded framework assumptions.
 - If a test is flaky, record the flake and avoid treating it as passing evidence until stabilized.
 - If no automated test is practical, document the manual verification steps and why automation was deferred.
+- A Tester must never rewrite a test to hide a genuine product defect; a real failure is reported as `PRODUCT_BUG`, not silenced.
+- Do not delegate trivial single-test work to a subagent when running it inline is cheaper (see the Deployment Rule).

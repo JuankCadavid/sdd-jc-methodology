@@ -48,9 +48,10 @@ docs/specs/<spec-path>/validation-report.md
 - task completion and execution notes
 - expected file existence
 - build, lint, and type-check integrity
-- requirement coverage
+- requirement coverage — **reuses `test-report.md`** as the primary evidence (its requirement-to-test matrix and `PASS`/`FAIL`/`PRODUCT_BUG` verdicts) instead of re-deriving coverage; an unresolved `PRODUCT_BUG` forces a FAIL
 - test evidence summary
-- architecture and design conformance
+- architecture and design conformance, including UI consistency with the proposal's **Visual Reference** (Figma or a generated mockup) when the spec was designed against one
+- a lightweight **Agent Guide / Constitution Impact** check: if `execution.md` records module-boundary changes, confirm the child guides and the parent `## Module Guides` index are not stale (flagged WARN and left for `/akili-archive`)
 - UI/UX, API, security, accessibility, error handling, and observability as relevant
 
 ## Next Step
