@@ -6,6 +6,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [2.4.0] - 2026-07-19
+
 ### Added
 - **`/akili-resume` command:** New session recovery command that scans all active specs under `docs/specs/` and presents a multi-spec dashboard with phase, progress bars, last action, blockers, and next command recommendation. If only one spec is active, goes directly to a detailed briefing. No arguments required.
 
@@ -13,7 +19,6 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 - **Documentation drift corrections:** Added `/akili-audit` to README (Contents, Command Map, Auxiliary commands), `docs/commands/README.md` (Command Map, Source Files, Normal Sequence), and `docs/README.md` (Quick Flow). Created `docs/commands/akili-audit.md` reference page.
 - **`judgment-day` skill documentation:** Added `judgment-day` to README skills list, AGENTS.md skill usage, and CLAUDE.md skill usage. Created `docs/skills/judgment-day.md` reference page.
 - **Plan document rebranding:** Renamed `docs/plans/2026-05-26-multi-agent-sdd-orchestration-design.md` to `2026-05-26-multi-agent-akili-orchestration-design.md` to align with the v2.0.0 AKILI rebranding.
-
 ## [2.3.0] - 2026-07-19
 
 ### Added
