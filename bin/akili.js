@@ -5,6 +5,8 @@ const os = require("os");
 const path = require("path");
 const { parseArgs } = require("util");
 
+const { execSync } = require("child_process");
+
 const PACKAGE_ROOT = path.resolve(__dirname, "..");
 const SOURCE_CLAUDE = path.join(PACKAGE_ROOT, ".claude");
 const SOURCE_COMMANDS = path.join(SOURCE_CLAUDE, "commands");
@@ -76,7 +78,7 @@ Usage:
 
 Commands:
   install   Install commands, skills, and helper resources
-  update    Reinstall commands, skills, and helper resources
+  update    Update npm package to latest version and reinstall files
   doctor    Check whether expected files are installed
   list      List packaged commands, skills, and helper resources
   help      Show this help
@@ -382,6 +384,52 @@ function installTool(tool, args) {
   return { installed, skipped };
 }
 
+function detectInstallType() {
+  try {
+    const globalList = execSync("npm list -g akili-specs --depth=0 2>/dev/null", { encoding: "utf8" });
+    if (globalList.includes("akili-specs")) return "global";
+  } catch (e) {}
+
+  try {
+    const localList = execSync("npm list akili-specs --depth=0 2>/dev/null", { encoding: "utf8" });
+    if (localList.includes("akili-specs")) return "local";
+  } catch (e) {}
+
+  return "npx";
+}
+
+function runUpdate(args) {
+  const installType = detectInstallType();
+
+  console.log(`\n${colors.cyan}Detected installation type: ${installType}${colors.reset}`);
+
+  if (installType === "npx") {
+    console.log(`\n${colors.yellow}You are running via npx. No persistent installation to update.${colors.reset}`);
+    console.log(`To install globally: ${colors.cyan}npm install -g akili-specs${colors.reset}`);
+    console.log(`To install locally:  ${colors.cyan}npm install akili-specs${colors.reset}`);
+    return;
+  }
+
+  console.log(`\n${colors.yellow}Updating npm package...${colors.reset}`);
+
+  try {
+    if (installType === "global") {
+      execSync("npm install -g akili-specs@latest", { stdio: "inherit" });
+    } else {
+      execSync("npm install akili-specs@latest", { stdio: "inherit" });
+    }
+
+    console.log(`\n${colors.green}npm package updated successfully.${colors.reset}`);
+  } catch (e) {
+    console.error(`\n${colors.red}Failed to update npm package.${colors.reset}`);
+    process.exit(1);
+  }
+
+  console.log(`\n${colors.yellow}Reinstalling files with --force...${colors.reset}`);
+  args.force = true;
+  runInstall(args);
+}
+
 function runInstall(args) {
   let installed = 0;
   let skipped = 0;
@@ -656,8 +704,10 @@ async function main() {
 
   switch (args.command) {
     case "install":
-    case "update":
       runInstall(args);
+      break;
+    case "update":
+      runUpdate(args);
       break;
     case "doctor":
       runDoctor(args);
