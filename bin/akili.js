@@ -78,7 +78,7 @@ Usage:
 
 Commands:
   install   Install commands, skills, and helper resources
-  update    Update npm package to latest version and reinstall files
+  update    Update npm package to latest version, reinstall files, and show what changed
   doctor    Check whether expected files are installed
   list      List packaged commands, skills, and helper resources
   help      Show this help
@@ -398,6 +398,107 @@ function detectInstallType() {
   return "npx";
 }
 
+// Resolve the installed akili-specs package directory (global or local) after an update.
+// Returns the absolute path to the package root, or null if it cannot be found.
+function resolveInstalledPackageDir(installType) {
+  try {
+    const root = execSync(
+      installType === "global" ? "npm root -g 2>/dev/null" : "npm root 2>/dev/null",
+      { encoding: "utf8" }
+    ).trim();
+    if (root) {
+      const dir = path.join(root, "akili-specs");
+      if (fs.existsSync(path.join(dir, "package.json"))) return dir;
+    }
+  } catch (e) {}
+  return null;
+}
+
+// Read the version from an installed package's package.json.
+function readInstalledVersion(packageDir) {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(packageDir, "package.json"), "utf8")).version;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Parse CHANGELOG.md and return the raw text of every version section strictly
+// newer than `fromVersion` up to and including `toVersion`. Sections look like
+// `## [X.Y.Z] - date`. Returns an array of { version, body } newest-first.
+function changelogSectionsBetween(changelogPath, fromVersion, toVersion) {
+  let text;
+  try {
+    text = fs.readFileSync(changelogPath, "utf8");
+  } catch (e) {
+    return [];
+  }
+
+  const lines = text.split("\n");
+  const sections = [];
+  let current = null;
+
+  const isNewer = (a, b) =>
+    a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }) > 0;
+
+  for (const line of lines) {
+    const match = line.match(/^##\s+\[([^\]]+)\]/);
+    if (match) {
+      if (current) sections.push(current);
+      current = { version: match[1], bodyLines: [] };
+    } else if (current) {
+      current.bodyLines.push(line);
+    }
+  }
+  if (current) sections.push(current);
+
+  return sections
+    .filter((s) => /^\d+\.\d+\.\d+/.test(s.version)) // skip "Unreleased"
+    .filter((s) => {
+      const newerThanFrom = !fromVersion || isNewer(s.version, fromVersion);
+      const notNewerThanTo = !toVersion || !isNewer(s.version, toVersion);
+      return newerThanFrom && notNewerThanTo;
+    })
+    .map((s) => ({ version: s.version, body: s.bodyLines.join("\n").trim() }));
+}
+
+// Print a concise summary of what changed between two versions, sourced from the
+// installed package's CHANGELOG.md.
+function printUpdateChangeSummary(packageDir, fromVersion, toVersion) {
+  if (!packageDir || !fromVersion || !toVersion) return;
+
+  if (fromVersion === toVersion) {
+    console.log(
+      `\n${colors.cyan}Already on the latest version (${toVersion}). No changelog to show.${colors.reset}`
+    );
+    return;
+  }
+
+  const changelogPath = path.join(packageDir, "CHANGELOG.md");
+  const sections = changelogSectionsBetween(changelogPath, fromVersion, toVersion);
+
+  console.log(
+    `\n${colors.cyan}What changed (${fromVersion} → ${toVersion}):${colors.reset}`
+  );
+
+  if (sections.length === 0) {
+    console.log(`  (No changelog entries found for this range.)`);
+    return;
+  }
+
+  for (const section of sections) {
+    console.log(`\n${colors.green}v${section.version}${colors.reset}`);
+    const body = section.body || "  (No details recorded.)";
+    // Indent each line slightly for readability.
+    console.log(
+      body
+        .split("\n")
+        .map((l) => (l.length ? `  ${l}` : l))
+        .join("\n")
+    );
+  }
+}
+
 function runUpdate(args) {
   const installType = detectInstallType();
 
@@ -409,6 +510,9 @@ function runUpdate(args) {
     console.log(`To install locally:  ${colors.cyan}npm install akili-specs${colors.reset}`);
     return;
   }
+
+  // Capture the version before updating so we can show what changed afterward.
+  const versionBefore = currentVersion;
 
   console.log(`\n${colors.yellow}Updating npm package...${colors.reset}`);
 
@@ -428,6 +532,13 @@ function runUpdate(args) {
   console.log(`\n${colors.yellow}Reinstalling files with --force...${colors.reset}`);
   args.force = true;
   runInstall(args);
+
+  // After reinstalling, read the freshly installed version and show the changelog
+  // between the old and new versions. The running process still has the old code
+  // loaded, so we read version + CHANGELOG from the installed package on disk.
+  const packageDir = resolveInstalledPackageDir(installType);
+  const versionAfter = packageDir ? readInstalledVersion(packageDir) : null;
+  printUpdateChangeSummary(packageDir, versionBefore, versionAfter);
 }
 
 function runInstall(args) {

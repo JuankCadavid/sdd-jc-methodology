@@ -51,7 +51,7 @@ akili install --tool both --local
 |---|---|
 | `akili init` | Interactive setup wizard for installation |
 | `akili install` | Install commands, skills, and helper resources |
-| `akili update` | Reinstall packaged commands, skills, and helper resources |
+| `akili update` | Update the npm package to the latest version, reinstall files, and print a changelog summary of what changed |
 | `akili list` | List packaged commands, skills, and helper resources |
 | `akili doctor` | Check whether expected files are installed |
 | `akili help` | Show help |

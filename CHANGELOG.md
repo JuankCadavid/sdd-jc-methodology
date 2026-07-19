@@ -6,9 +6,8 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
-### Notes
-
-- No unreleased changes yet.
+### Added
+- **`akili update` now shows what changed:** After updating the npm package and reinstalling files, `akili update` prints a `What changed (<old> → <new>)` summary sourced from the installed package's `CHANGELOG.md`, listing every version section between the previously installed version and the new one. If the package was already up to date, it says so instead.
 
 ## [2.5.0] - 2026-07-19
 
