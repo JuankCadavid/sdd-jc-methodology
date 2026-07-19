@@ -6,9 +6,8 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
-### Notes
-
-- No unreleased changes yet.
+### Added
+- **Legacy Cleanup:** The `akili install` and `akili update` commands now automatically detect and remove legacy `sdd-jc` files and directories (`commands/sdd-*.md` and the `sdd-jc/` template folder) to ensure a clean environment post-rebranding without duplicate slash commands.
 
 ## [2.1.1] - 2026-07-18
 

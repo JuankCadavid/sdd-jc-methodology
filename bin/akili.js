@@ -48,11 +48,13 @@ const TOOL_REGISTRY = {
     commands: [path.join(rootPath, "commands")],
     skills: path.join(rootPath, "skills"),
     resources: path.join(rootPath, "akili"),
+    legacyResources: path.join(rootPath, "sdd-jc"),
   }),
   opencode: (rootPath) => ({
     commands: [path.join(rootPath, "commands")],
     skills: path.join(rootPath, "skills"),
     resources: path.join(rootPath, "akili"),
+    legacyResources: path.join(rootPath, "sdd-jc"),
   }),
   antigravity: (rootPath) => ({
     commands: [
@@ -62,6 +64,7 @@ const TOOL_REGISTRY = {
     ],
     skills: path.join(rootPath, "config", "skills"),
     resources: path.join(rootPath, "config", "akili"),
+    legacyResources: path.join(rootPath, "config", "sdd-jc"),
   }),
 };
 
@@ -280,6 +283,45 @@ function getToolRegistryInfo(tool, args) {
   return { rootPath, paths: TOOL_REGISTRY[tool](rootPath) };
 }
 
+function cleanupLegacyFiles(tool, args) {
+  const { paths } = getToolRegistryInfo(tool, args);
+  let cleaned = 0;
+
+  if (shouldInclude("commands", args)) {
+    for (const cmdDir of paths.commands) {
+      if (fs.existsSync(cmdDir)) {
+        const files = fs.readdirSync(cmdDir);
+        for (const file of files) {
+          if (file.startsWith("sdd-") && file.endsWith(".md")) {
+            const filePath = path.join(cmdDir, file);
+            if (args.dryRun) {
+              console.log(`  ${colors.red}would delete legacy file${colors.reset} ${filePath}`);
+            } else {
+              fs.rmSync(filePath, { force: true });
+              console.log(`  ${colors.red}deleted legacy file${colors.reset} ${filePath}`);
+            }
+            cleaned++;
+          }
+        }
+      }
+    }
+  }
+
+  if (shouldInclude("resources", args)) {
+    if (paths.legacyResources && fs.existsSync(paths.legacyResources)) {
+      if (args.dryRun) {
+        console.log(`  ${colors.red}would delete legacy directory${colors.reset} ${paths.legacyResources}`);
+      } else {
+        fs.rmSync(paths.legacyResources, { recursive: true, force: true });
+        console.log(`  ${colors.red}deleted legacy directory${colors.reset} ${paths.legacyResources}`);
+      }
+      cleaned++;
+    }
+  }
+
+  return cleaned;
+}
+
 function installTool(tool, args) {
   const { rootPath, paths } = getToolRegistryInfo(tool, args);
 
@@ -287,6 +329,11 @@ function installTool(tool, args) {
   let skipped = 0;
 
   console.log(`\n${colors.cyan}${tool.toUpperCase()} target: ${rootPath}${colors.reset}`);
+
+  const cleaned = cleanupLegacyFiles(tool, args);
+  if (cleaned > 0 && !args.dryRun) {
+    console.log(`  ${colors.green}Legacy cleanup complete.${colors.reset}`);
+  }
 
   if (shouldInclude("commands", args)) {
     for (const targetCommands of paths.commands) {
