@@ -9,6 +9,7 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 ### Added
 
 - **Authorship section in commands and templates:** Every command in `.claude/commands/` and every agent role template in `.claude/templates/` now ends with an `## Authorship` section crediting the AKILI-SPECS methodology to Juan Carlos Cadavid ([jcadavid.com](https://jcadavid.com)).
+- **Authorship in README, LICENSE, and package metadata:** The README gains an `## Authorship` section, the MIT LICENSE copyright line uses the full author name and site, and `package.json` declares the `author` field.
 
 ## [2.5.1] - 2026-07-19
 
