@@ -121,6 +121,7 @@ Use `brainstorming` and, when helpful, `product-manager-toolkit` to clarify:
 
 **Scope Chunking:** If the user provides a very large or multi-faceted instruction (e.g., an entire epic or multiple distinct features), analyze whether the request should be split into multiple bounded proposals.
 - If it should be split, propose breaking it down to the user.
+- When recommending the build order of the resulting chunks, score them with RICE or MoSCoW from the `product-manager-toolkit` skill (AKILI-SPECS Integration section) instead of guessing.
 - Upon agreement, create the respective folders for each bounded change under `docs/specs/` and generate a `proposal.md` for each.
 
 Ask focused questions only when the proposal would otherwise depend on unstable assumptions.

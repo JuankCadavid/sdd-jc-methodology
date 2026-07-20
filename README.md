@@ -79,6 +79,7 @@ AKILI-SPECS is a constitution-first, spec-driven methodology for AI-assisted dev
   - `api-design-principles`
   - `aws-serverless`
   - `brainstorming`
+  - `cognitive-doc-design`
   - `error-handling-patterns`
   - `frontend-design`
   - `gsap-core`
@@ -90,6 +91,7 @@ AKILI-SPECS is a constitution-first, spec-driven methodology for AI-assisted dev
   - `gsap-timeline`
   - `gsap-utils`
   - `judgment-day`
+  - `kaizen`
   - `nestjs-expert`
   - `product-manager-toolkit`
   - `react-doctor`

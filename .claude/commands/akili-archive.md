@@ -92,6 +92,8 @@ If readiness is unclear, stop and ask the user whether to proceed, validate firs
 
 ### Step 2: Create Archive Summary
 
+Write the summary (and later the Kaizen log entry) following `cognitive-doc-design`: lead with the outcome, keep sections small, and prefer tables and checklists over prose.
+
 Before moving the folder, create or update:
 
 ```text

@@ -95,11 +95,12 @@ Use `brainstorming` and, when helpful, `product-manager-toolkit` to clarify:
 
 **Scope Chunking:** If the user provides a very large instruction or epic, evaluate if it is too massive for a single spec.
 - If it spans multiple distinct modules or features, propose splitting the spec into multiple separate specs.
+- When recommending the build order of the split specs, score them with RICE or MoSCoW from the `product-manager-toolkit` skill (AKILI-SPECS Integration section) instead of guessing.
 - If the user agrees, create the separate folders under `docs/specs/` and draft a `proposal.md` or jump straight to the split documents (`requirements.md`, `design.md`, `tasks.md`) for each chunk.
 
 #### Step 1.2 — Write
 
-Generate `requirements.md` using `docs/specs/general-setup/requirements.md` as the format source.
+Generate `requirements.md` using `docs/specs/general-setup/requirements.md` as the format source. Write every spec document (`requirements.md`, `design.md`, `tasks.md`) following `cognitive-doc-design`: lead with the answer, progressive disclosure, and tables/checklists/scenarios over prose.
 
 Minimum content:
 
@@ -288,7 +289,7 @@ Preferred UI/UX skill rule:
 Present a clear summary of the generated tasks on the screen, including:
 - A high-level list of the tasks to be implemented so the user understands the plan without reading the full document.
 - An **Estimated Lines of Code (LOC)** output for the entire spec.
-- A **PR Strategy Recommendation**: If the estimate exceeds ~400 LOC or the task graph is highly complex, recommend splitting the implementation into multiple Pull Requests and suggest logical boundaries (e.g., "PR 1: Backend/API, PR 2: Frontend UI").
+- A **PR Strategy Recommendation**: If the estimate exceeds ~400 LOC or the task graph is highly complex, recommend splitting the implementation into multiple Pull Requests and suggest logical boundaries (e.g., "PR 1: Backend/API, PR 2: Frontend UI"). When PRs are chained, note that their descriptions should follow `cognitive-doc-design` review-empathy rules (what to review first, what is out of scope, link previous/next PR).
 
 Then explicitly ask the user how to proceed, providing these options:
 
