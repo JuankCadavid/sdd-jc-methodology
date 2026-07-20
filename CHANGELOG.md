@@ -6,6 +6,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [2.9.0] - 2026-07-20
+
 ### Added
 
 - **Model Routing 2.0 — enforced for subagents, guided for the main loop:**
@@ -16,7 +22,6 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 ### Changed
 
 - **Alias-first model registry (survives model churn):** `docs/model-routing.md` and the Step 8C scaffold now mandate floating aliases (`opus`/`sonnet`/`haiku` in Claude Code — they always resolve to the latest generation, so new model families require zero registry edits); dated model pins require a recorded reason. The default registry was rewritten alias-first with an `Updated:` stamp; OpenCode slugs (no alias mechanism) keep the Fallback column and are covered by the drift check. Safe Update mode now also flags stale registry entries against the packaged default without touching user pins.
-
 ## [2.8.0] - 2026-07-20
 
 ### Added
