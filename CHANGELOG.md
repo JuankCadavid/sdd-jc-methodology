@@ -6,6 +6,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [2.8.0] - 2026-07-20
+
 ### Added
 
 - **Skill governance (binding taxonomy + acceptance checklist):** new `docs/skills/governance.md` establishes the curation rule for the packaged skill set. Every skill now declares `metadata.binding` — `core` (hard-wired to a command step), `conditional` (loaded when the work touches its domain), or `stack` (never referenced in command text; reaches agents via the project Skill Map) — plus original author/license and `adapted-by`. New skills enter only through the acceptance checklist (need + binding + attribution + size + docs/CHANGELOG).
@@ -23,7 +29,6 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 ### Removed
 
 - **The 8 `gsap-*` skill directories and their doc pages** (`gsap-core`, `gsap-frameworks`, `gsap-performance`, `gsap-plugins`, `gsap-react`, `gsap-scrolltrigger`, `gsap-timeline`, `gsap-utils`), fused into `gsap-animation`. **Existing installs are migrated automatically:** the installer's legacy cleanup now also removes stale legacy skill directories on every `akili install` run (counted in the `legacy cleaned` summary column, previewed in `--dry-run`), and `akili doctor` reports them as `STALE` with `--fix` removing them. Upgrade path for existing users: `akili update` (or `npm i -g akili-specs`) then `akili install --tool <tool>` — old gsap-* dirs are deleted and `gsap-animation` is installed in the same run.
-
 ## [2.7.1] - 2026-07-20
 
 ### Added
