@@ -22,6 +22,7 @@ The installable source files live in `.claude/skills/*/SKILL.md`. These pages ar
 | [`gsap-scrolltrigger`](gsap-scrolltrigger.md) | Scroll-driven animation, pinning, scrub, parallax | `/akili-specify`, `/akili-execute` |
 | [`gsap-timeline`](gsap-timeline.md) | Sequenced animations and playback control | `/akili-specify`, `/akili-execute` |
 | [`gsap-utils`](gsap-utils.md) | GSAP utilities such as clamp, mapRange, random, snap, wrap | `/akili-execute` |
+| [`kaizen`](kaizen.md) | Bounded continuous-improvement retrospective (Measure → Learn → Standardize → Record); authored by Juan Carlos Cadavid — jcadavid.com | `/akili-archive` |
 | [`nestjs-expert`](nestjs-expert.md) | NestJS modules, DI, guards, interceptors, testing, TypeORM/Mongoose | `/akili-specify`, `/akili-execute`, `/akili-test`, `/akili-validate` |
 | [`product-manager-toolkit`](product-manager-toolkit.md) | Product discovery, PRDs, prioritization, customer interview analysis | `/akili-constitution`, `/akili-propose`, `/akili-specify` |
 | [`react-doctor`](react-doctor.md) | React diagnostics after changes | `/akili-test`, `/akili-validate` |

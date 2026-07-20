@@ -75,6 +75,7 @@ The Leader does not write production code itself unless the rework loop is exhau
    - `docs/specs/$ARGUMENTS/design.md`
    - `docs/specs/$ARGUMENTS/tasks.md`
 3. Read `docs/specs/$ARGUMENTS/execution.md` if it exists.
+   - Also read `docs/specs/kaizen-log.md` if it exists — ONLY the `## Active Lessons` table (skip `## Entries`).
 4. Read the agent personas:
    - `.agents/leader.md`
    - `.agents/implementer.md`
@@ -133,6 +134,7 @@ Delegate to the Implementer with:
 - the project constitution references (`CLAUDE.md`, `AGENTS.md`, `docs/ux-ui/design.md`)
 - the recommended skill list from the task (e.g. `ui-ux-pro-max`, `react-doctor`, `nestjs-expert`)
 - any prior Reviewer feedback when this is a rework attempt
+- any Active Lessons from `docs/specs/kaizen-log.md` relevant to the task's domain (pass only the matching rows, never the full log)
 - the verification command to run before reporting completion
 
 The Implementer must keep changes minimal and within task scope, follow the design spec exactly unless the spec is clearly incomplete or contradictory, and run the verification before reporting completion.

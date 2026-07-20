@@ -65,6 +65,7 @@ Do not create `requirements.md`, `design.md`, or `tasks.md` in this command unle
    - `docs/specs/general-setup/`
    - package-level `CLAUDE.md` files
 4. Read nearby or related specs under `docs/specs/`.
+   - Also read `docs/specs/kaizen-log.md` if it exists — ONLY the `## Active Lessons` table (skip `## Entries`).
 5. **CodeGraph over full reads:** If `.codegraph/` exists, use `codegraph_search` and `codegraph_context` to inspect relevant code paths instead of reading full source files or using generic `grep`/`glob`. This drastically reduces input tokens.
 
 ### Step 1: Classify Request Type & Route
@@ -142,6 +143,8 @@ Create a concise proposal with this structure:
 12. Risks, Dependencies, And Open Questions
 13. Success Criteria
 14. Next Step
+
+If an Active Lesson from `docs/specs/kaizen-log.md` applies to this change's domain, reflect it in Scope or Risks and cite its ID (e.g. `KZ-003`).
 
 ### Visual Reference
 
