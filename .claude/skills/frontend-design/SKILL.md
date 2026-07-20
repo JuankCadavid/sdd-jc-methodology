@@ -1,7 +1,14 @@
 ---
 name: frontend-design
 description: Create distinctive, production-grade frontend interfaces with intentional aesthetics, high craft, and non-generic visual identity. Use when building or styling web UIs, components, pages, dashboards, or frontend applications.
-license: Complete terms in LICENSE.txt
+license: Complete terms in LICENSE.txt (Apache-2.0)
+metadata:
+  author: Anthropic
+  source: https://github.com/anthropics/skills
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: conditional
+  version: "1.0"
 ---
 
 # Frontend Design (Distinctive, Production-Grade)

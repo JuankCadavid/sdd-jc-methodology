@@ -135,7 +135,7 @@ Delegate to the Implementer with:
 - the active task ID, title, and scope from `tasks.md`
 - the relevant slices of `requirements.md`, `design.md`, and `trd.md`
 - the project constitution references (`CLAUDE.md`, `AGENTS.md`, `docs/ux-ui/design.md`)
-- the recommended skill list from the task (e.g. `ui-ux-pro-max`, `react-doctor`, `nestjs-expert`)
+- the recommended skill list from the task (e.g. `ui-ux-pro-max`, `react-doctor`, `nestjs-expert`), falling back to the project's `## Skill Map` (root `AGENTS.md`/`CLAUDE.md`) when the task lists none; if the task involves animation, include `gsap-animation` and its matching reference file
 - any prior Reviewer feedback when this is a rework attempt
 - any Active Lessons from `docs/specs/kaizen-log.md` relevant to the task's domain (pass only the matching rows, never the full log)
 - the verification command to run before reporting completion

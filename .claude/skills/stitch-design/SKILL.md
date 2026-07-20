@@ -5,6 +5,13 @@ allowed-tools:
   - "StitchMCP"
   - "Read"
   - "Write"
+metadata:
+  author: Google (google-labs-code)
+  source: https://github.com/google-labs-code/stitch-skills
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: conditional
+  version: "1.0"
 ---
 
 # Stitch Design Expert

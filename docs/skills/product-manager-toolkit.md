@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Supports product management work, including PRDs, customer interview analysis, RICE prioritization, discovery frameworks, requirements, and go-to-market thinking. Adapted for AKILI-SPECS: its **AKILI-SPECS Integration** section maps each tool to one precise moment in the flow, and the AKILI 9-section PRD structure is canonical over the toolkit's own templates.
+Supports product management work, including PRDs, customer interview analysis, RICE prioritization, discovery frameworks, requirements, and go-to-market thinking. Original by Alireza Rezvani (MIT, [claude-skills](https://github.com/alirezarezvani/claude-skills)). Adapted for AKILI-SPECS by Juan Carlos Cadavid: its **AKILI-SPECS Integration** section maps each tool to one precise moment in the flow, and the AKILI 9-section PRD structure is canonical over the toolkit's own templates. Binding: `core`.
 
 ## Use When
 

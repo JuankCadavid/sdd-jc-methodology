@@ -327,3 +327,23 @@ Juan Carlos Cadavid — jcadavid.com). Every archive runs one bounded pass:
 Lessons target either the **Product** (this project) or the **Methodology** itself — Methodology
 lessons are flagged for upstreaming to the AKILI repository, so the methodology learns from every
 tool built with it. The retrospective never blocks the archive.
+
+### 9. Skill Binding (Governance)
+
+The packaged skills are curated under a three-level binding taxonomy (see `docs/skills/governance.md`),
+which answers *when and how each skill loads*:
+
+* **core** — hard-wired to a precise command step: `kaizen` in `/akili-archive`, `judgment-day` in
+  `/akili-specify`'s Review Design gate, `cognitive-doc-design` for every human-facing document,
+  `brainstorming` for exploration, `product-manager-toolkit` in `/akili-constitution`,
+  `systematic-debugging` in bug flows, `seo-audit` in `/akili-seo`.
+* **conditional** — loaded when the work touches its domain: `ui-ux-pro-max` / `frontend-design` /
+  `stitch-design` for UI work, `gsap-animation` for animation work.
+* **stack** — framework/platform skills (`angular-developer`, `nestjs-expert`, `shadcn-ui`,
+  `aws-serverless`, …) are never hardcoded into commands. `/akili-constitution` Step 8D writes a
+  `## Skill Map` into the project's `AGENTS.md`/`CLAUDE.md` from the detected stack;
+  `/akili-specify` derives each task's required skills from that map; the Leader passes them to the
+  Implementer/Tester via dynamic skill loading.
+
+Every skill preserves its original author and license; AKILI adaptation is recorded as `adapted-by`
+in the skill frontmatter. Curation by Juan Carlos Cadavid — jcadavid.com.

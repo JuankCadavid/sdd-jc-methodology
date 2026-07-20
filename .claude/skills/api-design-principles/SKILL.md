@@ -1,6 +1,14 @@
 ---
 name: api-design-principles
 description: Master REST and GraphQL API design principles to build intuitive, scalable, and maintainable APIs that delight developers. Use when designing new APIs, reviewing API specifications, or establishing API design standards.
+license: MIT
+metadata:
+  author: Seth Hobson (wshobson)
+  source: https://github.com/wshobson/agents
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: stack
+  version: "1.0"
 ---
 
 # API Design Principles

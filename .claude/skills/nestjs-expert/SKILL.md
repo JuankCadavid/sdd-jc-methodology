@@ -4,6 +4,14 @@ description: Nest.js framework expert specializing in module architecture, depen
 category: framework
 displayName: Nest.js Framework Expert
 color: red
+license: MIT
+metadata:
+  author: Daniel Avila (davila7)
+  source: https://github.com/davila7/claude-code-templates
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: stack
+  version: "1.0"
 ---
 
 # Nest.js Expert

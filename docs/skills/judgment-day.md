@@ -4,6 +4,8 @@
 
 Provides a blind adversarial dual-review framework for design decisions. Two independent "judges" evaluate a design without seeing each other's feedback, then findings are reconciled. Supports up to two scoped fix/re-judgment rounds.
 
+AKILI-adapted: the findings ledger persists as `docs/specs/<spec-path>/judgment.md`, judges should run on a model different from the design author (author ≠ auditor), and severe findings feed the Kaizen retrospective. Authored by gentleman-programming (Apache-2.0). Binding: `core`.
+
 ## Use When
 
 - Reviewing design decisions during `/akili-specify` before proceeding to tasks.

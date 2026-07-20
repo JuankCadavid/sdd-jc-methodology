@@ -182,7 +182,9 @@ If the work includes meaningful UI/UX impact, use this skill preference:
 - `ui-ux-pro-max` if available
 - otherwise `frontend-design` + `stitch-design`
 
-Use additional technical skills as needed:
+If the work involves animation (scroll effects, transitions, motion design), load `gsap-animation` and read the reference file matching the task.
+
+Use additional stack skills as needed — prefer the project's `## Skill Map` (in root `AGENTS.md`/`CLAUDE.md`) when it exists; otherwise pick from:
 
 - `nestjs-expert`
 - `api-design-principles`
@@ -191,6 +193,7 @@ Use additional technical skills as needed:
 - `vercel-react-best-practices`
 - `error-handling-patterns`
 - `aws-serverless`
+- `angular-developer`
 
 #### Step 2.2 — Write
 
@@ -269,7 +272,7 @@ Each task should include:
 - done criteria
 - relevant skills
 
-Skill inventory should use real, available skills only.
+Skill inventory should use real, available skills only. Derive each task's required skills from the project's `## Skill Map` (root `AGENTS.md`/`CLAUDE.md`) plus the conditional skills that match the task (`ui-ux-pro-max`/`frontend-design` for UI, `gsap-animation` for animation).
 
 Task quality rules:
 

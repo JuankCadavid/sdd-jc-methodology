@@ -6,9 +6,23 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
-### Notes
+### Added
 
-- No unreleased changes yet.
+- **Skill governance (binding taxonomy + acceptance checklist):** new `docs/skills/governance.md` establishes the curation rule for the packaged skill set. Every skill now declares `metadata.binding` — `core` (hard-wired to a command step), `conditional` (loaded when the work touches its domain), or `stack` (never referenced in command text; reaches agents via the project Skill Map) — plus original author/license and `adapted-by`. New skills enter only through the acceptance checklist (need + binding + attribution + size + docs/CHANGELOG).
+- **Project Skill Map:** `/akili-constitution` Step 8D scaffolds a `## Skill Map` section into the project's root `AGENTS.md`/`CLAUDE.md` from the detected stack; `/akili-specify` derives each task's required skills from that map, and the `/akili-execute` Leader falls back to it when a task lists no skills.
+- **New unified `gsap-animation` skill** (author GSAP/GreenSock, MIT; adapted for AKILI-SPECS): replaces the 8 sibling `gsap-*` skills with one conditional skill — a compact router `SKILL.md` plus `references/` files (timeline, scrolltrigger, plugins, react, frameworks, performance, utils) following progressive disclosure. Wired into `/akili-specify` and `/akili-execute` for animation work.
+- **AKILI-SPECS Integration sections** added to the deeply-wired skills: `brainstorming` (AKILI artifacts override its generic `docs/plans/` flow), `judgment-day` (ledger persisted as `judgment.md` in the spec folder, author ≠ auditor note), `cognitive-doc-design` (document map per command), `systematic-debugging` (Bug Track / Bug Mode / PRODUCT_BUG / Kaizen 5W1H mapping), `seo-audit` (finding format + escalation rule), and `ui-ux-pro-max` (per-phase usage map).
+
+### Changed
+
+- **Skill attribution normalized across the package:** every kept skill's frontmatter now carries the standard schema (`license`, `metadata.author`, `source`, `adapted-by`, `adapted-for`, `binding`, `version`), preserving original authors — including newly researched attributions: `ui-ux-pro-max` → nextlevelbuilder, `seo-audit` → Corey Haines, `brainstorming` → Jesse Vincent (obra/superpowers), `nestjs-expert` → Daniel Avila, `react-doctor` → Million.dev, `stitch-design` → Google Labs, `product-manager-toolkit` → Alireza Rezvani, `api-design-principles`/`error-handling-patterns`/`tailwind-design-system` → Seth Hobson (wshobson/agents), `frontend-design` → Anthropic — plus the already-attributed Google, Vercel, GSAP, gentleman-programming, and vibeship. Only `shadcn-ui` remains `community (origin unverified)`.
+- **Truthful skill inventory:** `docs/skills/README.md` rebuilt with Binding and Origin columns and command associations that match the real command wiring (the previous table claimed command integrations that did not exist for `angular-developer` and the `gsap-*` family).
+- **`angular-developer` reclassified as a stack skill:** kept in the package, reachable via the project Skill Map and the constitution/specify stack lists (previously packaged but never referenced anywhere).
+- **Dangling references removed:** `seo-audit` no longer points to unpackaged sibling skills (`programmatic-seo`, `schema`, `ai-seo`, `cro`, `analytics`); `judgment-day` documents the fallback for its unpackaged shared-ledger references.
+
+### Removed
+
+- **The 8 `gsap-*` skill directories and their doc pages** (`gsap-core`, `gsap-frameworks`, `gsap-performance`, `gsap-plugins`, `gsap-react`, `gsap-scrolltrigger`, `gsap-timeline`, `gsap-utils`), fused into `gsap-animation`. **Existing installs are migrated automatically:** the installer's legacy cleanup now also removes stale legacy skill directories on every `akili install` run (counted in the `legacy cleaned` summary column, previewed in `--dry-run`), and `akili doctor` reports them as `STALE` with `--fix` removing them. Upgrade path for existing users: `akili update` (or `npm i -g akili-specs`) then `akili install --tool <tool>` — old gsap-* dirs are deleted and `gsap-animation` is installed in the same run.
 
 ## [2.7.1] - 2026-07-20
 

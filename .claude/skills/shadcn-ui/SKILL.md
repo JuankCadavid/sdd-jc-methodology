@@ -2,6 +2,12 @@
 name: shadcn-ui
 description: Provides complete shadcn/ui component library patterns including installation, configuration, and implementation of accessible React components. Use when setting up shadcn/ui, installing components, building forms with React Hook Form and Zod, customizing themes with Tailwind CSS, or implementing UI patterns like buttons, dialogs, dropdowns, tables, and complex form layouts.
 allowed-tools: Read, Write, Bash, Edit, Glob
+metadata:
+  author: community (origin unverified)
+  curated-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: stack
+  version: "1.0"
 ---
 
 # shadcn/ui Component Patterns

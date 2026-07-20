@@ -65,17 +65,17 @@ The `.agents/` directory is tool-agnostic: pure Markdown + YAML frontmatter, res
 
 Step 7C adds or upgrades a `## Model Routing` section in the project's root `AGENTS.md` and `CLAUDE.md`: a capability-tier registry that maps each AKILI-SPECS phase to a model **per tool** (Claude Code and OpenCode). It is guidance only — no `model:` frontmatter is added and the installer is unchanged. The registry enforces **author ≠ auditor** (the Reviewer runs on a different model than the Implementer) and, in Active-AKILI-SPECS mode, is non-destructive: an existing customized registry is preserved and only gaps are filled. See [Model Routing](../model-routing.md) for the tiers and the default registry.
 
-- `product-manager-toolkit`
-- `ui-ux-pro-max`
-- `frontend-design`
-- `stitch-design`
-- `nestjs-expert`
-- `api-design-principles`
-- `error-handling-patterns`
-- `aws-serverless`
-- `shadcn-ui`
-- `tailwind-design-system`
-- `vercel-react-best-practices`
+## Skill Map Scaffolding
+
+Step 8D adds or upgrades a `## Skill Map` section in the project's root `AGENTS.md` and `CLAUDE.md`: a table of the **stack-bound skills** that apply to this project's detected or declared stack (see [Skill Governance](../skills/governance.md)). Stack skills are never hardcoded into command text — `/akili-specify` derives each task's required skills from this map, and the `/akili-execute` Leader passes them to the Implementer/Tester via dynamic skill loading. In Active-AKILI-SPECS mode an existing customized map is preserved.
+
+Skills the constitution itself draws on:
+
+- `brainstorming` (Step 0 — project mode and intent)
+- `product-manager-toolkit` (Steps 2–3 — interview script and PRD)
+- `cognitive-doc-design` (all baseline documents)
+- `ui-ux-pro-max`, or `frontend-design` + `stitch-design` (Step 4 — UX/UI design)
+- Stack skills matching the repo (Step 5 TRD and the Skill Map): `nestjs-expert`, `api-design-principles`, `error-handling-patterns`, `aws-serverless`, `shadcn-ui`, `tailwind-design-system`, `vercel-react-best-practices`, `angular-developer`
 
 ## Next Step
 

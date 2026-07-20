@@ -1,6 +1,14 @@
 ---
 name: systematic-debugging
 description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+license: MIT
+metadata:
+  author: Jesse Vincent (obra)
+  source: https://github.com/obra/superpowers
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: core
+  version: "1.0"
 ---
 
 # Systematic Debugging
@@ -286,6 +294,19 @@ These techniques are part of systematic debugging and available in this director
 **Related skills:**
 - **superpowers:test-driven-development** - For creating failing test case (Phase 4, Step 1)
 - **superpowers:verification-before-completion** - Verify fix worked before claiming success
+
+These `superpowers:*` skills are not packaged with AKILI-SPECS. In AKILI projects, their role is covered by the methodology itself: the regression test comes from `/akili-specify` Bug Mode (red before the fix, green after), and verification comes from each task's verification command plus the Reviewer/Tester gates.
+
+## AKILI-SPECS Integration
+
+| AKILI moment | How to use this skill |
+|---|---|
+| `/akili-propose` Bug Track | Confirm reproduction + root cause and record them in the proposal's **Bug Diagnosis** section — never propose a fix for a guessed cause |
+| `/akili-specify` Bug Mode | If no proposal exists, run root-cause investigation before writing the fix plan |
+| `/akili-test` | When a Tester reports `PRODUCT_BUG`, apply Phases 1–3 to characterize the defect before any fix is planned; the test stays red |
+| `/akili-validate` / `/akili-seo` | Investigate mismatches and failures with this process before recommending corrections |
+
+The root cause and its evidence feed `/akili-archive`'s Kaizen retrospective (5W1H) — a lesson without a confirmed root cause is not recorded.
 
 ## Real-World Impact
 

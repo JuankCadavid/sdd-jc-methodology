@@ -4,6 +4,9 @@ description: "Trigger: judgment day, dual review, adversarial review, juzgar. Ru
 license: Apache-2.0
 metadata:
   author: gentleman-programming
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: core
   version: "1.6"
 ---
 
@@ -50,3 +53,18 @@ Return target identity, round, confirmed/suspect/contradiction/INFO counts, corr
 
 - [../_shared/review-ledger-contract.md](../_shared/review-ledger-contract.md) — canonical transaction, ledger, persistence, and lifecycle contract.
 - [references/prompts-and-formats.md](references/prompts-and-formats.md) — compact judge/fix prompts and verdict shape.
+
+These reference files are not packaged with AKILI-SPECS. When they are unavailable, proceed with the contract described in this document alone: persist the findings ledger inside the spec folder (see below) and derive judge prompts from the Hard Rules and Output Contract.
+
+## AKILI-SPECS Integration
+
+| AKILI moment | How to use this skill |
+|---|---|
+| `/akili-specify` Step 2.3 — **Review Design** option | The user-selected blind dual review of `design.md` before tasks are written; the target is the approved requirements + draft design |
+| `/akili-archive` Kaizen Measure | Severe confirmed findings from Judgment Day runs are a signal row in the `kaizen` retrospective |
+
+Adaptation rules:
+
+- Persist the findings ledger as `docs/specs/<spec-path>/judgment.md` so `/akili-archive` can read it as evidence.
+- The two-judge blind protocol, the two-round fix ceiling, and the `APPROVED`/`ESCALATED` terminal states apply unchanged.
+- Prefer running the two judges on a model different from the one that authored the design (author ≠ auditor, per AKILI model routing).

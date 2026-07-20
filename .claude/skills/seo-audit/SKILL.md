@@ -1,7 +1,13 @@
 ---
 name: seo-audit
-description: When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions "SEO audit," "technical SEO," "why am I not ranking," "SEO issues," "on-page SEO," "meta tags review," "SEO health check," "my traffic dropped," "lost rankings," "not showing up in Google," "site isn't ranking," "Google update hit me," "page speed," "core web vitals," "crawl errors," or "indexing issues." Use this even if the user just says something vague like "my SEO is bad" or "help with SEO" — start with an audit. For building pages at scale to target keywords, see programmatic-seo. For adding structured data, see schema. For AI search optimization, see ai-seo.
+description: When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions "SEO audit," "technical SEO," "why am I not ranking," "SEO issues," "on-page SEO," "meta tags review," "SEO health check," "my traffic dropped," "lost rankings," "not showing up in Google," "site isn't ranking," "Google update hit me," "page speed," "core web vitals," "crawl errors," or "indexing issues." Use this even if the user just says something vague like "my SEO is bad" or "help with SEO" — start with an audit. In AKILI-SPECS projects, /akili-seo loads this skill in its audit phase.
+license: MIT
 metadata:
+  author: Corey Haines (coreyhaines31)
+  source: https://github.com/coreyhaines31/marketingskills
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: core
   version: 2.0.0
 ---
 
@@ -453,7 +459,6 @@ Same format as above
 
 - [AI Writing Detection](references/ai-writing-detection.md): Common AI writing patterns to avoid (em dashes, overused phrases, filler words)
 - [International SEO](references/international-seo.md): Evidence and sources for hreflang, canonical + i18n, sitemaps, URL structure, and content quality across locales
-- For AI search optimization (AEO, GEO, LLMO, AI Overviews), see the **ai-seo** skill
 
 ---
 
@@ -487,11 +492,15 @@ Same format as above
 
 ---
 
-## Related Skills
+## AKILI-SPECS Integration
 
-- **ai-seo**: For optimizing content for AI search engines (AEO, GEO, LLMO)
-- **programmatic-seo**: For building SEO pages at scale
-- **site-architecture**: For page hierarchy, navigation design, and URL structure
-- **schema**: For implementing structured data
-- **cro**: For optimizing pages for conversion (not just ranking)
-- **analytics**: For measuring SEO performance
+| AKILI moment | How to use this skill |
+|---|---|
+| `/akili-seo` audit phase | Required skill — load before starting and apply throughout; the Audit Report Structure above is the finding format |
+| `/akili-validate` | When validating pages with search-visibility requirements, apply the On-Page checklist to the affected routes |
+
+Adaptation rules:
+
+- Findings land in the AKILI report artifacts (`/akili-seo` output), using the Issue / Impact / Evidence / Fix / Priority shape.
+- Fixes that exceed the trivial gate are routed through `/akili-propose` — never applied silently during the audit.
+- Sibling skills mentioned by upstream versions of this skill (programmatic-seo, schema, ai-seo, cro, analytics) are **not packaged** with AKILI-SPECS; when a finding needs them, note the gap in the report instead of loading them.

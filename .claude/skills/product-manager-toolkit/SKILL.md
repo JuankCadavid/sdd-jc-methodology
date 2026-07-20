@@ -1,8 +1,14 @@
 ---
 name: product-manager-toolkit
 description: Comprehensive toolkit for product managers including RICE prioritization, customer interview analysis, PRD templates, discovery frameworks, and go-to-market strategies. Use for feature prioritization, user research synthesis, requirement documentation, and product strategy development. In AKILI-SPECS projects, follow the AKILI-SPECS Integration section first.
+license: MIT
 metadata:
-  adapted-for: "AKILI-SPECS methodology by Juan Carlos Cadavid — jcadavid.com"
+  author: Alireza Rezvani (alirezarezvani)
+  source: https://github.com/alirezarezvani/claude-skills
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: core
+  version: "1.0"
 ---
 
 # Product Manager Toolkit

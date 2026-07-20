@@ -1,7 +1,31 @@
 ---
 name: brainstorming
-description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation. In AKILI-SPECS projects, follow the AKILI-SPECS Integration section first."
+license: MIT
+metadata:
+  author: Jesse Vincent (obra)
+  source: https://github.com/obra/superpowers
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: core
+  version: "1.0"
 ---
+
+## AKILI-SPECS Integration
+
+When this skill is loaded inside the AKILI-SPECS methodology, this section overrides the generic flow below:
+
+| AKILI moment | How to use this skill |
+|---|---|
+| `/akili-constitution` Step 0 | Ask the new-vs-existing project question and clarify seed intent |
+| `/akili-propose` | Explore intent, scope, options, and trade-offs before writing `proposal.md` |
+| `/akili-specify` Phases 1–3 | Clarify problem/actors (requirements), explore trade-offs (design), sequence work (tasks) |
+
+Adaptation rules:
+
+- **Artifacts land in AKILI documents** — `proposal.md`, `requirements.md`, `design.md`, `tasks.md` under `docs/specs/`. Do NOT write `docs/plans/*-design.md`.
+- **The terminal state is the AKILI phase you are in**, not the `writing-plans` skill (it is not packaged here). After approval, continue the active AKILI command's next step.
+- The HARD-GATE still applies: no implementation before the user approves the design.
 
 # Brainstorming Ideas Into Designs
 

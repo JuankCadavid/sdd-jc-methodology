@@ -4,6 +4,10 @@ description: Generates Angular code and provides architectural guidance. Trigger
 license: MIT
 metadata:
   author: Copyright 2026 Google LLC
+  source: https://angular.dev
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: stack
   version: '1.0'
 ---
 

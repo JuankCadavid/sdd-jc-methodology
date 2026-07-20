@@ -4,6 +4,8 @@
 
 Enforces root-cause debugging before proposing fixes for bugs, test failures, build failures, integration issues, performance problems, or unexpected behavior.
 
+AKILI-adapted: mapped to the Bug Track (`/akili-propose` Bug Diagnosis), `/akili-specify` Bug Mode, `PRODUCT_BUG` characterization in `/akili-test`, and the Kaizen 5W1H root-cause rule; the unpackaged `superpowers:*` cross-references are covered by AKILI's own regression-test and verification gates. Original by Jesse Vincent (obra/superpowers). Binding: `core`.
+
 ## Use When
 
 - Any test, build, or validation check fails.

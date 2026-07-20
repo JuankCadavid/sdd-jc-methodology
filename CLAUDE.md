@@ -23,7 +23,7 @@ Use the packaged skills in `.claude/skills/` as the source of truth. Examples:
 
 - Use `systematic-debugging` for bugs, test failures, and unexpected behavior.
 - Use `frontend-design`, `ui-ux-pro-max`, `tailwind-design-system`, or `shadcn-ui` for UI work.
-- Use `gsap-*` skills for animation work.
+- Use `gsap-animation` for animation work (read the matching `references/` file for the task).
 - Use `judgment-day` for blind adversarial design reviews during `/akili-specify`.
 - Use `kaizen` for continuous-improvement retrospectives; `/akili-archive` loads it in its Kaizen Retrospective step.
 - Use `cognitive-doc-design` when writing human-facing docs (PRD, TRD, requirements, reports, PR descriptions): lead with the answer, progressive disclosure, tables over prose.
@@ -33,6 +33,8 @@ Use the packaged skills in `.claude/skills/` as the source of truth. Examples:
 - Use `seo-audit` for SEO audits and diagnosis; `/akili-seo` loads it in its audit phase.
 
 If a task document lists required or recommended skills, follow that list first.
+
+Skill curation follows `docs/skills/governance.md`: every skill declares original authorship and a `binding` level (`core` / `conditional` / `stack`); stack skills reach agents via the project `## Skill Map`, never via hardcoded command references. New skills must pass the governance acceptance checklist before entering `.claude/skills/`.
 
 ## CodeGraph
 

@@ -4,6 +4,9 @@ description: "Design docs that reduce cognitive load. Trigger: writing guides, R
 license: Apache-2.0
 metadata:
   author: gentleman-programming
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: core
   version: "1.0"
 ---
 
@@ -17,6 +20,17 @@ Use it especially for:
 - Contributor or maintainer guides.
 - Architecture, workflow, or onboarding docs.
 - Any doc that currently feels long, dense, or hard to scan.
+
+## AKILI-SPECS Integration
+
+| AKILI moment | Documents written with this skill |
+|---|---|
+| `/akili-constitution` | `docs/prd.md` and the baseline docs |
+| `/akili-specify` | `requirements.md`, `design.md`, `tasks.md` |
+| `/akili-execute` | PR descriptions and review notes (PR and Review Docs section below) |
+| `/akili-archive` | The archive summary and Kaizen log entries |
+
+The AKILI templates in `docs/specs/general-setup/` win over the default Documentation Shape below — apply the Critical Patterns inside their structure.
 
 ## Critical Patterns
 

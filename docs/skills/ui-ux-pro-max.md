@@ -4,6 +4,8 @@
 
 Provides broad UI/UX design intelligence, including styles, palettes, font pairings, accessibility, animation, layout, typography, dashboards, landing pages, charts, and stack-specific guidance.
 
+AKILI-adapted: per-phase usage map (constitution → `docs/ux-ui/design.md`, specify → design phase, execute → UI tasks, test/validate → accessibility and UX rule checks); token decisions are recorded in `docs/ux-ui/design.md`, which is what the Reviewer audits. Binding: `conditional` — AKILI's preferred UI/UX skill.
+
 ## Use When
 
 - Designing or reviewing UI/UX work.

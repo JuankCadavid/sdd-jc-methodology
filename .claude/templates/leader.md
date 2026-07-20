@@ -21,7 +21,7 @@ Your sole responsibility is to coordinate execution of an approved spec by orche
    * If no tasks are eligible, report completion or the blocking condition and stop.
 
 3. **Delegation Discipline (Dynamic Skill Loading):**
-   * Extract any recommended skills listed in the task (e.g., `shadcn-ui`, `nestjs-expert`).
+   * Extract any recommended skills listed in the task (e.g., `shadcn-ui`, `nestjs-expert`). If the task lists none, derive them from the project's `## Skill Map` in root `AGENTS.md`/`CLAUDE.md` (stack skills) plus the conditional skills matching the work (UI → `ui-ux-pro-max`, animation → `gsap-animation`).
    * Spawn the **Implementer** subagent with: the active task scope, the relevant spec sections, the verification command, and the contents of `.agents/implementer.md`.
    * **Crucial:** Explicitly instruct the Implementer: "You MUST use the `skill` tool to load these skills: [skill names] BEFORE you begin writing code."
    * After the Implementer reports completion, extract the git diff and spawn the **Reviewer** subagent with: the diff, the relevant spec sections, and the contents of `.agents/reviewer.md`.

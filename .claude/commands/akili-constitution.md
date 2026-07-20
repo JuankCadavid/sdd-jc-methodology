@@ -210,7 +210,7 @@ When the file already exists, refine it in place instead of replacing establishe
 
 Create or enhance `docs/trd/trd.md` as the technical implementation blueprint.
 
-**Use skills when relevant:**
+**Use skills when relevant** (stack skills — load only the ones matching the project's stack; the same set feeds the `## Skill Map` in Step 8D):
 
 - `nestjs-expert`
 - `api-design-principles`
@@ -219,6 +219,7 @@ Create or enhance `docs/trd/trd.md` as the technical implementation blueprint.
 - `shadcn-ui`
 - `tailwind-design-system`
 - `vercel-react-best-practices`
+- `angular-developer`
 
 **Required structure:**
 
@@ -288,7 +289,7 @@ The update should explain briefly:
 - When Claude should consult each one
 - That these documents form the constitutional baseline for future AKILI-SPECS work
 - How module specs should be organized under `docs/specs/`
-- Which skills should be used for common work in the project
+- Which skills should be used for common work in the project (the `## Skill Map` added in Step 8D)
 - Whether CodeGraph is initialized and how agents should use it for existing-project analysis
 - Which model to switch to per AKILI-SPECS phase (the `## Model Routing` registry added in Step 7C)
 
@@ -399,6 +400,34 @@ Claude Code (and their plan's rate limits) and which models their OpenCode roste
 
 ---
 
+### Step 8D: Scaffold the Skill Map
+
+Add or upgrade a `## Skill Map` section in the project's root `AGENTS.md` **and** `CLAUDE.md` so the
+project declares which stack-dependent skills apply to it. AKILI binds skills at three levels
+(see the packaged `docs/skills/governance.md`): `core` and `conditional` skills are already wired
+into the command prompts; **`stack` skills are never hard-referenced by commands** — this Skill Map
+is how they reach the agents.
+
+**The scaffolded `## Skill Map` section must contain:**
+
+1. A table `Skill | Applies To | When to load` listing only the stack skills that match the
+   detected or declared stack. Candidates shipped with AKILI: `angular-developer`, `nestjs-expert`,
+   `shadcn-ui`, `tailwind-design-system`, `react-doctor`, `vercel-react-best-practices`,
+   `aws-serverless`, `api-design-principles`, `error-handling-patterns`. Projects may add their own.
+2. The instruction: *"During `/akili-specify`, derive each task's required skills from this map.
+   During `/akili-execute` and `/akili-test`, the Leader assigns these skills and the
+   Implementer/Tester must load them before writing code or tests."*
+
+**Mode-specific policy (mirror Step 8B):**
+
+- **Brand-new (Seed Setup):** build the map from the seed intent's declared stack.
+- **Legacy (Discovery Setup):** build the map from the codebase scan evidence (frameworks, UI
+  library, cloud tooling actually present). Do not list skills for frameworks the repo does not use.
+- **Active AKILI-SPECS (Safe Update):** preserve an existing customized map; only add rows for
+  newly detected stack elements and remove rows the user confirms are obsolete.
+
+---
+
 ### Step 9: Present and Confirm
 
 After drafting or enhancing the documents, generate a short, easy-to-understand summary (summary facil de entender de lo que se hizo) covering:
@@ -420,7 +449,7 @@ Ask the user whether to approve or request changes. If changes are requested, re
 
 ## Outcome
 
-At the end of `/akili-constitution`, the repository should have a project-level baseline that future `/akili-specify`, `/akili-execute`, `/akili-validate`, and `/akili-test` work can rely on without guessing the structure or conventions. The `.agents/` personas must be in place so that `/akili-execute` can run the Leader → Implementer → Reviewer rework loop and `/akili-test` can run the Leader → Tester(s) harness without falling back to inline personas. The root guides must also carry a `## Model Routing` registry (Step 8C) so each phase runs on a model matched to its demand, with the Reviewer on a different model than the Implementer.
+At the end of `/akili-constitution`, the repository should have a project-level baseline that future `/akili-specify`, `/akili-execute`, `/akili-validate`, and `/akili-test` work can rely on without guessing the structure or conventions. The `.agents/` personas must be in place so that `/akili-execute` can run the Leader → Implementer → Reviewer rework loop and `/akili-test` can run the Leader → Tester(s) harness without falling back to inline personas. The root guides must also carry a `## Model Routing` registry (Step 8C) so each phase runs on a model matched to its demand, with the Reviewer on a different model than the Implementer, and a `## Skill Map` (Step 8D) so stack-dependent skills reach the agents without being hardcoded into commands.
 
 ---
 

@@ -4,6 +4,8 @@
 
 Clarifies ideas before implementation by exploring intent, scope, constraints, options, trade-offs, and approval points.
 
+AKILI-adapted: its generic `docs/plans/` flow is overridden — outputs land in AKILI artifacts (`proposal.md`, `requirements.md`, `design.md`, `tasks.md`) and the terminal state is the active AKILI phase. Binding: `core`.
+
 ## Use When
 
 - A feature or behavior change is still ambiguous.

@@ -1,6 +1,14 @@
 ---
 name: ui-ux-pro-max
 description: "UI/UX design intelligence. 67 styles, 96 palettes, 57 font pairings, 25 charts, 13 stacks (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui). Actions: plan, build, create, design, implement, review, fix, improve, optimize, enhance, refactor, check UI/UX code. Projects: website, landing page, dashboard, admin panel, e-commerce, SaaS, portfolio, blog, mobile app, .html, .tsx, .vue, .svelte. Elements: button, modal, navbar, sidebar, card, table, form, chart. Styles: glassmorphism, claymorphism, minimalism, brutalism, neumorphism, bento grid, dark mode, responsive, skeuomorphism, flat design. Topics: color palette, accessibility, animation, layout, typography, font pairing, spacing, hover, shadow, gradient. Integrations: shadcn/ui MCP for component search and examples."
+license: MIT
+metadata:
+  author: nextlevelbuilder
+  source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: conditional
+  version: "1.0"
 ---
 # UI/UX Pro Max - Design Intelligence
 
@@ -14,6 +22,19 @@ Reference these guidelines when:
 - Reviewing code for UX issues
 - Building landing pages or dashboards
 - Implementing accessibility requirements
+
+## AKILI-SPECS Integration
+
+This is AKILI's preferred UI/UX skill — commands reference it as "`ui-ux-pro-max` if available" (fallback: `frontend-design` + `stitch-design`).
+
+| AKILI moment | How to use this skill |
+|---|---|
+| `/akili-constitution` Step 4 | Drive `docs/ux-ui/design.md`: design tokens, palettes, typography, accessibility expectations |
+| `/akili-specify` design phase | Shape UI states, responsive behavior, and component architecture in `design.md` |
+| `/akili-execute` UI tasks | The Implementer loads it for UI-heavy tasks listed in `tasks.md` |
+| `/akili-test` / `/akili-validate` | The Tester/validator checks accessibility and UX rules (priority 1–4 categories) against the built screens |
+
+Design-token decisions made with this skill are recorded in `docs/ux-ui/design.md` — the Reviewer audits diffs against that document, not against this skill.
 
 ## Rule Categories by Priority
 

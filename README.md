@@ -82,14 +82,7 @@ AKILI-SPECS is a constitution-first, spec-driven methodology for AI-assisted dev
   - `cognitive-doc-design`
   - `error-handling-patterns`
   - `frontend-design`
-  - `gsap-core`
-  - `gsap-frameworks`
-  - `gsap-performance`
-  - `gsap-plugins`
-  - `gsap-react`
-  - `gsap-scrolltrigger`
-  - `gsap-timeline`
-  - `gsap-utils`
+  - `gsap-animation`
   - `judgment-day`
   - `kaizen`
   - `nestjs-expert`
@@ -745,6 +738,8 @@ Included skills cover the default methodology path, including `ui-ux-pro-max`.
 Fallback rule:
 
 - when `ui-ux-pro-max` is unavailable, use `frontend-design` + `stitch-design` for UX/UI design work and `frontend-design` for UI validation/testing support.
+
+**Skill governance:** the skill set is curated, not accumulated. Every packaged skill declares its original author and license plus how AKILI binds it into the flow (`core` — hard-wired to a command step; `conditional` — loaded when the work touches its domain; `stack` — selected per project via the `## Skill Map` that `/akili-constitution` writes into the project guides). New skills enter only through the acceptance checklist in [docs/skills/governance.md](docs/skills/governance.md). Curation and adaptation by [Juan Carlos Cadavid](https://jcadavid.com), always preserving original authorship.
 
 ## Methodology Contract
 

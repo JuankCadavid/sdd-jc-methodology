@@ -1,0 +1,77 @@
+# Skill Governance
+
+**The rule in one line:** every skill in this package declares who wrote it, how AKILI binds it into the flow, and why its size is justified — or it does not ship.
+
+AKILI-SPECS is a curated methodology, not a skill dump. Skills are admitted through the analysis below, adapted to the methodology, and attributed to their original authors. Curation and adaptation by Juan Carlos Cadavid — jcadavid.com.
+
+## Binding Taxonomy
+
+Every skill declares `metadata.binding` in its `SKILL.md` frontmatter. The binding level answers the question: *when and how does this skill get loaded?*
+
+| Binding | When it loads | Mechanism |
+|---|---|---|
+| `core` | Always, at a precise step of a command | The command text hard-loads it ("load the `X` skill") |
+| `conditional` | When the work touches its domain | A conditional line in the command ("if the work involves X, load `Y`") |
+| `stack` | Depends on the project's technology stack | `/akili-constitution` writes a **`## Skill Map`** into the project's `AGENTS.md`/`CLAUDE.md`; `/akili-specify` derives per-task required skills in `tasks.md`; the Leader assigns them to Implementer/Tester via dynamic skill loading |
+
+### Current assignment
+
+| Binding | Skills |
+|---|---|
+| `core` | `kaizen` (archive), `judgment-day` (specify), `cognitive-doc-design` (all human-facing docs), `brainstorming` (constitution, propose), `product-manager-toolkit` (constitution), `systematic-debugging` (bug flows), `seo-audit` (seo) |
+| `conditional` | `ui-ux-pro-max`, `frontend-design`, `stitch-design` (UI work), `gsap-animation` (animation work) |
+| `stack` | `angular-developer`, `nestjs-expert`, `shadcn-ui`, `tailwind-design-system`, `react-doctor`, `vercel-react-best-practices`, `aws-serverless`, `api-design-principles`, `error-handling-patterns` |
+
+Rules of thumb:
+
+- A skill earns `core` only when a command step would be *wrong* without it (a retrospective without `kaizen` is not the AKILI archive).
+- `conditional` skills are stack-agnostic capabilities that many but not all specs need (UI, animation).
+- `stack` skills must never be hard-referenced in command text — commands stay tool- and framework-agnostic. They reach the agent through the project Skill Map and per-task skill lists.
+
+## Frontmatter Schema
+
+Every packaged skill carries this frontmatter (original fields are preserved, never overwritten):
+
+```yaml
+---
+name: <skill-name>
+description: "<trigger keywords + what it does>"
+license: <original license — never altered>
+metadata:
+  author: <original author, or "community (origin unverified)">
+  source: <URL or collection of origin, when known>
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: core | conditional | stack
+  version: "<preserved or 1.0>"
+---
+```
+
+Attribution is non-negotiable: MIT and Apache-2.0 licenses require preserving the original copyright and license notices. `adapted-by` records curation and AKILI adaptation — it never replaces the original `author`.
+
+## Adaptation Levels
+
+| Level | Who gets it | What it is |
+|---|---|---|
+| 1 — Attribution | All skills | The standard frontmatter above |
+| 2 — Integration | `core` and deeply-used `conditional` skills only | An `## AKILI-SPECS Integration` section in the body: a table mapping the skill's tools to exact moments in the AKILI flow, plus adaptation rules |
+
+`stack` skills deliberately get **no** integration section — they are loaded per task and extra methodology prose in them is token waste (MUDA).
+
+## Acceptance Checklist for New Skills
+
+A skill enters `.claude/skills/` only when all of these hold. If any box fails, the skill stays out.
+
+1. **Need** — a real AKILI phase or supported stack needs it; name the command step or Skill Map slot it will occupy.
+2. **Binding declared** — `core`, `conditional`, or `stack`, with the exact integration point. A `core`/`conditional` skill must actually be wired into command text in the same change; a skill referenced by no command and no Skill Map is dead weight and does not ship.
+3. **Attribution complete** — original author, source, and license identified and preserved; `adapted-by` added. If the origin cannot be verified after a genuine search, mark `author: community (origin unverified)`.
+4. **Size justified** — prefer one skill with `references/` (progressive disclosure) over families of sibling skills; large data/scripts payloads need a stated reason.
+5. **Docs + CHANGELOG** — a `docs/skills/<name>.md` page, a truthful row in `docs/skills/README.md` (Binding column included), and a `CHANGELOG.md` entry.
+
+The same checklist applies in reverse: when a skill loses its integration points, remove it or re-bind it — do not let the inventory drift from the commands.
+
+## Removal / Fusion Log
+
+| Date | Change | Reason |
+|---|---|---|
+| 2026-07-20 | `gsap-core`, `gsap-timeline`, `gsap-scrolltrigger`, `gsap-plugins`, `gsap-react`, `gsap-frameworks`, `gsap-performance`, `gsap-utils` → fused into `gsap-animation` | 8 sibling skills, ~104 KB, zero command wiring; one `conditional` skill with `references/` preserves the content and is actually loaded |

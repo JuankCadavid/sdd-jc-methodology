@@ -4,6 +4,7 @@ description: "Trigger: kaizen, retrospective, continuous improvement, mejora con
 license: MIT
 metadata:
   author: Juan Carlos Cadavid — jcadavid.com
+  binding: core
   version: "1.0"
   inspired-by: "Kaizen Institute glossary (kaizen.com), 'El Método Kaizen' (small-steps approach, Robert Maurer), 'Emprendiendo Kaizen' (INTI, 2019, ISBN 978-950-532-415-6)"
 ---

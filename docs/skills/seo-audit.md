@@ -4,6 +4,8 @@
 
 Provides an expert SEO audit framework: crawlability and indexation, technical foundations (Core Web Vitals, mobile, HTTPS), on-page optimization (titles, metas, headings, images, internal linking), international SEO (hreflang, locale canonicals, locale sitemaps), content quality (E-E-A-T), and a standard finding format.
 
+AKILI-adapted: findings use the Issue/Impact/Evidence/Fix/Priority shape inside `/akili-seo` artifacts, non-trivial fixes escalate to `/akili-propose`, and dangling references to unpackaged sibling skills were removed. Binding: `core`.
+
 ## Use When
 
 - Auditing, reviewing, or diagnosing SEO issues on a site.

@@ -14,6 +14,18 @@ const SOURCE_SKILLS = path.join(SOURCE_CLAUDE, "skills");
 const SOURCE_TEMPLATES = path.join(SOURCE_CLAUDE, "templates");
 const AGENT_TEMPLATES = ["leader.md", "implementer.md", "reviewer.md", "tester.md"];
 const RESOURCE_SCRIPTS = ["gsc_verify.py", "parse_tests.js"];
+// Skill directories removed from the package; deleted from installs during legacy cleanup.
+// v2.8.0: the 8 gsap-* skills were fused into the single gsap-animation skill.
+const LEGACY_SKILLS = [
+  "gsap-core",
+  "gsap-frameworks",
+  "gsap-performance",
+  "gsap-plugins",
+  "gsap-react",
+  "gsap-scrolltrigger",
+  "gsap-timeline",
+  "gsap-utils",
+];
 const SOURCE_SCRIPTS = path.join(PACKAGE_ROOT, "scripts");
 const SOURCE_MCP_EXAMPLE = path.join(PACKAGE_ROOT, ".mcp.json.example");
 const BANNER = ` █████╗ ██╗  ██╗██╗██╗     ██╗
@@ -312,6 +324,21 @@ function cleanupLegacyFiles(tool, args) {
             cleaned++;
           }
         }
+      }
+    }
+  }
+
+  if (shouldInclude("skills", args)) {
+    for (const skillName of LEGACY_SKILLS) {
+      const skillDir = path.join(paths.skills, skillName);
+      if (fs.existsSync(skillDir)) {
+        if (args.dryRun) {
+          console.log(`  ${colors.red}would delete legacy skill${colors.reset} ${skillDir}`);
+        } else {
+          fs.rmSync(skillDir, { recursive: true, force: true });
+          console.log(`  ${colors.red}deleted legacy skill${colors.reset} ${skillDir}`);
+        }
+        cleaned++;
       }
     }
   }
@@ -673,6 +700,19 @@ function doctorTool(tool, args) {
           fixed += 1;
         } else {
           console.log(`  ${colors.red}MISSING${colors.reset} ${skill}`);
+          missing += 1;
+        }
+      }
+    }
+    for (const skillName of LEGACY_SKILLS) {
+      const skillDir = path.join(paths.skills, skillName);
+      if (fs.existsSync(skillDir)) {
+        if (args.fix) {
+          fs.rmSync(skillDir, { recursive: true, force: true });
+          console.log(`  ${colors.cyan}REMOVED${colors.reset} ${skillName} (legacy, replaced by gsap-animation)`);
+          fixed += 1;
+        } else {
+          console.log(`  ${colors.red}STALE${colors.reset} ${skillName} (legacy, replaced by gsap-animation — run with --fix or akili update to remove)`);
           missing += 1;
         }
       }

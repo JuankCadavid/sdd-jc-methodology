@@ -1,6 +1,14 @@
 ---
 name: tailwind-design-system
 description: Build scalable design systems with Tailwind CSS v4, design tokens, component libraries, and responsive patterns. Use when creating component libraries, implementing design systems, or standardizing UI patterns.
+license: MIT
+metadata:
+  author: Seth Hobson (wshobson)
+  source: https://github.com/wshobson/agents
+  adapted-by: "Juan Carlos Cadavid — jcadavid.com"
+  adapted-for: "AKILI-SPECS"
+  binding: stack
+  version: "1.0"
 ---
 
 # Tailwind Design System (v4)
