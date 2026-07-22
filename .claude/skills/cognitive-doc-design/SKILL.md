@@ -32,6 +32,8 @@ Use it especially for:
 
 The AKILI templates in `docs/specs/general-setup/` win over the default Documentation Shape below — apply the Critical Patterns inside their structure.
 
+**Boundary with `caveman`:** this skill owns *persistent artifacts* (documents humans reread — PRDs, TRDs, specs, reports, PR descriptions); `caveman` owns *transient agent output* (inter-agent messages, progress narration in `/akili-execute` and `/akili-test`). Never apply caveman compression to a document this skill governs, and never pad transient chatter with document structure.
+
 ## Critical Patterns
 
 | Pattern | Rule |

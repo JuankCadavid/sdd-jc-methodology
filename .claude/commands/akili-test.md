@@ -57,6 +57,7 @@ If `.agents/tester.md` is missing, run `/akili-constitution` first to scaffold i
 
 - Give each Tester **only its slice**: its assigned suite, the specific requirements + Given/When/Then scenarios that suite must prove, and the project's test command. Never hand a Tester the full `requirements.md`/`design.md`/`tasks.md` unless a scenario genuinely needs it.
 - Each Tester's context is discarded when it finishes, so per-suite contexts never accumulate in one growing window.
+- Load the `caveman` skill and apply its Scope Contract: Leader→Tester context slices and Tester structured reports use `full` compression; `test-report.md`, `PRODUCT_BUG` escalations to the user, and verbatim evidence (requirement and Given/When/Then scenario text quoted in slices, test output, `STATUS:` lines, error strings) are never compressed.
 - The Leader writes no tests itself unless the Deployment Rule below says to run inline, or a Tester exhausts its inner loop and the user approves a Leader fallback.
 
 **Deployment Rule (how many Testers to spawn):**

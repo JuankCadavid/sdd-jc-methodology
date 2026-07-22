@@ -212,6 +212,8 @@ When the file already exists, refine it in place instead of replacing establishe
 
 Create or enhance `docs/trd/trd.md` as the technical implementation blueprint.
 
+**Required skill:** load `software-architect` before drafting the TRD and apply its Decision Spine throughout this step — capture NFRs as six-part quality-attribute scenarios with measurable responses, choose tactics, decide the robust-vs-lite tier and architecture style, bind design patterns to named problems, and document with C4 views plus ADRs.
+
 **Use skills when relevant** (stack skills — load only the ones matching the project's stack; the same set feeds the `## Skill Map` in Step 8D):
 
 - `nestjs-expert`
@@ -226,22 +228,26 @@ Create or enhance `docs/trd/trd.md` as the technical implementation blueprint.
 **Required structure:**
 
 1. System Overview
-2. Domain Modules & Responsibilities
-3. Data Model & Entities
-4. API Surface & Contracts
-5. Backend Workflows & Business Rules
-6. Frontend Architecture & State Boundaries
-7. Integration Points
-8. Security & Authorization Model
-9. Error Handling & Observability
-10. Testing Strategy
-11. Technical Constraints & Assumptions
+2. Architecture Overview & Decisions (C4 Context + Container with legends, style choice, robust-vs-lite tier decision, ADR index)
+3. Quality Attribute Scenarios (Non-Functional Requirements — six-part scenarios with measurable responses and chosen tactics; security, performance, scalability, and availability always evaluated)
+4. Domain Modules & Responsibilities
+5. Data Model & Entities
+6. API Surface & Contracts
+7. Backend Workflows & Business Rules
+8. Frontend Architecture & State Boundaries
+9. Integration Points
+10. Security & Authorization Model
+11. Error Handling & Observability
+12. Testing Strategy
+13. Technical Constraints & Assumptions
 
 ---
 
 ### Step 6: Create or Enhance the Infrastructure Document
 
 Create or enhance `docs/infrastructure.md` as the deployment and hosting blueprint.
+
+The infrastructure shape derives from the TRD's robust-vs-lite tier decision (Step 5, `software-architect` skill) — never precedes it. Cite the tier decision and its ADR at the top of the document.
 
 **Required structure:**
 

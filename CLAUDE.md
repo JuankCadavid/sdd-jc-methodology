@@ -26,7 +26,9 @@ Use the packaged skills in `.claude/skills/` as the source of truth. Examples:
 - Use `gsap-animation` for animation work (read the matching `references/` file for the task).
 - Use `judgment-day` for blind adversarial design reviews during `/akili-specify`.
 - Use `kaizen` for continuous-improvement retrospectives; `/akili-archive` loads it in its Kaizen Retrospective step.
+- Use `software-architect` for TRD creation, NFR/quality-attribute identification, architecture style and pattern selection, and robust-vs-lite stack sizing; `/akili-constitution` loads it in its TRD step and `/akili-specify` for architecturally significant designs (read only the matching `references/` file per task).
 - Use `cognitive-doc-design` when writing human-facing docs (PRD, TRD, requirements, reports, PR descriptions): lead with the answer, progressive disclosure, tables over prose.
+- Use `caveman` for transient agent output only (inter-agent messages and progress narration in `/akili-execute` and `/akili-test`): compress style, never documents, HITL gates, or verbatim evidence — `cognitive-doc-design` owns artifacts; `caveman` owns transient agent output.
 - Use `react-doctor` and `vercel-react-best-practices` for React/Next.js changes.
 - Use `angular-developer` for Angular projects, components, services, routing, forms, signals, SSR, accessibility, styling, animations, testing, and CLI tooling.
 - Use domain skills such as `nestjs-expert`, `aws-serverless`, `api-design-principles`, or `product-manager-toolkit` when the task matches.

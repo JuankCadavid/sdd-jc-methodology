@@ -18,7 +18,7 @@ Every skill declares `metadata.binding` in its `SKILL.md` frontmatter. The bindi
 
 | Binding | Skills |
 |---|---|
-| `core` | `kaizen` (archive), `judgment-day` (specify), `cognitive-doc-design` (all human-facing docs), `brainstorming` (constitution, propose), `product-manager-toolkit` (constitution), `systematic-debugging` (bug flows), `seo-audit` (seo) |
+| `core` | `kaizen` (archive), `judgment-day` (specify), `cognitive-doc-design` (all human-facing docs), `brainstorming` (constitution, propose), `product-manager-toolkit` (constitution), `software-architect` (constitution TRD/infra, specify design), `caveman` (execute/test transient inter-agent output), `systematic-debugging` (bug flows), `seo-audit` (seo) |
 | `conditional` | `ui-ux-pro-max`, `frontend-design`, `stitch-design` (UI work), `gsap-animation` (animation work) |
 | `stack` | `angular-developer`, `nestjs-expert`, `shadcn-ui`, `tailwind-design-system`, `react-doctor`, `vercel-react-best-practices`, `aws-serverless`, `api-design-principles`, `error-handling-patterns` |
 
@@ -48,6 +48,8 @@ metadata:
 ```
 
 Attribution is non-negotiable: MIT and Apache-2.0 licenses require preserving the original copyright and license notices. `adapted-by` records curation and AKILI adaptation — it never replaces the original `author`.
+
+**Original-authorship variant:** skills authored originally for AKILI-SPECS (e.g. `kaizen`, `software-architect`) carry `author: Juan Carlos Cadavid — jcadavid.com` and may declare `inspired-by:` (a list of the works the method synthesizes) instead of `source`/`adapted-by`/`adapted-for` — there is no upstream to adapt from, but intellectual influences are still credited.
 
 ## Adaptation Levels
 

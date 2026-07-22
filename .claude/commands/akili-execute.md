@@ -57,6 +57,8 @@ If `.agents/` is missing, run `/akili-constitution` first to scaffold it. Do not
 
 The Leader does not write production code itself unless the rework loop is exhausted and the user has explicitly approved a fallback.
 
+**Communication economy:** load the `caveman` skill and apply its Scope Contract to all transient output in this command — inter-agent messages (Leader ↔ Implementer/Reviewer briefs, reports, feedback relays) at `full`, user-visible progress lines at `lite`. It never applies to `execution.md` audit entries, PR descriptions, HITL summaries, Pivot blockers, or verbatim evidence (Reviewer FAIL reports pass unchanged — the Structured Feedback rule wins).
+
 ---
 
 ## Behavior
