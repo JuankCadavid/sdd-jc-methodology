@@ -476,26 +476,41 @@ function installTool(tool, args) {
   return { rootPath, installed, overwritten, skipped, cleaned };
 }
 
+// Package managers to probe, preferring the one that invoked this process
+// (npm/pnpm/yarn set npm_config_user_agent when running bins via npx / pnpm dlx / exec).
+function packageManagerOrder() {
+  const ua = process.env.npm_config_user_agent || "";
+  return ua.startsWith("pnpm") ? ["pnpm", "npm"] : ["npm", "pnpm"];
+}
+
+// Detect how akili-specs is installed: { type: "global" | "local" | "npx", pm: "npm" | "pnpm" }.
+// pnpm keeps its own global tree, so each manager must be probed separately.
 function detectInstallType() {
-  try {
-    const globalList = execSync("npm list -g akili-specs --depth=0 2>/dev/null", { encoding: "utf8" });
-    if (globalList.includes("akili-specs")) return "global";
-  } catch (e) {}
+  const managers = packageManagerOrder();
 
-  try {
-    const localList = execSync("npm list akili-specs --depth=0 2>/dev/null", { encoding: "utf8" });
-    if (localList.includes("akili-specs")) return "local";
-  } catch (e) {}
+  for (const pm of managers) {
+    try {
+      const globalList = execSync(`${pm} list -g akili-specs --depth=0 2>/dev/null`, { encoding: "utf8" });
+      if (globalList.includes("akili-specs")) return { type: "global", pm };
+    } catch (e) {}
+  }
 
-  return "npx";
+  for (const pm of managers) {
+    try {
+      const localList = execSync(`${pm} list akili-specs --depth=0 2>/dev/null`, { encoding: "utf8" });
+      if (localList.includes("akili-specs")) return { type: "local", pm };
+    } catch (e) {}
+  }
+
+  return { type: "npx", pm: managers[0] };
 }
 
 // Resolve the installed akili-specs package directory (global or local) after an update.
 // Returns the absolute path to the package root, or null if it cannot be found.
-function resolveInstalledPackageDir(installType) {
+function resolveInstalledPackageDir(install) {
   try {
     const root = execSync(
-      installType === "global" ? "npm root -g 2>/dev/null" : "npm root 2>/dev/null",
+      install.type === "global" ? `${install.pm} root -g 2>/dev/null` : `${install.pm} root 2>/dev/null`,
       { encoding: "utf8" }
     ).trim();
     if (root) {
@@ -592,32 +607,39 @@ function printUpdateChangeSummary(packageDir, fromVersion, toVersion) {
 }
 
 function runUpdate(args) {
-  const installType = detectInstallType();
+  const install = detectInstallType();
 
-  console.log(`\n${colors.cyan}Detected installation type: ${installType}${colors.reset}`);
+  console.log(
+    `\n${colors.cyan}Detected installation type: ${install.type}${install.type === "npx" ? "" : ` (${install.pm})`}${colors.reset}`
+  );
 
-  if (installType === "npx") {
-    console.log(`\n${colors.yellow}You are running via npx. No persistent installation to update.${colors.reset}`);
-    console.log(`To install globally: ${colors.cyan}npm install -g akili-specs${colors.reset}`);
-    console.log(`To install locally:  ${colors.cyan}npm install akili-specs${colors.reset}`);
+  if (install.type === "npx") {
+    console.log(`\n${colors.yellow}You are running via a package runner (npx / pnpm dlx). No persistent installation to update.${colors.reset}`);
+    console.log(`To install globally: ${colors.cyan}npm install -g akili-specs${colors.reset} or ${colors.cyan}pnpm add -g akili-specs${colors.reset}`);
+    console.log(`To install locally:  ${colors.cyan}npm install akili-specs${colors.reset} or ${colors.cyan}pnpm add akili-specs${colors.reset}`);
     return;
   }
 
   // Capture the version before updating so we can show what changed afterward.
   const versionBefore = currentVersion;
 
-  console.log(`\n${colors.yellow}Updating npm package...${colors.reset}`);
+  console.log(`\n${colors.yellow}Updating package via ${install.pm}...${colors.reset}`);
+
+  const updateCommand =
+    install.pm === "pnpm"
+      ? install.type === "global"
+        ? "pnpm add -g akili-specs@latest"
+        : "pnpm add akili-specs@latest"
+      : install.type === "global"
+        ? "npm install -g akili-specs@latest"
+        : "npm install akili-specs@latest";
 
   try {
-    if (installType === "global") {
-      execSync("npm install -g akili-specs@latest", { stdio: "inherit" });
-    } else {
-      execSync("npm install akili-specs@latest", { stdio: "inherit" });
-    }
+    execSync(updateCommand, { stdio: "inherit" });
 
-    console.log(`\n${colors.green}npm package updated successfully.${colors.reset}`);
+    console.log(`\n${colors.green}Package updated successfully via ${install.pm}.${colors.reset}`);
   } catch (e) {
-    console.error(`\n${colors.red}Failed to update npm package.${colors.reset}`);
+    console.error(`\n${colors.red}Failed to update package (ran: ${updateCommand}).${colors.reset}`);
     process.exit(1);
   }
 
@@ -628,18 +650,19 @@ function runUpdate(args) {
   // After reinstalling, read the freshly installed version and show the changelog
   // between the old and new versions. The running process still has the old code
   // loaded, so we read version + CHANGELOG from the installed package on disk.
-  const packageDir = resolveInstalledPackageDir(installType);
+  const packageDir = resolveInstalledPackageDir(install);
   const versionAfter = packageDir ? readInstalledVersion(packageDir) : null;
   printUpdateChangeSummary(packageDir, versionBefore, versionAfter);
 
   console.log(`\n${colors.cyan}${"─".repeat(56)}${colors.reset}`);
   console.log(`${colors.cyan}Update Summary${colors.reset}`);
+  const installLabel = `${install.type} install via ${install.pm}`;
   if (versionAfter && versionAfter !== versionBefore) {
-    console.log(`  Package: ${versionBefore} → ${colors.green}${versionAfter}${colors.reset} (${installType} install)`);
+    console.log(`  Package: ${versionBefore} → ${colors.green}${versionAfter}${colors.reset} (${installLabel})`);
   } else if (versionAfter) {
-    console.log(`  Package: already up to date at ${colors.green}v${versionAfter}${colors.reset} (${installType} install)`);
+    console.log(`  Package: already up to date at ${colors.green}v${versionAfter}${colors.reset} (${installLabel})`);
   } else {
-    console.log(`  Package: updated from v${versionBefore} (${installType} install; new version could not be read)`);
+    console.log(`  Package: updated from v${versionBefore} (${installLabel}; new version could not be read)`);
   }
   const updatedTools = args.resolvedTools || selectedTools(args);
   console.log(`  Files: reinstalled with --force for ${updatedTools.join(", ")}${args.autoDetected ? " (auto-detected)" : ""} (see Install Summary above)`);

@@ -95,6 +95,8 @@ Also inspect the codebase to understand:
 
 Do not write generic placeholder documentation when the repository already contains enough context to infer a strong baseline.
 
+**Delegation Thresholds (scout research):** For legacy/existing-project analysis, apply the *Delegation Thresholds* from the packaged `leader.md` template — when inspecting the codebase requires reading **4+ full source files** for a single question (architecture survey, styling-token inventory, module-boundary mapping), spawn a scout/Explore subagent with fresh context and synthesize from its conclusions instead of reading everything inline. CodeGraph lookups (below) do not count toward the threshold.
+
 #### Existing Project CodeGraph Check
 
 For existing projects, prefer CodeGraph for repository analysis when available:

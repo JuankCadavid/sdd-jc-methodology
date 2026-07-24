@@ -57,6 +57,8 @@ If `.agents/` is missing, run `/akili-constitution` first to scaffold it. Do not
 
 The Leader does not write production code itself unless the rework loop is exhausted and the user has explicitly approved a fallback.
 
+**Delegation Thresholds:** the Leader's inline-vs-delegate boundary is quantified in `.agents/leader.md` → *Delegation Thresholds* (inline only for 1-file checks and puntual verifications; 4+ full-file reads → scout subagent; 2+ non-trivial file writes → Implementer; CodeGraph lookups don't count toward the read threshold). Apply it to your own research inside this command — e.g. investigating a Reviewer FAIL across many files is scout work, not Leader-inline work.
+
 **Communication economy:** load the `caveman` skill and apply its Scope Contract to all transient output in this command — inter-agent messages (Leader ↔ Implementer/Reviewer briefs, reports, feedback relays) at `full`, user-visible progress lines at `lite`. It never applies to `execution.md` audit entries, PR descriptions, HITL summaries, Pivot blockers, or verbatim evidence (Reviewer FAIL reports pass unchanged — the Structured Feedback rule wins).
 
 ---
@@ -159,9 +161,18 @@ When the Implementer reports completion, the Leader:
    - the relevant slices of `requirements.md`, `design.md`, `trd.md`, and `docs/ux-ui/design.md`
    - the Implementer's verification evidence
 
+**Review lens modes (4R):** the Reviewer audits spec conformance (the gate) plus four advisory lenses — **readability, reliability, resilience, risk** — per `.agents/reviewer.md`. The mode is selected by the task's effort dial; there is no separate configuration:
+
+| Mode | When | Mechanics |
+|------|------|-----------|
+| **Lens checklist** (default) | Effort `low` / `medium` / `high` | The single Reviewer sweeps all four lenses; non-spec-violation findings return in an `ADVISORY` block. **Spec conformance remains the only PASS/FAIL gate** |
+| **Parallel lens reviewers** | Effort `xhigh` / `max`, or the task touches security, migrations, or data-loss surfaces | Spawn 2–4 lens-scoped Reviewers in parallel (each gets the same diff + one named lens + baseline spec conformance). Any lens may FAIL; the Leader adjudicates whether a lens FAIL is in-scope for the task **before** consuming a rework attempt |
+
+`ADVISORY` findings are recorded in `execution.md` with the task's entry and never trigger rework — the 3-attempt ceiling binds to spec conformance only.
+
 The Reviewer is read-only. It must conclude with either:
 
-- **`STATUS: PASS`** + a 1–2 sentence summary
+- **`STATUS: PASS`** + a 1–2 sentence summary (+ optional `ADVISORY` block with 4R lens findings)
 - **`STATUS: FAIL`** + a structured list of issues, each containing:
   1. **Discovered Issue** — what is incorrect or missing
   2. **Violated Rule** — the specific spec document and section violated
@@ -171,6 +182,7 @@ The Reviewer is read-only. It must conclude with either:
 #### 2.4 — Loop Guardrails
 
 - **Maximum Retries:** A hard ceiling of **3 rework attempts** per task. This prevents infinite loops and token waste.
+- **Advisory Never Gates:** `ADVISORY` (4R lens) findings are recorded in `execution.md` but never count as FAIL issues, never trigger rework, and never consume attempts. If an advisory finding is serious enough to block, the Reviewer must restate it as a spec-violation FAIL issue (or the Leader escalates it to the user as a potential spec gap via the Pivot Protocol).
 - **Fail-Fast (FATAL_FAIL):** If the Reviewer issues a `STATUS: FATAL_FAIL`, immediately HALT the loop, mark the task `[~]`, and trigger the Pivot Protocol. Do not consume remaining rework attempts.
 - **Structured Feedback:** On `FAIL`, pass the full Reviewer report unchanged to the next Implementer spawn. Do not paraphrase.
 - **Escalation on HALT:** After 3 failed attempts (or a FATAL_FAIL), mark the task `[~]`, log the full loop history in `execution.md`, and present the audit trail to the user for guidance.
@@ -228,6 +240,7 @@ Each task entry must record:
 - task ID and title
 - number of Implementer attempts run
 - for each attempt: files changed, Implementer verification command + result, Reviewer verdict + summary or full FAIL findings
+- any `ADVISORY` (4R lens) findings from the final Reviewer verdict, labeled as advisory
 - requirements covered
 - decisions made
 - issues encountered

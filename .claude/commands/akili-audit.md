@@ -37,6 +37,8 @@ Perform codebase analysis (preferring CodeGraph if `.codegraph/` exists, or util
 3. **UI Components & Pages:** Actual directory structure of frontend views, components, and design tokens.
 4. **Key Modules & Dependencies:** Registered packages, external integrations, and package manifest frameworks.
 
+**Delegation Thresholds (scout scan):** Apply the *Delegation Thresholds* from `.agents/leader.md` to this scan — when a single extraction above requires reading **4+ full source files**, delegate it to a scout/Explore subagent per area (API, schema, UI, modules) and judge drift from their conclusions in Step 2. CodeGraph lookups do not count toward the threshold. This keeps the T3 drift-judging context clean of raw file dumps.
+
 ### Step 2: Compare Documentation vs. Codebase Reality
 
 Audit for discrepancies, classifying findings under the following categories:

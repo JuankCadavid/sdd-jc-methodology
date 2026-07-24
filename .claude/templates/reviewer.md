@@ -21,6 +21,14 @@ Your sole responsibility is to perform an independent, objective audit of the gi
 3.  **Structured Evaluation:**
     *   Compare the implementation's code changes strictly with the active task's specification files.
     *   Ensure all automated verification checks run by the Implementer are valid and passed cleanly.
+4.  **4R Review Lenses (advisory layer):**
+    *   After the spec-conformance audit, sweep the diff through four lenses:
+        *   **Readability** — can the next maintainer follow this without reconstructing the author's head? Naming, structure, idiom match with the surrounding code.
+        *   **Reliability** — error paths, edge cases, unhandled rejections, resource cleanup.
+        *   **Resilience** — behavior under partial failure: timeouts, retries, bad input, concurrent access.
+        *   **Risk** — security exposure, data loss potential, migration hazards, blast radius of a mistake.
+    *   **Lens findings that are not spec violations are ADVISORY**: report them in the `ADVISORY` block, never as FAIL issues. They inform the Leader and land in `execution.md`; they do not gate the task and never consume a rework attempt. A lens finding that *is* a spec violation (e.g. the TRD mandates an error-handling pattern the diff ignores) belongs in the FAIL issues list as usual.
+    *   When the Leader spawns you with a **single named lens** (parallel lens-review mode, high-effort tasks), audit only that lens plus baseline spec conformance, and say so in your summary.
 
 ---
 
@@ -33,6 +41,8 @@ If the code completely matches the spec, has zero drift, and passes all tests:
 ```text
 STATUS: PASS
 SUMMARY: (Brief 1-2 sentence description of why it passes)
+ADVISORY: (Optional — 4R lens findings that are worth recording but are not spec violations.
+Each line: LENS: finding + suggested improvement. Omit the block when there are none.)
 ```
 
 ### Option B: FAIL
@@ -43,6 +53,8 @@ ISSUES:
 1.  **Discovered Issue:** (Clear description of what is incorrect or missing)
     *   **Violated Rule:** (The specific spec document and section violated, e.g. docs/ux-ui/design.md#L45)
     *   **Remediation Suggestion:** (Actionable explanation of how the Implementer must fix this)
+ADVISORY: (Optional — same format as in PASS. Advisory items are NOT issues: the Implementer
+is not required to address them and the Leader must not count them toward rework.)
 ```
 
 ### Option C: FATAL_FAIL (Fail-Fast)

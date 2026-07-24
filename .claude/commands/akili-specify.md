@@ -82,6 +82,7 @@ When the spec is a **bug** — the proposal's Document Control says `Type: Bug`,
    - Also read `docs/specs/kaizen-log.md` if it exists — ONLY the `## Active Lessons` table (skip `## Entries`).
 5. Respect the repository's current package layout and naming conventions instead of assuming a fixed stack.
 6. **CodeGraph over full reads:** If `.codegraph/` exists, use `codegraph_search` and `codegraph_context` to inspect relevant code paths instead of reading full source files or using generic `grep`/`glob`. This drastically reduces input tokens.
+7. **Delegation Thresholds (scout research):** Beyond the constitutional docs above, apply the *Delegation Thresholds* from `.agents/leader.md` to source-code exploration in every Explore step of this command — if answering a design question requires reading **4+ full source files**, spawn a scout/Explore subagent with fresh context and consume its conclusions instead of reading the files inline. CodeGraph lookups (rule 6) do not count toward the threshold.
 
 ---
 

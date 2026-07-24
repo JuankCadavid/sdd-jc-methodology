@@ -138,6 +138,8 @@ Run the `init` command to launch the interactive setup wizard, which will ask yo
 npx akili-specs init
 ```
 
+> **Using pnpm?** Every `npx akili-specs …` command in this guide works as `pnpm dlx akili-specs …`. The package lives on the npm registry, which pnpm consumes directly — no extra setup for one-off runs.
+
 **Manual Installation via Flags:**
 
 Install without `--tool` — the installer **auto-detects targets already installed on disk**
@@ -245,6 +247,15 @@ akili install
 akili install --tool opencode
 akili doctor --tool opencode
 ```
+
+With pnpm (requires a one-time `pnpm setup` so `PNPM_HOME` is on your `PATH`):
+
+```bash
+pnpm add -g akili-specs
+akili install
+```
+
+`akili update` detects which package manager owns the installation (npm or pnpm) and runs the matching update command.
 
 ### Install Paths
 

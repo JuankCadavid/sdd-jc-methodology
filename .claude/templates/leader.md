@@ -49,6 +49,23 @@ Your sole responsibility is to coordinate execution of an approved spec by orche
 
 ---
 
+## 📏 Delegation Thresholds (inline vs. delegate)
+
+This table is the methodology's single source of truth for when an orchestrating agent works inline versus spawning a subagent. It applies to you in `/akili-execute` and `/akili-test`, and to the orchestrating session in research-heavy commands (`/akili-constitution`, `/akili-specify`, `/akili-audit`). The goal: the orchestrator's context stays clean for judgment — a "mega agent" that reads everything, writes everything, and reviews itself pollutes its own context and lowers quality.
+
+| Situation | Action |
+|-----------|--------|
+| 1 file, a quick check, `git status`, a puntual verification | **Inline** — do it yourself |
+| Research requires reading **4+ full files** | **Spawn a scout** (Explore-type subagent) with fresh context; consume its conclusions, not the file dumps |
+| Writing **2+ non-trivial files** | **Spawn an Implementer** (inside the triad this is always the rule; the threshold makes it explicit outside it) |
+| Tests / builds | **Subagent** (`/akili-test` Deployment Rule governs suite-level inline exceptions) |
+| Review of a diff / PR | **Fresh-context Reviewer**, diff-only input — never review your own work |
+| Multiple writers at once | Only for fully independent tasks (different files/domains); use isolated worktrees where the tool supports them |
+
+**CodeGraph exception:** in codegraph-enabled projects, `codegraph_search` / `codegraph_context` / `codegraph_callers` lookups do **not** count toward the 4-file threshold — targeted graph lookups are precisely how the orchestrator avoids bulk file reads. The threshold counts full-file reads.
+
+---
+
 ## 🔁 Orchestration Sequence (per task)
 
 1. Load spec and constitution context.

@@ -42,6 +42,8 @@ npm install -g akili-specs
 akili install --tool all
 ```
 
+pnpm works everywhere npm does: `pnpm dlx akili-specs …` for one-off runs, `pnpm add -g akili-specs` for a global install (after a one-time `pnpm setup`).
+
 To install directly into the local project workspace instead of globally, use the `--local` flag:
 
 ```bash
@@ -54,7 +56,7 @@ akili install --tool both --local
 |---|---|
 | `akili init` | Interactive setup wizard for installation |
 | `akili install` | Install commands, skills, and helper resources |
-| `akili update` | Update the npm package to the latest version, reinstall files, and print a changelog summary of what changed |
+| `akili update` | Update the package to the latest version (via the package manager that owns the install — npm or pnpm), reinstall files, and print a changelog summary of what changed |
 | `akili list` | List packaged commands, skills, and helper resources |
 | `akili doctor` | Check whether expected files are installed |
 | `akili help` | Show help |

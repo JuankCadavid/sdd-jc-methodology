@@ -122,6 +122,8 @@ Check for:
 - accessibility and responsive behavior for UI work
 - security and authorization boundaries for protected flows
 
+**4R lens sweep (advisory):** Sweep the implementation through the four execution review lenses — **readability, reliability, resilience, risk** (see `.agents/reviewer.md`). Findings that are not spec violations are reported as **advisory** notes in the validation report (they inform remediation and future specs, but only spec violations drive PASS/WARN/FAIL). Also carry forward any unresolved `ADVISORY` findings recorded in `execution.md` so they surface in the report instead of dying in the audit trail.
+
 ### Phase 6: Design Conformance
 
 Compare the implementation against the module design and the constitutional docs where relevant.
@@ -144,7 +146,7 @@ The report must include:
 4. File Existence
 5. Build Integrity
 6. Requirement Coverage
-7. Linting & Code Quality
+7. Linting & Code Quality (including 4R advisory findings, labeled as advisory)
 8. Design Conformance
 9. Test Evidence Summary
 10. Agent Guide / Constitution Impact
