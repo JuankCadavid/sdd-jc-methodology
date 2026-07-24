@@ -6,6 +6,12 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 
 ## [Unreleased]
 
+### Notes
+
+- No unreleased changes yet.
+
+## [2.13.0] - 2026-07-24
+
 ### Added
 
 - **Delegation Thresholds — quantified inline-vs-delegate rules for orchestrating agents.** New *Delegation Thresholds* section in the packaged `leader.md` persona (single source of truth): inline only for 1-file checks and puntual verifications; research reading **4+ full files** → spawn a scout/Explore subagent; writing **2+ non-trivial files** → Implementer; tests/builds → subagent; diff review → fresh-context Reviewer; parallel writers only for fully independent tasks. CodeGraph lookups explicitly do **not** count toward the read threshold. Referenced from `/akili-execute` (Leader's own research), `/akili-specify` (Explore steps), `/akili-constitution` (legacy-project analysis), and `/akili-audit` (codebase scan, per-area scouts). Inspired by the convergent `gentle-ai` orchestrator→minion pattern; design recorded in `docs/plans/2026-07-24-delegation-thresholds-review-lenses.md`.
@@ -14,7 +20,6 @@ The format is inspired by Keep a Changelog and the repository follows semantic v
 ### Fixed
 
 - **`akili update` now works for pnpm installations.** The updater previously hardcoded npm: detection probed only `npm list`, so a `pnpm add -g akili-specs` install was misdetected as an ephemeral npx run and told to reinstall with npm (and would have created a duplicate npm-managed copy). `detectInstallType()` now probes both npm and pnpm trees (preferring the manager that invoked the process via `npm_config_user_agent`), the update runs the matching command (`pnpm add -g akili-specs@latest` / local equivalent), and the post-update changelog resolution uses the owning manager's `root`. README and `docs/cli.md` document the pnpm equivalents (`pnpm dlx`, `pnpm add -g` + one-time `pnpm setup`).
-
 ## [2.12.0] - 2026-07-24
 
 ### Changed
